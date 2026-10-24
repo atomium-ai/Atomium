@@ -162,13 +162,14 @@ const GOOGLE_CLIENT_ID = '';
 
 // Modelos gratuitos vía Puter.js (sin API keys). "ids" son alias candidatos: se usa el primero disponible.
 const MODELS = [
- {k:'haiku35', name:'Claude 3.5 Haiku', by:'Anthropic', d:'Rápido y excelente para código', ids:['claude-3-5-haiku-latest','claude-3-5-haiku','anthropic/claude-3.5-haiku','openrouter:anthropic/claude-3.5-haiku']},
- {k:'haiku3', name:'Claude 3 Haiku', by:'Anthropic', d:'Ligero y muy veloz', ids:['claude-3-haiku','anthropic/claude-3-haiku','openrouter:anthropic/claude-3-haiku']},
- {k:'gemini', name:'Gemini Flash', by:'Google', d:'Rápido, contexto amplio', ids:['google/gemini-2.5-flash','gemini-2.5-flash','gemini-2.0-flash','google/gemini-2.5-flash-lite']},
- {k:'llama', name:'Llama 3.1 8B', by:'Meta', d:'Open source, equilibrado', ids:['openrouter:meta-llama/llama-3.1-8b-instruct','meta-llama/Meta-Llama-3.1-8B-Instruct-Turbo','meta-llama/llama-3.1-8b-instruct']},
- {k:'qwen', name:'Qwen Flash', by:'Alibaba', d:'Open source, bueno en código', ids:['qwen/qwen3.6-flash','qwen/qwen3.6-plus','qwen/qwen-plus']},
- {k:'mistral', name:'Mistral 7B', by:'Mistral AI', d:'Open source, eficiente', ids:['openrouter:mistralai/mistral-7b-instruct','mistral-small-latest','mistral-large-latest']},
- {k:'deepseek', name:'DeepSeek Chat', by:'DeepSeek', d:'Razonamiento y programación', ids:['deepseek-chat','openrouter:deepseek/deepseek-chat']},
+ {k:'haiku35', name:'Claude 3.5 Haiku', by:'Anthropic', d:'Rápido y excelente para código', ids:['anthropic/claude-3.5-haiku','anthropic/claude-3-5-haiku','claude-3-5-haiku-latest']},
+ {k:'haiku45', name:'Claude Haiku 4.5', by:'Anthropic', d:'Más reciente, muy buen código', ids:['anthropic/claude-haiku-4-5','claude-haiku-4-5']},
+ {k:'haiku3', name:'Claude 3 Haiku', by:'Anthropic', d:'Ligero y muy veloz', ids:['anthropic/claude-3-haiku','claude-3-haiku']},
+ {k:'gemini', name:'Gemini Flash', by:'Google', d:'Rápido, contexto amplio', ids:['google/gemini-2.5-flash','google/gemini-2.5-flash-lite','google/gemini-3.1-flash-lite']},
+ {k:'llama', name:'Llama 3.1 8B', by:'Meta', d:'Open source, equilibrado', ids:['meta-llama/llama-3.1-8b-instruct','meta-llama/llama-3.3-70b-instruct','meta-llama/llama-4-scout']},
+ {k:'qwen', name:'Qwen Flash', by:'Alibaba', d:'Open source, bueno en código', ids:['qwen/qwen3.5-flash-02-23','qwen/qwen3-coder-flash','qwen/qwen3.6-flash','qwen/qwen3.6-plus']},
+ {k:'mistral', name:'Mistral 7B', by:'Mistral AI', d:'Open source, eficiente', ids:['mistralai/mistral-7b-instruct','openrouter:mistralai/mistral-7b-instruct','mistral-small-latest']},
+ {k:'deepseek', name:'DeepSeek', by:'DeepSeek', d:'Razonamiento y programación', ids:['deepseek-chat','deepseek/deepseek-chat','deepseek/deepseek-r1-distill-llama-70b']},
  {k:'gpt', name:'GPT-4.1 nano', by:'OpenAI', d:'Compacto y barato', ids:['gpt-4.1-nano','gpt-5-nano']}
 ];
 const SYSTEM = 'Eres Atomium Code, un asistente de IA útil y preciso, experto en programación. Responde en el idioma del usuario, usa Markdown y escribe el código siempre en bloques con el lenguaje indicado.';
@@ -319,6 +320,7 @@ function setSend() { const b = $('#send'); b.innerHTML = busy ? ico('stop', 16) 
 async function send(text) {
  text = (text ?? $('#in').value).trim(); if (!text || busy) return;
  if (typeof puter === 'undefined') { alert('No se pudo cargar Puter.js. Revisa tu conexión.'); return; }
+ if (!puter.auth.isSignedIn()) { try { await puter.auth.signIn(); } catch { alert('Para usar los modelos debes iniciar sesión en Puter (se abre en una ventana emergente; permite los popups).'); return; } }
  if (!cur) { cur = { id: uid(), title: 'Nueva conversación', msgs: [], t: Date.now(), model: modelKey }; chats.push(cur); }
  const c = cur, a = { role: 'assistant', content: '', streaming: true };
  if (!c.msgs.length) c.title = text.replace(/\s+/g, ' ').slice(0, 45);
@@ -329,20 +331,20 @@ async function send(text) {
  const paint = () => { if (raf) return; raf = requestAnimationFrame(() => { raf = 0; if (cur === c && el()) { fill(el(), a); scrollEnd(); } }); };
  const history = [{ role: 'system', content: SYSTEM }, ...c.msgs.slice(0, -1).map(({ role, content }) => ({ role, content }))];
  const cands = model().ids, ok = avail ? cands.filter(i => avail.has(i)) : [];
- let last = null;
+ let last = null, lastId = '';
  try {
   for (const id of [...ok, ...cands.filter(i => !ok.includes(i))]) {
    try {
-    const res = await puter.ai.chat(history, { model: id, stream: true });
+    lastId = id; const res = await puter.ai.chat(history, { model: id, stream: true });
     for await (const part of res) { if (stopReq) break; a.content += part?.text || ''; paint(); }
     if (!a.content && !stopReq) throw new Error('El modelo no devolvió respuesta.');
     last = null; break;
    } catch (e) {
-    last = e; if (a.content || /auth|cancel|sign|denied|limit|quota|funds/i.test(JSON.stringify(e) + errMsg(e))) break;
+    last = e; if (a.content || /auth_|auth.?cancel|popup|insufficient|funds|usage.?limit/i.test(JSON.stringify(e) + errMsg(e))) break;
    }
   }
   if (last) throw last;
- } catch (e) { a.error = errMsg(e) === '[object Object]' ? 'No se pudo completar la solicitud.' : errMsg(e); }
+ } catch (e) { console.error('Atomium error', lastId, e); let t = errMsg(e); if (t === '[object Object]') { try { t = JSON.stringify(e); } catch { t = 'Error desconocido'; } } a.error = t + ' (modelo: ' + lastId + ')'; }
  a.streaming = false; busy = false; setSend(); cancelAnimationFrame(raf); raf = 0;
  if (cur === c && el()) fill(el(), a);
  c.t = Date.now(); save(); renderList();
