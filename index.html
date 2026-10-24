@@ -1,1 +1,360 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Atomium Code</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-dark.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/marked/12.0.2/marked.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/dompurify/3.1.6/purify.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+<!-- Puter.js: acceso gratuito a modelos de IA, sin API keys ni backend (el usuario cubre su propio uso) -->
+<script src="https://js.puter.com/v2/"></script>
+<style>
+:root{--bg:#212121;--bar:#191919;--inp:#292929;--bd:#2d2d2d;--ac:#d87c69;--ac2:#a45a4b;--tx:#e3e3e3;--mu:#9a9a9a}
+*{box-sizing:border-box;margin:0}
+html,body{height:100%}
+body{font:14px/1.6 Inter,-apple-system,"Segoe UI",sans-serif;background:var(--bg);color:var(--tx);overflow:hidden}
+button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
+input,textarea{font:inherit;color:inherit}
+svg{flex:none}
+::-webkit-scrollbar{width:6px}::-webkit-scrollbar-thumb{background:#3a3a3a;border-radius:3px}
+.hide{display:none!important}
+@keyframes up{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+@keyframes pop{from{opacity:0;transform:translateY(6px) scale(.97)}to{opacity:1;transform:none}}
+@keyframes blink{50%{opacity:0}}
+@keyframes dot{0%,80%,100%{opacity:.25;transform:scale(.7)}40%{opacity:1;transform:scale(1)}}
+@keyframes float{50%{transform:translateY(-6px)}}
+/* login */
+#login{position:fixed;inset:0;z-index:50;background:var(--bg);display:flex;align-items:center;justify-content:center;padding:20px}
+.card{width:100%;max-width:380px;text-align:center;display:flex;flex-direction:column;align-items:center;gap:14px;animation:up .5s}
+.card h1{font:400 30px Georgia,serif}.card p{color:var(--mu)}
+#gbtn{min-height:44px}
+.ghost{border:1px solid #3a3a3a;border-radius:999px;padding:9px 22px;transition:.2s}.ghost:hover{border-color:var(--ac);color:var(--ac)}
+details{width:100%;text-align:left;font-size:12px;color:var(--mu)}summary{cursor:pointer;text-align:center}
+details input{width:100%;margin:8px 0;padding:9px 11px;background:var(--inp);border:1px solid #3a3a3a;border-radius:8px;outline:0}
+details .ghost{padding:5px 14px;margin-bottom:6px}
+/* layout */
+#app{display:flex;height:100%}
+aside{width:272px;background:var(--bar);border-right:1px solid var(--bd);display:flex;flex-direction:column;transition:transform .3s;z-index:20}
+.sh{padding:12px}
+.new{width:100%;display:flex;align-items:center;gap:8px;padding:9px 12px;border:1px solid #333;border-radius:10px;transition:.2s}
+.new:hover{background:#262626;border-color:var(--ac)}
+#list{flex:1;overflow:auto;padding:0 8px}
+.ci{display:flex;align-items:center;gap:4px;padding:8px 10px;border-radius:8px;cursor:pointer;color:#c8c8c8;transition:background .15s;animation:up .25s}
+.ci:hover{background:#242424}.ci.on{background:#2c2c2c;color:#fff}
+.ci span{flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.ci input{flex:1;min-width:0;background:#111;border:1px solid var(--ac);border-radius:5px;padding:1px 6px;outline:0}
+.ci .ac{opacity:0;display:flex;gap:2px;transition:.15s}.ci:hover .ac,.ci.on .ac{opacity:1}
+.ib{padding:4px;border-radius:6px;color:var(--mu);display:flex;transition:.15s}.ib:hover{background:#3a3a3a;color:#fff}.ib.del:hover{color:#f07178}
+.empty-l{color:var(--mu);text-align:center;padding:24px 8px;font-size:13px}
+.uc{display:flex;align-items:center;gap:10px;padding:12px;border-top:1px solid var(--bd)}
+.uc img,.uc .ph{width:30px;height:30px;border-radius:50%;background:var(--ac2);display:flex;align-items:center;justify-content:center;font-weight:600}
+.uc div{flex:1;min-width:0}.uc b{display:block;font-weight:500;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.uc small{color:var(--mu);font-size:11px}
+main{flex:1;display:flex;flex-direction:column;min-width:0;position:relative}
+header{height:44px;background:var(--bar);border-bottom:1px solid var(--bd);display:flex;align-items:center;gap:8px;padding:0 12px}
+header h2{flex:1;font-size:13px;font-weight:500;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;text-align:center}
+#menu{display:none}
+#scroll{flex:1;overflow-y:auto;scroll-behavior:smooth}
+#msgs{max-width:780px;margin:0 auto;padding:24px 16px 12px;display:flex;flex-direction:column;gap:22px}
+.m{display:flex;gap:12px;animation:up .35s cubic-bezier(.2,.8,.2,1)}
+.m.user{justify-content:flex-end}
+.ub{background:#2e2e2e;border:1px solid #383838;border-radius:16px 16px 4px 16px;padding:9px 14px;max-width:80%;white-space:pre-wrap;word-break:break-word}
+.av{width:28px;height:28px;border-radius:8px;background:#2a2a2a;display:flex;align-items:center;justify-content:center;margin-top:2px}
+.md{flex:1;min-width:0;word-break:break-word}
+.md>*+*{margin-top:.75em}.md ul,.md ol{padding-left:1.4em}.md li+li{margin-top:.25em}
+.md h1,.md h2,.md h3{font-weight:600;line-height:1.3}.md a{color:var(--ac)}
+.md :not(pre)>code{background:#303030;padding:1px 6px;border-radius:5px;font:12.5px ui-monospace,Menlo,Consolas,monospace}
+.md table{border-collapse:collapse;display:block;overflow:auto}.md th,.md td{border:1px solid #3a3a3a;padding:5px 10px}
+.md blockquote{border-left:3px solid var(--ac2);padding-left:12px;color:#bbb}
+.cb{border:1px solid #333;border-radius:10px;overflow:hidden;background:#282c34}
+.cbh{display:flex;justify-content:space-between;align-items:center;padding:6px 8px 6px 14px;background:#1d1f24;font-size:12px;color:var(--mu)}
+.cbh span{font-family:ui-monospace,monospace;text-transform:lowercase}
+.cp{display:flex;gap:5px;align-items:center;padding:3px 9px;border-radius:6px;transition:.15s}.cp:hover{background:#333;color:#fff}
+.cb pre{overflow:auto}.cb code{display:block;padding:14px;font:13px/1.55 ui-monospace,Menlo,Consolas,monospace;background:none!important}
+.cur{display:inline-block;width:8px;height:15px;background:var(--ac);vertical-align:-2px;margin-left:2px;animation:blink 1s infinite}
+.dots{display:flex;gap:5px;padding:9px 0}.dots i{width:7px;height:7px;border-radius:50%;background:var(--ac);animation:dot 1.2s infinite}.dots i:nth-child(2){animation-delay:.15s}.dots i:nth-child(3){animation-delay:.3s}
+.err{margin-top:8px;padding:10px 12px;border:1px solid #6b3a3a;background:#2b1b1b;border-radius:10px;color:#f2a5a5;font-size:13px}
+.err button{margin-left:8px;text-decoration:underline;color:#fff}
+/* vacío */
+#hero{display:flex;flex-direction:column;align-items:center;text-align:center;padding:9vh 16px 0;animation:up .5s}
+#hero h1{font:400 30px Georgia,serif;margin:18px 0 6px}#hero p{color:#bbb;max-width:430px}
+#hero svg{animation:float 4s ease-in-out infinite}
+.chips{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin-top:22px}
+.chip{border:1px solid #363636;border-radius:999px;padding:7px 14px;color:#cfcfcf;transition:.2s}.chip:hover{border-color:var(--ac);color:#fff;transform:translateY(-2px)}
+/* composer */
+#comp{padding:8px 16px 18px;max-width:812px;width:100%;margin:0 auto;position:relative}
+.box{background:var(--inp);border:1px solid #ba6d5d;border-radius:14px;padding:12px 14px;box-shadow:0 10px 30px #0006;transition:box-shadow .2s}
+.box:focus-within{box-shadow:0 0 0 3px #d87c6933,0 10px 30px #0006}
+textarea{width:100%;background:none;border:0;outline:0;resize:none;max-height:200px;min-height:26px;font-size:15px;display:block}
+textarea::placeholder{color:#8a8a8a}
+.bar{display:flex;align-items:center;justify-content:space-between;margin-top:8px}
+#mbtn{display:flex;align-items:center;gap:7px;padding:5px 10px;border-radius:8px;color:#bbb;font-size:12px;transition:.15s}#mbtn:hover{background:#353535;color:#fff}
+#send{width:34px;height:34px;border-radius:9px;background:var(--ac2);display:flex;align-items:center;justify-content:center;transition:.2s}
+#send:hover:not(:disabled){filter:brightness(1.15);transform:translateY(-1px)}#send:disabled{opacity:.4;cursor:default}
+#pop{position:absolute;bottom:calc(100% - 6px);left:16px;width:340px;max-width:calc(100% - 32px);background:#262626;border:1px solid #3a3a3a;border-radius:12px;padding:6px;box-shadow:0 16px 40px #000a;max-height:55vh;overflow:auto;transform-origin:bottom left;animation:pop .18s;z-index:10}
+.mo{display:flex;align-items:center;gap:10px;width:100%;text-align:left;padding:8px 10px;border-radius:8px;transition:.12s}.mo:hover{background:#333}.mo.on{background:#2f2a29}
+.mo div{flex:1}.mo b{font-weight:500;display:block}.mo small{color:var(--mu);font-size:11.5px}
+.tag{font-size:10px;padding:1px 7px;border-radius:99px;background:#383838;color:#bbb}
+small.ft{display:block;text-align:center;color:#6f6f6f;font-size:11px;margin-top:8px}
+#ov{display:none}
+@media(max-width:760px){
+ aside{position:fixed;inset:0 auto 0 0;transform:translateX(-100%)}aside.open{transform:none}
+ #ov.open{display:block;position:fixed;inset:0;background:#0008;z-index:15;animation:up .2s}
+ #menu{display:flex}.ub{max-width:90%}
+}
+</style>
+</head>
+<body>
 
+<!-- LOGIN -->
+<div id="login">
+ <div class="card">
+  <div id="lgsp"></div>
+  <h1>Atomium Code</h1>
+  <p>Inicia sesión para guardar tus conversaciones en tu cuenta.</p>
+  <div id="gbtn"></div>
+  <details id="cfg">
+   <summary>Configurar Google Client ID</summary>
+   <input id="cid" placeholder="xxxx.apps.googleusercontent.com" autocomplete="off">
+   <button class="ghost" id="savecid">Guardar</button>
+   <p style="font-size:11.5px">Crea un «ID de cliente de OAuth» (aplicación web) en Google Cloud Console y añade el origen desde el que abres esta página (p. ej. <code>http://localhost:8000</code>) en «Orígenes autorizados de JavaScript».</p>
+  </details>
+  <button class="ghost" id="guest">Continuar como invitado</button>
+ </div>
+</div>
+
+<!-- APP -->
+<div id="app" class="hide">
+ <aside id="side">
+  <div class="sh"><button class="new" id="new"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>Nueva conversación</button></div>
+  <div id="list"></div>
+  <div class="uc"><div id="uav"></div><div><b id="uname"></b><small id="umail"></small></div><button class="ib" id="logout" title="Cerrar sesión"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4M16 17l5-5-5-5M21 12H9"/></svg></button></div>
+ </aside>
+ <div id="ov"></div>
+ <main>
+  <header>
+   <button class="ib" id="menu"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 6h16M4 12h16M4 18h16"/></svg></button>
+   <h2 id="title">Atomium Code</h2>
+   <span id="hsp"></span>
+  </header>
+  <div id="scroll"><div id="msgs"></div></div>
+  <div id="comp">
+   <div id="pop" class="hide"></div>
+   <div class="box">
+    <textarea id="in" rows="1" placeholder="Pregunta lo que quieras…"></textarea>
+    <div class="bar">
+     <button id="mbtn"></button>
+     <button id="send" title="Enviar"></button>
+    </div>
+   </div>
+   <small class="ft">Enter para enviar · Shift+Enter para nueva línea · La IA puede cometer errores.</small>
+  </div>
+ </main>
+</div>
+
+<script>
+'use strict';
+/* ============ CONFIG ============ */
+// Puedes fijar aquí tu Google Client ID o pegarlo desde la pantalla de login.
+const GOOGLE_CLIENT_ID = '';
+
+// Modelos gratuitos vía Puter.js (sin API keys). "ids" son alias candidatos: se usa el primero disponible.
+const MODELS = [
+ {k:'haiku35', name:'Claude 3.5 Haiku', by:'Anthropic', d:'Rápido y excelente para código', ids:['claude-3-5-haiku-latest','claude-3-5-haiku','anthropic/claude-3.5-haiku','openrouter:anthropic/claude-3.5-haiku']},
+ {k:'haiku3', name:'Claude 3 Haiku', by:'Anthropic', d:'Ligero y muy veloz', ids:['claude-3-haiku','anthropic/claude-3-haiku','openrouter:anthropic/claude-3-haiku']},
+ {k:'gemini', name:'Gemini Flash', by:'Google', d:'Rápido, contexto amplio', ids:['google/gemini-2.5-flash','gemini-2.5-flash','gemini-2.0-flash','google/gemini-2.5-flash-lite']},
+ {k:'llama', name:'Llama 3.1 8B', by:'Meta', d:'Open source, equilibrado', ids:['openrouter:meta-llama/llama-3.1-8b-instruct','meta-llama/Meta-Llama-3.1-8B-Instruct-Turbo','meta-llama/llama-3.1-8b-instruct']},
+ {k:'qwen', name:'Qwen Flash', by:'Alibaba', d:'Open source, bueno en código', ids:['qwen/qwen3.6-flash','qwen/qwen3.6-plus','qwen/qwen-plus']},
+ {k:'mistral', name:'Mistral 7B', by:'Mistral AI', d:'Open source, eficiente', ids:['openrouter:mistralai/mistral-7b-instruct','mistral-small-latest','mistral-large-latest']},
+ {k:'deepseek', name:'DeepSeek Chat', by:'DeepSeek', d:'Razonamiento y programación', ids:['deepseek-chat','openrouter:deepseek/deepseek-chat']},
+ {k:'gpt', name:'GPT-4.1 nano', by:'OpenAI', d:'Compacto y barato', ids:['gpt-4.1-nano','gpt-5-nano']}
+];
+const SYSTEM = 'Eres Atomium Code, un asistente de IA útil y preciso, experto en programación. Responde en el idioma del usuario, usa Markdown y escribe el código siempre en bloques con el lenguaje indicado.';
+
+/* ============ UTIL ============ */
+const $ = s => document.querySelector(s);
+const ls = (k, v) => { try { if (v === undefined) return JSON.parse(localStorage.getItem('atomium:' + k)); if (v === null) localStorage.removeItem('atomium:' + k); else localStorage.setItem('atomium:' + k, JSON.stringify(v)); } catch { return null; } };
+const uid = () => Date.now().toString(36) + Math.random().toString(36).slice(2, 6);
+const ICON = {
+ pen: '<path d="M12 20h9M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4z"/>',
+ trash: '<path d="M3 6h18M8 6V4h8v2M19 6l-1 14H6L5 6"/>',
+ copy: '<rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>',
+ check: '<path d="M20 6 9 17l-5-5"/>', up: '<path d="M12 19V5M5 12l7-7 7 7"/>', stop: '<rect x="6" y="6" width="12" height="12" rx="2" fill="currentColor"/>',
+ down: '<path d="m6 9 6 6 6-6"/>'
+};
+const ico = (n, s = 15) => `<svg width="${s}" height="${s}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">${ICON[n]}</svg>`;
+const SP = [[3,3,10],[4,1,14],[5,0,16],[6,0,3,4,8,13,3],[7,0,16],[8,0,16],[9,0,16],[10,1,3,6,4,12,3],[11,1,3,6,4,12,3],[12,1,2,7,2,13,2]];
+const sprite = s => { const d = SP.map(([y, ...r]) => { let o = ''; for (let i = 0; i < r.length; i += 2) o += `M${r[i]} ${y}h${r[i + 1]}v1h-${r[i + 1]}z`; return o; }).join('');
+ return `<svg width="${s}" height="${s}" viewBox="0 0 16 16" shape-rendering="crispEdges"><path d="${d}" fill="#d87c69"/><path d="M3 6h1v1H3zM12 6h1v1h-1z" fill="#212121"/></svg>`; };
+const errMsg = e => e?.error?.message || e?.message || (typeof e === 'string' ? e : 'Error desconocido');
+
+/* ============ ESTADO ============ */
+let user = null, chats = [], cur = null, busy = false, stopReq = false, avail = null, raf = 0;
+let modelKey = ls('model') || 'haiku35';
+const model = () => MODELS.find(m => m.k === modelKey) || MODELS[0];
+
+/* ============ AUTH (Google Identity Services) ============ */
+const parseJwt = t => { const b = t.split('.')[1].replace(/-/g, '+').replace(/_/g, '/');
+ return JSON.parse(new TextDecoder().decode(Uint8Array.from(atob(b), c => c.charCodeAt(0)))); };
+function startSession(u) { user = u; ls('user', u); $('#login').classList.add('hide'); $('#app').classList.remove('hide'); initApp(); }
+function gisInit() {
+ const id = ls('cid') || GOOGLE_CLIENT_ID; $('#cid').value = id || '';
+ $('#gbtn').innerHTML = '';
+ if (!id) { $('#gbtn').innerHTML = '<small style="color:#9a9a9a">Añade tu Google Client ID para activar el login con Google.</small>'; $('#cfg').open = true; return; }
+ if (!window.google?.accounts) { setTimeout(gisInit, 400); return; }
+ google.accounts.id.initialize({ client_id: id, callback: r => {
+  try { const p = parseJwt(r.credential); startSession({ sub: p.sub, name: p.name, email: p.email, pic: p.picture, exp: p.exp * 1000 }); }
+  catch { alert('No se pudo leer la respuesta de Google.'); } } });
+ google.accounts.id.renderButton($('#gbtn'), { theme: 'filled_black', size: 'large', shape: 'pill', width: 280, locale: 'es' });
+}
+$('#savecid').onclick = () => { ls('cid', $('#cid').value.trim() || null); gisInit(); };
+$('#guest').onclick = () => startSession({ sub: 'guest', name: 'Invitado', email: 'Solo en este navegador', guest: true });
+$('#logout').onclick = () => { ls('user', null); try { google.accounts.id.disableAutoSelect(); } catch {} location.reload(); };
+{ const s = document.createElement('script'); s.src = 'https://accounts.google.com/gsi/client'; s.async = true; s.onload = gisInit; document.head.append(s); }
+$('#lgsp').innerHTML = sprite(72); $('#hsp').innerHTML = sprite(20);
+gisInit();
+{ const u = ls('user'); if (u && (u.guest || u.exp > Date.now())) startSession(u); }
+
+/* ============ PERSISTENCIA ============ */
+const save = () => ls('chats:' + user.sub, chats.map(c => ({ ...c, msgs: c.msgs.filter(m => m.content) })).filter(c => c.msgs.length));
+function initApp() {
+ chats = ls('chats:' + user.sub) || [];
+ $('#uname').textContent = user.name || 'Usuario'; $('#umail').textContent = user.email || '';
+ $('#uav').innerHTML = user.pic ? `<img src="${user.pic}" referrerpolicy="no-referrer" alt="">` : `<div class="ph">${(user.name || '?')[0].toUpperCase()}</div>`;
+ cur = null; renderList(); renderChat(); renderModelBtn(); setSend();
+ if (window.puter?.ai?.listModels) puter.ai.listModels().then(l => { avail = new Set((l || []).map(x => x.id || x)); }).catch(() => {});
+}
+
+/* ============ SIDEBAR ============ */
+function renderList() {
+ const l = $('#list'); l.innerHTML = '';
+ const vis = chats.filter(c => c.msgs.length).sort((a, b) => b.t - a.t);
+ if (!vis.length) l.innerHTML = '<div class="empty-l">Aún no hay conversaciones</div>';
+ vis.forEach(c => {
+  const d = document.createElement('div'); d.className = 'ci' + (c === cur ? ' on' : '');
+  d.innerHTML = `<span></span><div class="ac"><button class="ib" data-a="r" title="Renombrar">${ico('pen', 14)}</button><button class="ib del" data-a="d" title="Eliminar">${ico('trash', 14)}</button></div>`;
+  d.firstChild.textContent = c.title;
+  d.onclick = e => { const a = e.target.closest('[data-a]')?.dataset.a;
+   if (a === 'd') { if (confirm('¿Eliminar esta conversación?')) { chats = chats.filter(x => x !== c); if (cur === c) cur = null; save(); renderList(); renderChat(); } }
+   else if (a === 'r') rename(d, c);
+   else if (!e.target.closest('input')) open(c); };
+  d.ondblclick = e => { if (!e.target.closest('input')) rename(d, c); };
+  l.append(d);
+ });
+}
+function rename(d, c) {
+ const i = document.createElement('input'); i.value = c.title; d.firstChild.replaceWith(i); i.focus(); i.select();
+ const done = ok => { if (ok && i.value.trim()) c.title = i.value.trim().slice(0, 80); save(); renderList(); $('#title').textContent = cur?.title || 'Atomium Code'; };
+ i.onkeydown = e => { if (e.key === 'Enter') done(true); if (e.key === 'Escape') done(false); };
+ i.onblur = () => done(true);
+}
+function open(c) { if (busy) return; cur = c; if (MODELS.some(m => m.k === c.model)) modelKey = c.model; renderList(); renderChat(); renderModelBtn(); toggleSide(false); }
+const toggleSide = on => { $('#side').classList.toggle('open', on); $('#ov').classList.toggle('open', on); };
+$('#menu').onclick = () => toggleSide(true); $('#ov').onclick = () => toggleSide(false);
+$('#new').onclick = () => { if (busy) return; cur = null; renderList(); renderChat(); toggleSide(false); $('#in').focus(); };
+
+/* ============ MARKDOWN + CODE BLOCKS ============ */
+function enhance(root) {
+ root.querySelectorAll('pre').forEach(pre => {
+  const code = pre.querySelector('code'); if (!code || pre.parentElement.classList.contains('cb')) return;
+  const lang = (code.className.match(/language-([\w+#.-]+)/) || [])[1] || 'texto';
+  const w = document.createElement('div'); w.className = 'cb';
+  w.innerHTML = `<div class="cbh"><span>${lang}</span><button class="cp">${ico('copy', 13)}Copiar</button></div>`;
+  pre.replaceWith(w); w.append(pre);
+  try { if (lang !== 'texto' && hljs.getLanguage(lang)) hljs.highlightElement(code); else hljs.highlightElement(code); } catch {}
+ });
+}
+document.addEventListener('click', e => {
+ const b = e.target.closest('.cp');
+ if (b) { navigator.clipboard.writeText(b.closest('.cb').querySelector('code').innerText).then(() => { b.innerHTML = ico('check', 13) + '¡Copiado!'; setTimeout(() => b.innerHTML = ico('copy', 13) + 'Copiar', 1600); }); }
+ if (e.target.closest('.rt')) retry();
+ if (!e.target.closest('#pop,#mbtn')) $('#pop').classList.add('hide');
+});
+function fill(el, m) {
+ let h = m.content ? DOMPurify.sanitize(marked.parse(m.content, { breaks: false })) : '';
+ if (m.streaming) h = m.content ? h + '<span class="cur"></span>' : '<div class="dots"><i></i><i></i><i></i></div>';
+ el.innerHTML = h; enhance(el);
+ if (m.error) { const d = document.createElement('div'); d.className = 'err'; d.innerHTML = '<b>Error:</b> <span></span><button class="rt">Reintentar</button>'; d.querySelector('span').textContent = m.error; el.append(d); }
+}
+
+/* ============ RENDER CHAT ============ */
+function msgEl(m) {
+ const d = document.createElement('div'); d.className = 'm ' + m.role;
+ if (m.role === 'user') { d.innerHTML = '<div class="ub"></div>'; d.firstChild.textContent = m.content; }
+ else { d.innerHTML = `<div class="av">${sprite(18)}</div><div class="md"></div>`; fill(d.querySelector('.md'), m); }
+ return d;
+}
+function renderChat() {
+ const box = $('#msgs'); box.innerHTML = ''; $('#title').textContent = cur?.title || 'Atomium Code';
+ if (!cur || !cur.msgs.length) {
+  box.innerHTML = `<div id="hero">${sprite(112)}<h1>Atomium Code</h1><p>¿Qué hacemos primero? Pregunta sobre código o empecemos a escribirlo.</p><div class="chips"></div></div>`;
+  ['Explícame closures en JavaScript', 'Escribe un servidor HTTP en Python', 'Optimiza esta consulta SQL', 'Diferencias entre REST y GraphQL'].forEach(t => {
+   const b = document.createElement('button'); b.className = 'chip'; b.textContent = t; b.onclick = () => send(t); box.querySelector('.chips').append(b); });
+  return;
+ }
+ cur.msgs.forEach(m => box.append(msgEl(m))); scrollEnd(true);
+}
+const scrollEnd = force => { const s = $('#scroll'); if (force || s.scrollHeight - s.scrollTop - s.clientHeight < 140) s.scrollTop = s.scrollHeight; };
+
+/* ============ SELECTOR DE MODELOS ============ */
+function renderModelBtn() { $('#mbtn').innerHTML = `${sprite(14)}<span>${model().name}</span>${ico('down', 13)}`; }
+$('#mbtn').onclick = e => {
+ e.stopPropagation(); const p = $('#pop');
+ if (!p.classList.contains('hide')) return p.classList.add('hide');
+ p.innerHTML = '';
+ MODELS.forEach(m => {
+  const b = document.createElement('button'); b.className = 'mo' + (m.k === modelKey ? ' on' : '');
+  b.innerHTML = `<div><b></b><small></small></div><span class="tag"></span>${m.k === modelKey ? ico('check', 15) : ''}`;
+  b.querySelector('b').textContent = m.name; b.querySelector('small').textContent = m.d; b.querySelector('.tag').textContent = m.by;
+  b.onclick = () => { modelKey = m.k; ls('model', m.k); renderModelBtn(); p.classList.add('hide'); $('#in').focus(); };
+  p.append(b);
+ });
+ p.classList.remove('hide'); p.style.animation = 'none'; p.offsetWidth; p.style.animation = '';
+};
+
+/* ============ ENVÍO + STREAMING ============ */
+function setSend() { const b = $('#send'); b.innerHTML = busy ? ico('stop', 16) : ico('up', 17); b.disabled = !busy && !$('#in').value.trim(); b.title = busy ? 'Detener' : 'Enviar'; }
+async function send(text) {
+ text = (text ?? $('#in').value).trim(); if (!text || busy) return;
+ if (typeof puter === 'undefined') { alert('No se pudo cargar Puter.js. Revisa tu conexión.'); return; }
+ if (!cur) { cur = { id: uid(), title: 'Nueva conversación', msgs: [], t: Date.now(), model: modelKey }; chats.push(cur); }
+ const c = cur, a = { role: 'assistant', content: '', streaming: true };
+ if (!c.msgs.length) c.title = text.replace(/\s+/g, ' ').slice(0, 45);
+ c.msgs.push({ role: 'user', content: text }, a); c.model = modelKey; c.t = Date.now();
+ $('#in').value = ''; autosize(); busy = true; stopReq = false; setSend();
+ renderChat(); renderList(); scrollEnd(true);
+ const el = () => $('#msgs').lastElementChild?.querySelector('.md');
+ const paint = () => { if (raf) return; raf = requestAnimationFrame(() => { raf = 0; if (cur === c && el()) { fill(el(), a); scrollEnd(); } }); };
+ const history = [{ role: 'system', content: SYSTEM }, ...c.msgs.slice(0, -1).map(({ role, content }) => ({ role, content }))];
+ const cands = model().ids, ok = avail ? cands.filter(i => avail.has(i)) : [];
+ let last = null;
+ try {
+  for (const id of [...ok, ...cands.filter(i => !ok.includes(i))]) {
+   try {
+    const res = await puter.ai.chat(history, { model: id, stream: true });
+    for await (const part of res) { if (stopReq) break; a.content += part?.text || ''; paint(); }
+    if (!a.content && !stopReq) throw new Error('El modelo no devolvió respuesta.');
+    last = null; break;
+   } catch (e) {
+    last = e; if (a.content || /auth|cancel|sign|denied|limit|quota|funds/i.test(JSON.stringify(e) + errMsg(e))) break;
+   }
+  }
+  if (last) throw last;
+ } catch (e) { a.error = errMsg(e) === '[object Object]' ? 'No se pudo completar la solicitud.' : errMsg(e); }
+ a.streaming = false; busy = false; setSend(); cancelAnimationFrame(raf); raf = 0;
+ if (cur === c && el()) fill(el(), a);
+ c.t = Date.now(); save(); renderList();
+}
+function retry() { if (busy || !cur) return; cur.msgs.pop(); const u = cur.msgs.pop(); if (u) send(u.content); }
+
+/* ============ ENTRADA ============ */
+const inp = $('#in');
+function autosize() { inp.style.height = 'auto'; inp.style.height = Math.min(inp.scrollHeight, 200) + 'px'; setSend(); }
+inp.oninput = autosize;
+inp.onkeydown = e => { if (e.key === 'Enter' && !e.shiftKey && !e.isComposing) { e.preventDefault(); send(); } };
+$('#send').onclick = () => busy ? (stopReq = true) : send();
+</script>
+</body>
+</html>
