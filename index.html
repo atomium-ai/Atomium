@@ -102,6 +102,23 @@ small.ft{display:block;text-align:center;color:#6f6f6f;font-size:11px;margin-top
  #ov.open{display:block;position:fixed;inset:0;background:#0008;z-index:15;animation:up .2s}
  #menu{display:flex}.ub{max-width:90%}
 }
+/* plugins */
+.badge{margin-left:auto;background:var(--ac2);color:#fff;border-radius:99px;font-size:11px;line-height:18px;padding:0 7px;min-width:20px;text-align:center}
+#plugins{position:fixed;inset:0;z-index:40;background:var(--bg);display:flex;flex-direction:column;animation:pop .22s}
+.plh{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:18px 28px;border-bottom:1px solid var(--bd);background:var(--bar)}
+.plh h2{font:400 26px Georgia,serif}.plh p{color:var(--mu);font-size:13px}
+.plb{flex:1;overflow:auto;padding:28px}
+.plg{max-width:1100px;margin:0 auto;display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:16px}
+.pc{display:flex;gap:14px;align-items:flex-start;text-align:left;padding:18px;border:1px solid #333;border-radius:14px;background:#262626;transition:.2s;animation:up .4s backwards}
+.pc:hover{transform:translateY(-3px);border-color:#555}.pc.on{border-color:var(--ac);background:#2d2523}
+.pi{font-size:26px;width:46px;height:46px;border-radius:12px;background:#323232;display:flex;align-items:center;justify-content:center;flex:none}
+.pt{flex:1;min-width:0}.pt b{display:block;font-weight:600;margin-bottom:2px}.pt small{display:block;color:#b5b5b5;font-size:12.5px;line-height:1.5}
+.sw{width:38px;height:22px;border-radius:99px;background:#444;position:relative;transition:.2s;flex:none;margin-top:2px}
+.sw i{position:absolute;top:3px;left:3px;width:16px;height:16px;border-radius:50%;background:#fff;transition:.2s}
+.pc.on .sw{background:var(--ac2)}.pc.on .sw i{transform:translateX(16px)}
+.plf{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:14px 28px;border-top:1px solid var(--bd);background:var(--bar);color:var(--mu)}
+.plf .acc{background:var(--ac2);color:#fff;border-radius:10px;padding:8px 22px;transition:.2s}.plf .acc:hover{filter:brightness(1.15)}
+@media(max-width:760px){.plh,.plf{padding:14px 16px}.plb{padding:16px}}
 </style>
 </head>
 <body>
@@ -128,6 +145,7 @@ small.ft{display:block;text-align:center;color:#6f6f6f;font-size:11px;margin-top
  <aside id="side">
   <div class="sh"><button class="new" id="new"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>Nueva conversación</button></div>
   <div id="list"></div>
+  <div class="sh" style="padding:8px 12px 12px"><button class="new" id="plbtn"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.5 11H19V7a2 2 0 0 0-2-2h-4V3.5a2.5 2.5 0 0 0-5 0V5H4a2 2 0 0 0-2 2v3.8h1.5a2.7 2.7 0 0 1 0 5.4H2V20a2 2 0 0 0 2 2h3.8v-1.5a2.7 2.7 0 0 1 5.4 0V22H17a2 2 0 0 0 2-2v-4h1.5a2.5 2.5 0 0 0 0-5z"/></svg>Plugins<span class="badge hide" id="plcount"></span></button></div>
   <div class="uc"><div id="uav"></div><div><b id="uname"></b><small id="umail"></small></div><button class="ib" id="logout" title="Cerrar sesión"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4M16 17l5-5-5-5M21 12H9"/></svg></button></div>
  </aside>
  <div id="ov"></div>
@@ -152,6 +170,13 @@ small.ft{display:block;text-align:center;color:#6f6f6f;font-size:11px;margin-top
  </main>
 </div>
 
+<!-- PLUGINS (pantalla completa) -->
+<div id="plugins" class="hide" role="dialog" aria-label="Plugins">
+ <div class="plh"><div><h2>Plugins</h2><p>Activa instrucciones que cambian cómo responde el modelo. Puedes combinar varios.</p></div><button class="ib" id="plclose" title="Cerrar"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M18 6 6 18M6 6l12 12"/></svg></button></div>
+ <div class="plb"><div class="plg" id="plgrid"></div></div>
+ <div class="plf"><span id="plfoot"></span><div style="display:flex;gap:10px"><button class="ghost" id="plclear">Desactivar todos</button><button class="acc" id="pldone">Listo</button></div></div>
+</div>
+
 <script>
 'use strict';
 /* ============ CONFIG ============ */
@@ -161,16 +186,19 @@ const GOOGLE_CLIENT_ID = '';
 // Modelos gratuitos de Pollinations.ai: sin login, sin API key. "ids" = nombres a probar en orden.
 const ENDPOINTS = ['https://gen.pollinations.ai/v1/chat/completions', 'https://text.pollinations.ai/openai'];
 const MODELS = [
- {k:'openai', name:'GPT (OpenAI)', by:'OpenAI', d:'Equilibrado, muy bueno en general', ids:['openai']},
- {k:'fast', name:'GPT Fast', by:'OpenAI', d:'Respuestas más rápidas', ids:['openai-fast']},
- {k:'gemini', name:'Gemini Flash', by:'Google', d:'Rápido, contexto amplio', ids:['gemini-fast','gemini']},
- {k:'qwen', name:'Qwen Coder', by:'Alibaba', d:'Open source, especializado en código', ids:['qwen-coder']},
- {k:'mistral', name:'Mistral', by:'Mistral AI', d:'Open source, eficiente', ids:['mistral']},
- {k:'llama', name:'Llama', by:'Meta', d:'Open source', ids:['llama','llamascout']},
- {k:'deepseek', name:'DeepSeek', by:'DeepSeek', d:'Razonamiento y programación', ids:['deepseek']},
- {k:'nova', name:'Nova Micro', by:'Amazon', d:'Ligero y veloz', ids:['nova-micro']}
+ {k:'openai', name:'Solara', by:'GPT', d:'Modelo GPT principal, equilibrado y preciso', ids:['openai']},
+ {k:'fast', name:'GPT Fast', by:'GPT', d:'Modelo GPT con respuestas más rápidas', ids:['openai-fast']}
 ];
 const SYSTEM = 'Eres Atomium Code, un asistente de IA útil y preciso, experto en programación. Responde en el idioma del usuario, usa Markdown y escribe el código siempre en bloques con el lenguaje indicado.';
+
+const PLUGINS = [
+ {id:'atomium', icon:'💻', name:'Atomium Code', d:'Experto en programación: código limpio, seguro y de alta calidad.', p:'Plugin «Atomium Code»: actúa como un ingeniero de software senior y experto en programación. Genera código de alta calidad: correcto, limpio, idiomático, seguro y bien estructurado, con nombres claros, manejo de errores y comentarios solo donde aporten. Antes de código extenso explica brevemente el enfoque. Entrega siempre el código en bloques con el lenguaje indicado e indica cómo ejecutarlo o probarlo.'},
+ {id:'review', icon:'🔍', name:'Revisor de código', d:'Analiza tu código: errores, seguridad, rendimiento y buenas prácticas.', p:'Plugin «Revisor de código»: cuando el usuario comparta código, haz una revisión crítica y honesta de errores, seguridad, rendimiento, legibilidad y buenas prácticas. Ordena los hallazgos por gravedad, explica el porqué de cada uno y propone el código corregido.'},
+ {id:'debug', icon:'🐞', name:'Depurador', d:'Encuentra la causa real de un error y cómo solucionarlo.', p:'Plugin «Depurador»: ante un error o fallo, identifica la causa raíz más probable, explica por qué ocurre, da la solución concreta y cómo evitarlo en el futuro. Si falta información, pide el dato exacto (mensaje de error, versión, fragmento relevante).'},
+ {id:'teacher', icon:'🎓', name:'Profesor paciente', d:'Explica paso a paso, con analogías y ejemplos sencillos.', p:'Plugin «Profesor paciente»: explica de forma sencilla y paso a paso, con analogías y ejemplos cortos, adaptando el nivel al del usuario. Termina con una pregunta o mini ejercicio para comprobar la comprensión.'},
+ {id:'writer', icon:'✍️', name:'Escritor creativo', d:'Textos y relatos con estilo, ritmo y detalles vivos.', p:'Plugin «Escritor creativo»: escribe con estilo vivo, imaginativo y bien estructurado, cuidando el tono, el ritmo y los detalles sensoriales. Si el usuario no indica formato, ofrece una propuesta completa y luego variantes breves.'},
+ {id:'brief', icon:'⚡', name:'Respuestas breves', d:'Directo al grano, sin rodeos ni relleno.', p:'Plugin «Respuestas breves»: responde de forma directa y concisa, sin introducciones ni relleno, con lo mínimo necesario. Amplía solo si el usuario lo pide.'}
+];
 
 /* ============ UTIL ============ */
 const $ = s => document.querySelector(s);
@@ -222,8 +250,37 @@ function initApp() {
  chats = ls('chats:' + user.sub) || [];
  $('#uname').textContent = user.name || 'Usuario'; $('#umail').textContent = user.email || '';
  $('#uav').innerHTML = user.pic ? `<img src="${user.pic}" referrerpolicy="no-referrer" alt="">` : `<div class="ph">${(user.name || '?')[0].toUpperCase()}</div>`;
- cur = null; renderList(); renderChat(); renderModelBtn(); setSend();
+ cur = null; plInit(); renderList(); renderChat(); renderModelBtn(); setSend();
 }
+
+/* ============ PLUGINS ============ */
+let plOn = [];
+function buildSystem() {
+ const a = PLUGINS.filter(p => plOn.includes(p.id));
+ return a.length ? SYSTEM + '\n\nPlugins activos (sigue también estas instrucciones adicionales):\n' + a.map(p => '- ' + p.p).join('\n') : SYSTEM;
+}
+function plBadge() {
+ const b = $('#plcount'); b.textContent = plOn.length; b.classList.toggle('hide', !plOn.length);
+ $('#plfoot').textContent = plOn.length ? plOn.length + (plOn.length === 1 ? ' plugin activo' : ' plugins activos') : 'Ningún plugin activo';
+ document.querySelectorAll('.pc').forEach(c => c.classList.toggle('on', plOn.includes(c.dataset.id)));
+}
+function plInit() {
+ plOn = (ls('plugins:' + user.sub) || []).filter(id => PLUGINS.some(p => p.id === id));
+ const g = $('#plgrid'); g.innerHTML = '';
+ PLUGINS.forEach((p, i) => {
+  const c = document.createElement('button'); c.className = 'pc'; c.dataset.id = p.id; c.style.animationDelay = i * 50 + 'ms';
+  c.innerHTML = '<div class="pi"></div><div class="pt"><b></b><small></small></div><span class="sw"><i></i></span>';
+  c.querySelector('.pi').textContent = p.icon; c.querySelector('b').textContent = p.name; c.querySelector('small').textContent = p.d;
+  c.onclick = () => { plOn = plOn.includes(p.id) ? plOn.filter(x => x !== p.id) : [...plOn, p.id]; ls('plugins:' + user.sub, plOn); plBadge(); };
+  g.append(c);
+ });
+ plBadge();
+}
+const plShow = on => { $('#plugins').classList.toggle('hide', !on); if (on) toggleSide(false); };
+$('#plbtn').onclick = () => plShow(true);
+$('#plclose').onclick = $('#pldone').onclick = () => plShow(false);
+$('#plclear').onclick = () => { plOn = []; ls('plugins:' + user.sub, plOn); plBadge(); };
+document.addEventListener('keydown', e => { if (e.key === 'Escape') plShow(false); });
 
 /* ============ SIDEBAR ============ */
 function renderList() {
@@ -324,7 +381,7 @@ async function send(text) {
  renderChat(); renderList(); scrollEnd(true);
  const el = () => $('#msgs').lastElementChild?.querySelector('.md');
  const paint = () => { if (raf) return; raf = requestAnimationFrame(() => { raf = 0; if (cur === c && el()) { fill(el(), a); scrollEnd(); } }); };
- const history = [{ role: 'system', content: SYSTEM }, ...c.msgs.slice(0, -1).map(({ role, content }) => ({ role, content }))];
+ const history = [{ role: 'system', content: buildSystem() }, ...c.msgs.slice(0, -1).map(({ role, content }) => ({ role, content }))];
  const cands = model().ids; let last = null, lastId = '';
  ctl = new AbortController();
  try {
