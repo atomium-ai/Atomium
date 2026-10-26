@@ -198,6 +198,29 @@ svg.alien{overflow:visible}
 #q{display:block;width:calc(100% - 24px);margin:2px 12px 8px;background:var(--inp);border:1px solid var(--bd);border-radius:9px;padding:8px 12px;outline:0;font-size:13px;transition:.2s}
 #q:focus{border-color:var(--ac)}
 .mdl{margin-left:auto;align-self:center;font-size:11px;color:var(--mu);opacity:.75}
+/* v3: fijar, editar, archivos, comparar */
+.ib.on{color:var(--ac)}
+.ci.pn>span::before{content:"";display:inline-block;width:6px;height:6px;border-radius:50%;background:var(--ac);margin-right:8px;vertical-align:middle}
+.ued{opacity:0;align-self:center;color:var(--mu);width:28px;height:28px;border-radius:7px;display:flex;align-items:center;justify-content:center;transition:.15s;flex:none}
+.m:hover .ued,.ued:focus-visible{opacity:1}.ued:hover{background:var(--b3);color:var(--tx)}
+@media(hover:none){.ued{opacity:.6}}
+.edit{width:min(560px,100%);display:flex;flex-direction:column;gap:8px}
+.edit textarea{background:var(--inp);border:1px solid var(--ac);border-radius:14px;padding:12px 14px;max-height:260px;min-height:60px;font-size:15px}
+.edit .er{display:flex;gap:8px;justify-content:flex-end}
+.sv{background:var(--ac2);color:#fff;border-radius:999px;padding:9px 22px;transition:.2s}.sv:hover{filter:brightness(1.15)}
+#prev{align-items:center}
+.uf{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:6px}
+.fc{display:inline-flex;align-items:center;gap:6px;border:1px solid var(--bd);border-radius:9px;padding:5px 9px;font-size:12px;background:var(--b3);max-width:100%}
+.fc span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.fc button{color:var(--mu);display:flex}
+#cmp{position:fixed;inset:0;z-index:40;background:var(--bg);display:flex;flex-direction:column;animation:pop .22s}
+.cg{display:grid;grid-template-columns:1fr 1fr;gap:16px;max-width:1200px;margin:0 auto;width:100%}
+.cc{background:var(--inp);border:1px solid var(--bd);border-radius:14px;padding:16px;min-height:220px;display:flex;flex-direction:column;gap:12px;min-width:0}
+.cc select{background:var(--bg);color:var(--tx);border:1px solid var(--bd);border-radius:9px;padding:8px 10px;outline:0;font-size:14px}
+.cc .md{overflow-wrap:anywhere}.cc .md .mu{color:var(--mu)}.cer{color:#e57373}
+@media(max-width:760px){.cg{grid-template-columns:1fr}}
+.cpbar{display:flex;gap:10px;align-items:flex-end;padding:14px 28px;border-top:1px solid var(--bd);background:var(--bar)}
+.cpbar textarea{flex:1;background:var(--inp);border:1px solid var(--bd);border-radius:12px;padding:10px 14px;font-size:15px;min-height:46px;max-height:140px;resize:none}
+.cpbar textarea:focus{border-color:var(--ac)}
 </style>
 </head>
 <body>
@@ -208,13 +231,13 @@ svg.alien{overflow:visible}
   <div class="sh"><button class="new" id="new" title="Ctrl+K"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>Nueva conversación</button></div>
   <input id="q" type="search" placeholder="Buscar chats…" autocomplete="off">
   <div id="list"></div>
-  <div class="sh" style="padding:8px 12px 12px"><button class="new" id="plbtn"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.5 11H19V7a2 2 0 0 0-2-2h-4V3.5a2.5 2.5 0 0 0-5 0V5H4a2 2 0 0 0-2 2v3.8h1.5a2.7 2.7 0 0 1 0 5.4H2V20a2 2 0 0 0 2 2h3.8v-1.5a2.7 2.7 0 0 1 5.4 0V22H17a2 2 0 0 0 2-2v-4h1.5a2.5 2.5 0 0 0 0-5z"/></svg>Plugins<span class="badge hide" id="plcount"></span></button><button class="new" id="stbtn" style="margin-top:8px"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg>Configuración</button></div>
+  <div class="sh" style="padding:8px 12px 12px"><button class="new" id="plbtn"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.5 11H19V7a2 2 0 0 0-2-2h-4V3.5a2.5 2.5 0 0 0-5 0V5H4a2 2 0 0 0-2 2v3.8h1.5a2.7 2.7 0 0 1 0 5.4H2V20a2 2 0 0 0 2 2h3.8v-1.5a2.7 2.7 0 0 1 5.4 0V22H17a2 2 0 0 0 2-2v-4h1.5a2.5 2.5 0 0 0 0-5z"/></svg>Plugins<span class="badge hide" id="plcount"></span></button><button class="new" id="stbtn" style="margin-top:8px"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg>Configuración</button><button class="new" id="cpbtn" style="margin-top:8px"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h3M16 3h3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-3M12 2v20"/></svg>Comparar modelos</button></div>
  </aside>
  <div id="ov"></div>
  <main>
   <header>
    <button class="ib" id="menu"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 6h16M4 12h16M4 18h16"/></svg></button>
-   <h2 id="title">Atomium</h2>
+   <h2 id="title">Atomium Code</h2>
    <span id="hsp"></span><button class="ib" id="export" title="Exportar chat (.md)"></button><button class="ib" id="theme"></button>
   </header>
   <div id="scroll"><div id="msgs"></div></div>
@@ -225,7 +248,7 @@ svg.alien{overflow:visible}
     <textarea id="in" rows="1" placeholder="Pregunta lo que quieras…"></textarea>
     <div class="bar">
      <button id="mbtn"></button>
-     <div class="rt2"><span class="wave hide"><i></i><i></i><i></i><i></i></span><button class="rb hide" id="micx" title="Cancelar"></button><input type="file" id="file" accept="image/*" multiple hidden><button class="rb" id="attach" title="Adjuntar imagen"></button><button class="rb" id="mic" title="Hablar"></button><button id="send" title="Enviar"></button></div>
+     <div class="rt2"><span class="wave hide"><i></i><i></i><i></i><i></i></span><button class="rb hide" id="micx" title="Cancelar"></button><input type="file" id="file" accept="image/*,text/*,.md,.json,.csv,.js,.jsx,.mjs,.ts,.tsx,.py,.java,.c,.h,.cpp,.hpp,.cs,.go,.rs,.php,.rb,.sh,.sql,.html,.css,.scss,.xml,.yml,.yaml,.toml,.ini,.log,.kt,.swift,.dart,.lua,.vue,.svelte" multiple hidden><button class="rb" id="attach" title="Adjuntar imagen o archivo"></button><button class="rb" id="mic" title="Hablar"></button><button id="send" title="Enviar"></button></div>
     </div>
    </div>
    <small class="ft">Enter para enviar · Shift+Enter para nueva línea · La IA puede cometer errores.</small>
@@ -247,9 +270,18 @@ svg.alien{overflow:visible}
   <div class="sec avc"><div class="big" id="stav"></div><div><h3>Tu asistente</h3><p>Atomium Code, listo para ayudarte.</p></div></div>
   <div class="sec"><h3>¿Cómo quieres que te llame?</h3><p>Tu nombre o apodo. La IA lo usará para dirigirse a ti.</p><input type="text" id="stname" maxlength="40" placeholder="Ej. Alex" autocomplete="off"></div>
   <div class="sec"><h3>Objetivo principal</h3><p>¿Para qué usas más la IA? Adaptará sus respuestas a eso.</p><div class="gls" id="stgoals"></div><div id="stcw" class="hide"><textarea id="stcustom" maxlength="200" placeholder="Escribe tu propio objetivo…"></textarea></div></div>
+  <div class="sec"><h3>Tono de la IA</h3><p>Cómo quieres que te responda.</p><div class="gls" id="sttones"></div></div>
   <div class="sec dz"><h3>Borrar todos los chats</h3><p id="stcount"></p><button class="danger" id="stdel">Borrar todos los chats</button></div>
  </div></div>
  <div class="plf"><span></span><button class="acc" id="stdone">Listo</button></div>
+</div>
+<div id="cmp" class="hide" role="dialog" aria-label="Comparar modelos">
+ <div class="plh"><div><h2>Comparar modelos</h2><p>Envía la misma pregunta a dos modelos y mira sus respuestas lado a lado.</p></div><button class="ib" id="cpclose" title="Cerrar"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M18 6 6 18M6 6l12 12"/></svg></button></div>
+ <div class="plb"><div class="cg">
+  <div class="cc"><select id="cpa"></select><div class="md" id="cpra"><p class="mu">La respuesta aparecerá aquí.</p></div></div>
+  <div class="cc"><select id="cpb"></select><div class="md" id="cprb"><p class="mu">La respuesta aparecerá aquí.</p></div></div>
+ </div></div>
+ <div class="cpbar"><textarea id="cpin" rows="1" placeholder="Escribe una pregunta para comparar…"></textarea><button class="sv" id="cpgo">Comparar</button><button class="ghost hide" id="cpstop">Detener</button></div>
 </div>
 <div id="cm" class="hide"><div class="cmb"><h3>¿Borrar todos los chats?</h3><p id="cmtxt"></p><div class="cmx"><button class="ghost" id="cmno">Cancelar</button><button class="danger" id="cmyes">Sí, borrar todo</button></div></div></div>
 
@@ -272,8 +304,7 @@ const PLUGINS = [
  {id:'teacher', icon:'🎓', name:'Profesor paciente', d:'Explica paso a paso, con analogías y ejemplos sencillos.', p:'Plugin «Profesor paciente»: explica de forma sencilla y paso a paso, con analogías y ejemplos cortos, adaptando el nivel al del usuario. Termina con una pregunta o mini ejercicio para comprobar la comprensión.'},
  {id:'writer', icon:'✍️', name:'Escritor creativo', d:'Textos y relatos con estilo, ritmo y detalles vivos.', p:'Plugin «Escritor creativo»: escribe con estilo vivo, imaginativo y bien estructurado, cuidando el tono, el ritmo y los detalles sensoriales. Si el usuario no indica formato, ofrece una propuesta completa y luego variantes breves.'},
  {id:'brief', icon:'⚡', name:'Respuestas breves', d:'Directo al grano, sin rodeos ni relleno.', p:'Plugin «Respuestas breves»: responde de forma directa y concisa, sin introducciones ni relleno, con lo mínimo necesario. Amplía solo si el usuario lo pide.'},
-  {id:'nerd', icon:'🤓', name:'Historiador', d:'Explica paso a paso Eventos historicos que sirve para las tareas de historia', p:'Eres un nerd en historia/eventos actuales o antiguos, sirves como un profesor de historia paciente que explica todo pacientemente con organizacion y dice datos importantes, sin relleno,con lo minimo, a menos que el usuario lo pida'},
-   {id:'token', icon:'LCU', name:'Less Character Usage', d:'Evita el uso innecesario de palabras', p:'Plugin «LCU»: ahorra palabras/caracteres incesarios para evitar llegar al limite de characteres rapido. ahorra letras y palabras para ir directo y rendir mejor para textos y codigo largos'}
+  {id:'nerd', icon:'🤓', name:'Historiador', d:'Explica paso a paso Eventos historicos que sirve para las tareas de historia', p:'Eres un nerd en historia/eventos actuales o antiguos, sirves como un profesor de historia paciente que explica todo pacientemente con organizacion y dice datos importantes, sin relleno,con lo minimo, a menos que el usuario lo pida'}
 ];
 
 /* ============ UTIL ============ */
@@ -294,7 +325,8 @@ const ICON = {
  x: '<path d="M18 6 6 18M6 6l12 12"/>',
  img: '<rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="m21 15-5-5L5 21"/>',
  dl: '<path d="M12 3v12m0 0-4-4m4 4 4-4M4 21h16"/>',
- vol: '<path d="M11 5 6 9H2v6h4l5 4z"/><path d="M15.5 8.5a5 5 0 0 1 0 7M19 5a10 10 0 0 1 0 14"/>'
+ vol: '<path d="M11 5 6 9H2v6h4l5 4z"/><path d="M15.5 8.5a5 5 0 0 1 0 7M19 5a10 10 0 0 1 0 14"/>',
+ pin: '<path d="M12 17v5M9 3h6l-1 7 3 3v2H7v-2l3-3z"/>'
 };
 const ico = (n, s = 15) => `<svg width="${s}" height="${s}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">${ICON[n]}</svg>`;
 const sprite = s => `<svg class="alien" width="${s}" height="${s * 2 / 3}" viewBox="0 0 12 8" shape-rendering="crispEdges"><g class="al"><g class="ab"><path class="aL" d="M0 2h2v2H0z" fill="#f65f4a"/><path class="aR" d="M10 2h2v2h-2z" fill="#f65f4a"/><path d="M2 0h8v6H2zM2 6h1v2H2zM4 6h1v2H4zM7 6h1v2H7zM9 6h1v2H9z" fill="#f65f4a"/><rect class="ae" x="3" y="1" width="1" height="1" fill="#111"/><rect class="ae" x="8" y="1" width="1" height="1" fill="#111"/></g></g></svg>`;
@@ -311,10 +343,11 @@ const errMsg = e => e?.error?.message || e?.message || (typeof e === 'string' ? 
 
 /* ============ ESTADO ============ */
 let user = null, chats = [], cur = null, busy = false, stopReq = false, ctl = null, raf = 0;
+const TONES = [['breve', 'Breve y directo', 'Responde de forma breve y directa, sin rodeos.'], ['detallado', 'Detallado', 'Explica con detalle y paso a paso, con ejemplos cuando ayuden.'], ['tecnico', 'Técnico', 'Usa un tono técnico y preciso, con la terminología correcta.'], ['amigable', 'Amigable', 'Usa un tono cercano, cálido y motivador.'], ['formal', 'Formal', 'Usa un tono formal y profesional.']];
 const GOALS = ['Aprender a programar', 'Crear proyectos y apps', 'Estudiar y hacer tareas', 'Trabajo y productividad', 'Escribir y crear contenido', 'Resolver dudas del día a día'];
 let cfg = Object.assign({ name: '', goal: '', custom: '' }, ls('settings'));
 const saveCfg = () => ls('settings', cfg);
-let pend = [];
+let pend = [], pendF = [];
 let modelKey = ls('model'); if (!MODELS.some(m => m.k === modelKey)) modelKey = MODELS[0].k;
 const model = () => MODELS.find(m => m.k === modelKey) || MODELS[0];
 let modelsUpdated = null;
@@ -351,6 +384,7 @@ function buildSystem() {
  const nm = clean(cfg.name), g = clean(cfg.goal === 'custom' ? cfg.custom : cfg.goal);
  let sys = SYSTEM;
  if (nm) sys += `\n\nEl usuario quiere que te dirijas a él como «${nm}». Úsalo de forma natural, sin repetirlo en cada frase.`;
+ const tn = TONES.find(t => t[0] === cfg.tone); if (tn) sys += '\n\nTono de respuesta: ' + tn[2];
  if (g) sys += `\n\nObjetivo principal del usuario: ${g}. Adapta tus respuestas para ayudarle a conseguirlo.`;
  return a.length ? sys + '\n\nPlugins activos (sigue también estas instrucciones adicionales):\n' + a.map(p => '- ' + p.p).join('\n') : sys;
 }
@@ -389,6 +423,11 @@ function stRender() {
   g.append(b);
  });
  $('#stcw').classList.toggle('hide', cfg.goal !== 'custom');
+ const tg = $('#sttones'); tg.innerHTML = '';
+ [['', 'Predeterminado'], ...TONES.map(t => [t[0], t[1]])].forEach(([v, t]) => {
+  const b = document.createElement('button'); b.className = 'gl' + ((cfg.tone || '') === v ? ' on' : ''); b.textContent = t;
+  b.onclick = () => { cfg.tone = v; saveCfg(); stRender(); }; tg.append(b);
+ });
  const n = nChats(); $('#stcount').textContent = n ? `Tienes ${n} ${n === 1 ? 'conversación guardada' : 'conversaciones guardadas'}. Se eliminarán de forma permanente.` : 'No tienes conversaciones guardadas.';
 }
 $('#stname').oninput = e => { cfg.name = e.target.value.slice(0, 40); saveCfg(); };
@@ -412,15 +451,16 @@ document.addEventListener('keydown', e => { if (e.key !== 'Escape') return; if (
 function renderList() {
  const l = $('#list'); l.innerHTML = '';
  const q = ($('#q')?.value || '').trim().toLowerCase();
- const vis = chats.filter(c => c.msgs.length && (!q || c.title.toLowerCase().includes(q) || c.msgs.some(m => (m.content || '').toLowerCase().includes(q)))).sort((a, b) => b.t - a.t);
+ const vis = chats.filter(c => c.msgs.length && (!q || c.title.toLowerCase().includes(q) || c.msgs.some(m => (m.content || '').toLowerCase().includes(q)))).sort((a, b) => (b.pin ? 1 : 0) - (a.pin ? 1 : 0) || b.t - a.t);
  if (!vis.length) l.innerHTML = '<div class="empty-l">' + (q ? 'Sin resultados' : 'Aún no hay conversaciones') + '</div>';
  vis.forEach(c => {
-  const d = document.createElement('div'); d.className = 'ci' + (c === cur ? ' on' : '');
-  d.innerHTML = `<span></span><div class="ac"><button class="ib" data-a="r" title="Renombrar">${ico('pen', 14)}</button><button class="ib del" data-a="d" title="Eliminar">${ico('trash', 14)}</button></div>`;
+  const d = document.createElement('div'); d.className = 'ci' + (c === cur ? ' on' : '') + (c.pin ? ' pn' : '');
+  d.innerHTML = `<span></span><div class="ac"><button class="ib${c.pin ? ' on' : ''}" data-a="p" title="${c.pin ? 'Desfijar' : 'Fijar arriba'}">${ico('pin', 14)}</button><button class="ib" data-a="r" title="Renombrar">${ico('pen', 14)}</button><button class="ib del" data-a="d" title="Eliminar">${ico('trash', 14)}</button></div>`;
   d.firstChild.textContent = c.title;
   d.onclick = e => { const a = e.target.closest('[data-a]')?.dataset.a;
    if (a === 'd') { if (confirm('¿Eliminar esta conversación?')) { chats = chats.filter(x => x !== c); if (cur === c) cur = null; save(); renderList(); renderChat(); } }
-   else if (a === 'r') rename(d, c);
+   else if (a === 'p') { c.pin = !c.pin; save(); renderList(); toast(c.pin ? 'Chat fijado arriba' : 'Chat desfijado'); }
+    else if (a === 'r') rename(d, c);
    else if (!e.target.closest('input')) open(c); };
   d.ondblclick = e => { if (!e.target.closest('input')) rename(d, c); };
   l.append(d);
@@ -468,7 +508,7 @@ function fill(el, m) {
  if (m.streaming) h = m.content ? h + '<span class="cur"></span>' : '<div class="sk"><i></i><i></i><i></i></div>';
  el._m = m; el.innerHTML = h; enhance(el);
  if (m.error) { const d = document.createElement('div'); d.className = 'err'; d.innerHTML = '<b>Error:</b> <span></span><button class="rt">Reintentar</button>'; d.querySelector('span').textContent = m.error; el.append(d); }
- if (!m.streaming && m.content && !m.error) { const a = document.createElement('div'); a.className = 'acts';
+ if (!m.streaming && m.content && !m.error && !m.noacts) { const a = document.createElement('div'); a.className = 'acts';
   a.innerHTML = `<button class="act" data-x="copy">${ico('copy', 14)}Copiar</button><button class="act${m.fav ? ' on' : ''}" data-x="fav">${ico('star', 14)}Favorito</button>${'speechSynthesis' in window ? `<button class="act" data-x="tts">${ico('vol', 14)}Escuchar</button>` : ''}`;
   if (m.model) { const t = document.createElement('span'); t.className = 'mdl'; t.textContent = m.model; a.append(t); }
   el.append(a); }
@@ -479,7 +519,9 @@ function msgEl(m) {
  const d = document.createElement('div'); d.className = 'm ' + m.role;
  if (m.role === 'user') { d.innerHTML = '<div class="ub"></div>'; d.firstChild.textContent = m.content;
   if (m.imgs?.length) { const g = document.createElement('div'); g.className = 'ui'; m.imgs.forEach(u => { const i = new Image(); i.src = u; i.alt = 'Imagen adjunta'; g.append(i); }); d.firstChild.prepend(g); }
-  else if (m.nimg) { const n = document.createElement('div'); n.className = 'ni'; n.textContent = '🖼 ' + m.nimg + (m.nimg === 1 ? ' imagen adjunta' : ' imágenes adjuntas') + ' (no se guardan)'; d.firstChild.prepend(n); } }
+  else if (m.nimg) { const n = document.createElement('div'); n.className = 'ni'; n.textContent = '🖼 ' + m.nimg + (m.nimg === 1 ? ' imagen adjunta' : ' imágenes adjuntas') + ' (no se guardan)'; d.firstChild.prepend(n); }
+  if (m.files?.length) { const g = document.createElement('div'); g.className = 'uf'; m.files.forEach(f => { const c = document.createElement('span'); c.className = 'fc'; c.textContent = '📄 ' + f.name; g.append(c); }); d.firstChild.prepend(g); }
+  const eb = document.createElement('button'); eb.className = 'ued'; eb.title = 'Editar y regenerar'; eb.innerHTML = ico('pen', 14); eb.onclick = () => editMsg(d, m); d.prepend(eb); }
  else { d.innerHTML = `<div class="av">${sprite(18)}</div><div class="md"></div>`; fill(d.querySelector('.md'), m); }
  return d;
 }
@@ -514,20 +556,20 @@ $('#mbtn').onclick = e => {
 };
 
 /* ============ ENVÍO + STREAMING ============ */
-function setSend() { const b = $('#send'); b.innerHTML = busy ? ico('stop', 16) : ico('up', 17); b.disabled = !busy && !$('#in').value.trim() && !pend.length; b.title = busy ? 'Detener' : 'Enviar'; }
-async function send(text, imgsArg) {
- const fromUI = text === undefined, imgs = imgsArg ?? (fromUI ? pend.slice() : []);
- text = (text ?? $('#in').value).trim(); if (!text && imgs.length) text = 'Describe esta imagen.';
+function setSend() { const b = $('#send'); b.innerHTML = busy ? ico('stop', 16) : ico('up', 17); b.disabled = !busy && !$('#in').value.trim() && !pend.length && !pendF.length; b.title = busy ? 'Detener' : 'Enviar'; }
+async function send(text, imgsArg, filesArg) {
+ const fromUI = text === undefined, imgs = imgsArg ?? (fromUI ? pend.slice() : []), files = filesArg ?? (fromUI ? pendF.slice() : []);
+ text = (text ?? $('#in').value).trim(); if (!text && (imgs.length || files.length)) text = imgs.length ? 'Describe esta imagen.' : 'Analiza este archivo.';
  if (!text || busy) return; micStop(false);
  if (!cur) { cur = { id: uid(), title: 'Nueva conversación', msgs: [], t: Date.now(), model: modelKey }; chats.push(cur); }
  const c = cur, a = { role: 'assistant', content: '', streaming: true };
  if (!c.msgs.length) c.title = text.replace(/\s+/g, ' ').slice(0, 45);
- c.msgs.push(imgs.length ? { role: 'user', content: text, imgs } : { role: 'user', content: text }, a); c.model = modelKey; c.t = Date.now();
- $('#in').value = ''; if (fromUI) { pend = []; renderPrev(); } autosize(); busy = true; stopReq = false; setSend();
+ const um = { role: 'user', content: text }; if (imgs.length) um.imgs = imgs; if (files.length) um.files = files; c.msgs.push(um, a); c.model = modelKey; c.t = Date.now();
+ $('#in').value = ''; if (fromUI) { pend = []; pendF = []; renderPrev(); } autosize(); busy = true; stopReq = false; setSend();
  renderChat(); renderList(); scrollEnd(true);
  const el = () => $('#msgs').lastElementChild?.querySelector('.md');
  const paint = () => { if (raf) return; raf = requestAnimationFrame(() => { raf = 0; if (cur === c && el()) { fill(el(), a); scrollEnd(); } }); };
- const history = [{ role: 'system', content: buildSystem() }, ...c.msgs.slice(0, -1).map(({ role, content, imgs }) => ({ role, content: imgs?.length ? [{ type: 'text', text: content }, ...imgs.map(u => ({ type: 'image_url', image_url: { url: u } }))] : content }))];
+ const history = [{ role: 'system', content: buildSystem() }, ...c.msgs.slice(0, -1).map(({ role, content, imgs, files }) => { const t = files?.length ? content + files.map(f => '\n\n[Archivo: ' + f.name + ']\n```\n' + f.text + '\n```').join('') : content; return { role, content: imgs?.length ? [{ type: 'text', text: t }, ...imgs.map(u => ({ type: 'image_url', image_url: { url: u } }))] : t }; })];
  const hasImg = c.msgs.some(m => m.imgs?.length);
  const cands = hasImg ? [...new Set([...(model().vision ? model().ids : []), ...visionIds()])] : model().ids; let last = null, lastId = '';
  ctl = new AbortController();
@@ -568,7 +610,7 @@ async function streamChat(url, model, messages, a, paint, signal) {
  }
  if (!a.content) throw new Error('El modelo no devolvió respuesta.');
 }
-function retry() { if (busy || !cur) return; cur.msgs.pop(); const u = cur.msgs.pop(); if (u) send(u.content, u.imgs); }
+function retry() { if (busy || !cur) return; cur.msgs.pop(); const u = cur.msgs.pop(); if (u) send(u.content, u.imgs, u.files); }
 
 /* ============ ENTRADA ============ */
 const inp = $('#in');
@@ -613,10 +655,12 @@ const shrink = f => new Promise((ok, no) => {
  i.onerror = () => { URL.revokeObjectURL(u); no(); }; i.src = u;
 });
 function renderPrev() {
- const p = $('#prev'); p.innerHTML = ''; p.classList.toggle('hide', !pend.length);
+ const p = $('#prev'); p.innerHTML = ''; p.classList.toggle('hide', !pend.length && !pendF.length);
  pend.forEach((u, n) => { const d = document.createElement('div'); d.className = 'th'; d.innerHTML = '<img alt="Imagen adjunta"><button title="Quitar"></button>';
   d.querySelector('img').src = u; d.querySelector('button').innerHTML = ico('x', 11);
   d.querySelector('button').onclick = () => { pend.splice(n, 1); renderPrev(); }; p.append(d); });
+ pendF.forEach((f, n) => { const d = document.createElement('div'); d.className = 'fc'; const sp = document.createElement('span'); sp.textContent = '📄 ' + f.name;
+  const b = document.createElement('button'); b.title = 'Quitar'; b.innerHTML = ico('x', 11); b.onclick = () => { pendF.splice(n, 1); renderPrev(); }; d.append(sp, b); p.append(d); });
  setSend();
 }
 async function addImgs(files) {
@@ -632,10 +676,10 @@ async function addImgs(files) {
 }
 $('#attach').innerHTML = ico('img', 17);
 $('#attach').onclick = () => { if (busy) return; $('#file').click(); };
-$('#file').onchange = e => { addImgs(e.target.files); e.target.value = ''; };
+$('#file').onchange = e => { addFiles(e.target.files); e.target.value = ''; };
 inp.addEventListener('paste', e => { const fs = [...(e.clipboardData?.files || [])].filter(f => f.type.startsWith('image/')); if (fs.length) { e.preventDefault(); addImgs(fs); } });
 $('#comp').addEventListener('dragover', e => e.preventDefault());
-$('#comp').addEventListener('drop', e => { if (e.dataTransfer?.files?.length) { e.preventDefault(); addImgs(e.dataTransfer.files); } });
+$('#comp').addEventListener('drop', e => { if (e.dataTransfer?.files?.length) { e.preventDefault(); addFiles(e.dataTransfer.files); } });
 
 /* ============ EXTRAS: buscar, exportar, escuchar, atajos ============ */
 $('#q').oninput = renderList;
@@ -663,6 +707,88 @@ document.addEventListener('keydown', e => {
  if (e.key === 'k') { e.preventDefault(); $('#new').click(); }
  else if (e.key === ',') { e.preventDefault(); stShow(true); }
 });
+
+/* ============ ARCHIVOS DE TEXTO / CÓDIGO ============ */
+const MAXF = 3, MAXC = 40000;
+const TEXT_EXT = /\.(txt|md|markdown|json|csv|tsv|log|js|jsx|mjs|ts|tsx|py|java|c|h|cpp|hpp|cs|go|rs|php|rb|sh|bash|sql|html|htm|css|scss|xml|yml|yaml|toml|ini|env|kt|swift|dart|lua|r|vue|svelte)$/i;
+const isTextFile = f => f.type.startsWith('text/') || /json|xml|javascript|typescript|x-sh|yaml/.test(f.type) || TEXT_EXT.test(f.name);
+async function addDocs(files) {
+ for (const f of files) {
+  if (pendF.length >= MAXF) { toast('Máximo ' + MAXF + ' archivos por mensaje'); break; }
+  if (f.size > 1e6) { toast(f.name + ' supera 1 MB'); continue; }
+  try {
+   let t = await f.text();
+   if (t.slice(0, 2000).includes('\u0000')) { toast(f.name + ' no parece un archivo de texto'); continue; }
+   if (t.length > MAXC) { t = t.slice(0, MAXC) + '\n… [archivo recortado]'; toast(f.name + ' se recortó a ' + MAXC / 1000 + ' mil caracteres'); }
+   pendF.push({ name: f.name.slice(0, 80), text: t });
+  } catch { toast('No se pudo leer ' + f.name); }
+ }
+ renderPrev();
+}
+function addFiles(files) {
+ files = [...files]; const im = files.filter(f => f.type.startsWith('image/')), dc = files.filter(f => !f.type.startsWith('image/') && isTextFile(f));
+ if (files.length && !im.length && !dc.length) toast('Tipo de archivo no admitido (usa imágenes, texto o código)');
+ if (im.length) addImgs(im); if (dc.length) addDocs(dc);
+}
+
+/* ============ EDITAR MENSAJE Y REGENERAR ============ */
+function editMsg(d, m) {
+ if (busy) return toast('Espera a que termine la respuesta');
+ const i = cur ? cur.msgs.indexOf(m) : -1; if (i < 0) return;
+ d.innerHTML = ''; const w = document.createElement('div'); w.className = 'edit';
+ const t = document.createElement('textarea'); t.value = m.content;
+ const row = document.createElement('div'); row.className = 'er';
+ const no = document.createElement('button'); no.className = 'ghost'; no.textContent = 'Cancelar';
+ const ok = document.createElement('button'); ok.className = 'sv'; ok.textContent = 'Guardar y regenerar';
+ const grow = () => { t.style.height = 'auto'; t.style.height = Math.min(t.scrollHeight, 260) + 'px'; };
+ const go = () => { const txt = t.value.trim(); if (!txt || busy) return; const im = m.imgs || [], fl = m.files || []; cur.msgs.splice(i); renderChat(); send(txt, im, fl); };
+ no.onclick = () => renderChat(); ok.onclick = go; t.oninput = grow;
+ t.onkeydown = e => { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); go(); } else if (e.key === 'Escape') { e.stopPropagation(); renderChat(); } };
+ row.append(no, ok); w.append(t, row); d.append(w); grow(); t.focus(); t.setSelectionRange(t.value.length, t.value.length);
+}
+
+/* ============ COMPARAR MODELOS ============ */
+let cpCtl = [], cpBusy = false;
+function cpFill() {
+ ['#cpa', '#cpb'].forEach(sel => {
+  const s = $(sel), prev = s.value; s.innerHTML = '';
+  MODELS.forEach(m => { const o = document.createElement('option'); o.value = m.k; o.textContent = m.name; s.append(o); });
+  if (MODELS.some(m => m.k === prev)) s.value = prev;
+ });
+ if (!$('#cpa').dataset.init) { $('#cpa').dataset.init = 1; $('#cpa').value = modelKey; $('#cpb').value = (MODELS.find(m => m.k !== modelKey) || MODELS[0]).k; }
+}
+const cpShow = on => { $('#cmp').classList.toggle('hide', !on); if (on) { toggleSide(false); cpFill(); $('#cpin').focus(); } };
+async function runOne(mod, history, a, paint, signal) {
+ let last = null;
+ outer: for (const id of mod.ids) for (const url of ENDPOINTS) {
+  try { await streamChat(url, id, history, a, paint, signal); last = null; break outer; }
+  catch (e) { last = e; if (signal.aborted || a.content || e.status === 429) break outer; }
+ }
+ if (last && !signal.aborted) throw last;
+}
+async function cpRun() {
+ const text = $('#cpin').value.trim(); if (!text || cpBusy) return;
+ cpBusy = true; $('#cpgo').classList.add('hide'); $('#cpstop').classList.remove('hide');
+ cpCtl = [new AbortController(), new AbortController()];
+ const history = [{ role: 'system', content: buildSystem() }, { role: 'user', content: text }];
+ await Promise.all([['#cpa', '#cpra', 0], ['#cpb', '#cprb', 1]].map(async ([sel, out, i]) => {
+  const mod = MODELS.find(m => m.k === $(sel).value) || MODELS[0], el = $(out), a = { role: 'assistant', content: '', streaming: true, noacts: true };
+  el.classList.remove('cer'); let raf = 0; const paint = () => { if (!raf) raf = requestAnimationFrame(() => { raf = 0; fill(el, a); }); };
+  fill(el, a);
+  try { await runOne(mod, history, a, paint, cpCtl[i].signal); }
+  catch (e) { cancelAnimationFrame(raf); if (!a.content) { el.classList.add('cer'); el.textContent = e.status === 429 ? 'Límite del servicio gratuito alcanzado. Espera unos segundos.' : errMsg(e); return; } }
+  cancelAnimationFrame(raf); a.streaming = false;
+  if (!a.content) { el.classList.add('cer'); el.textContent = 'Detenido.'; return; }
+  fill(el, a);
+ }));
+ cpBusy = false; $('#cpgo').classList.remove('hide'); $('#cpstop').classList.add('hide');
+}
+$('#cpbtn').onclick = () => cpShow(true);
+$('#cpclose').onclick = () => cpShow(false);
+$('#cpgo').onclick = cpRun;
+$('#cpstop').onclick = () => cpCtl.forEach(c => c.abort());
+$('#cpin').onkeydown = e => { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); cpRun(); } };
+document.addEventListener('keydown', e => { if (e.key === 'Escape' && !$('#cmp').classList.contains('hide') && $('#cm').classList.contains('hide')) cpShow(false); });
 
 /* ============ ARRANQUE ============ */
 // Se ejecuta al final, cuando todo ya está definido: restaura la sesión guardada.
