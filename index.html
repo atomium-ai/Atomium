@@ -221,6 +221,41 @@ svg.alien{overflow:visible}
 .cpbar{display:flex;gap:10px;align-items:flex-end;padding:14px 28px;border-top:1px solid var(--bd);background:var(--bar)}
 .cpbar textarea{flex:1;background:var(--inp);border:1px solid var(--bd);border-radius:12px;padding:10px 14px;font-size:15px;min-height:46px;max-height:140px;resize:none}
 .cpbar textarea:focus{border-color:var(--ac)}
+
+/* modelos locales en el selector */
+.gh{padding:8px 10px 4px;font-size:10.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--mu)}
+.pn2{padding:4px 10px 6px;font-size:11px;color:var(--mu);line-height:1.4}
+.mo:disabled{opacity:.5;cursor:not-allowed}.mo:disabled:hover{background:none}
+.pbar{display:none;height:3px;border-radius:2px;background:var(--b4);margin-top:6px;overflow:hidden}.pbar i{display:block;height:100%;width:0;background:var(--ac);transition:width .2s}
+.tag.ok{background:#1f3a2a;color:#7fd99a}.tag.ld{background:#3a331f;color:#e6c46a}.tag.er{background:#3a1f1f;color:#f07178}.tag.na{opacity:.75}
+[data-theme=light] .tag.ok{background:#dff3e5;color:#1f7a3c}[data-theme=light] .tag.ld{background:#f6ecc9;color:#8a6a00}[data-theme=light] .tag.er{background:#fbe0e0;color:#b3261e}
+/* pantalla de bienvenida */
+#welcome{position:fixed;inset:0;z-index:90;background:var(--bg);color:var(--tx);display:flex;overflow-x:hidden;overflow-y:auto}
+.wglow{position:absolute;left:50%;top:42%;width:min(900px,120vw);aspect-ratio:1;transform:translate(-50%,-50%);background:radial-gradient(closest-side,#f65f4a26,#f65f4a00);pointer-events:none;animation:wgl 7s ease-in-out infinite}
+.wm{position:relative;margin:auto;display:flex;flex-direction:column;align-items:center;text-align:center;padding:32px 20px;width:100%}
+.wscene{width:min(560px,86vw);height:auto;overflow:visible;animation:wsc 1s cubic-bezier(.2,.8,.2,1) both}
+.wscene .dk{fill:var(--b4)}
+#welcome h1{font:300 clamp(38px,7.2vw,76px)/1.04 Newsreader,Georgia,serif;letter-spacing:-.015em;margin-top:clamp(18px,4vh,36px)}
+#welcome h1 span{display:inline-block;animation:wup .8s cubic-bezier(.2,.8,.2,1) both;animation-delay:calc(.35s + var(--i) * .12s)}
+.wsub{color:var(--mu);font:400 clamp(16px,2.2vw,20px)/1.4 Newsreader,Georgia,serif;margin-top:14px;animation:wup .8s .85s both}
+.wbtn{margin-top:clamp(24px,5vh,40px);display:inline-flex;align-items:center;gap:10px;padding:15px 44px;border-radius:999px;background:var(--ac2);color:#fff;font-size:17px;font-weight:500;box-shadow:0 8px 24px #f65f4a40;transition:transform .2s,box-shadow .2s,filter .2s;animation:wup .8s 1.05s both}
+.wbtn:hover{transform:translateY(-2px);box-shadow:0 12px 30px #f65f4a66;filter:brightness(1.06)}.wbtn:active{transform:scale(.97)}
+.wbtn svg{transition:transform .2s}.wbtn:hover svg{transform:translateX(4px)}.wbtn:focus-visible{outline:3px solid var(--ac);outline-offset:3px}
+#welcome.leave{animation:wleave .65s ease forwards;pointer-events:none}
+@keyframes wsc{from{opacity:0;transform:translateY(26px) scale(.94)}}
+@keyframes wup{from{opacity:0;transform:translateY(18px)}}
+@keyframes wgl{50%{opacity:.6;transform:translate(-50%,-50%) scale(1.08)}}
+@keyframes wleave{to{opacity:0;transform:scale(1.06);filter:blur(6px)}}
+@keyframes wtype{0%{transform:scaleX(0)}35%,88%{transform:scaleX(1)}100%{transform:scaleX(0)}}
+@keyframes wsp{0%,100%{opacity:0;transform:translateY(1px)}50%{opacity:1;transform:translateY(-1px)}}
+@keyframes wst{0%{opacity:0;transform:translateY(.6px)}40%{opacity:.8}100%{opacity:0;transform:translateY(-1.2px)}}
+@keyframes wtp{50%{transform:translateY(-.3px)}}
+.wl .ln{transform-box:fill-box;transform-origin:0 50%;animation:wtype 4.8s steps(8) infinite}
+.wl .l2{animation-delay:.6s}.wl .l3{animation-delay:1.2s}.wl .l4{animation-delay:1.8s}
+.wl .cur2{animation:blink 1s steps(1) infinite}
+.wl .sp{animation:wsp 3s ease-in-out infinite}.wl .st{animation:wst 2.4s ease-out infinite}
+.wl .aR{animation:wtp .5s steps(2) infinite}
+@media(prefers-reduced-motion:reduce){#welcome *{animation:none!important;transition:none!important}}
 </style>
 </head>
 <body>
@@ -286,6 +321,26 @@ svg.alien{overflow:visible}
 <div id="cm" class="hide"><div class="cmb"><h3>¿Borrar todos los chats?</h3><p id="cmtxt"></p><div class="cmx"><button class="ghost" id="cmno">Cancelar</button><button class="danger" id="cmyes">Sí, borrar todo</button></div></div></div>
 
 <div id="toast"></div>
+<!-- BIENVENIDA -->
+<div id="welcome" role="dialog" aria-modal="true" aria-labelledby="wt">
+ <div class="wglow"></div>
+ <main class="wm">
+  <svg class="wscene alien wl" viewBox="0 -2 32 17" shape-rendering="crispEdges" role="img" aria-label="Un alienígena escribiendo en una laptop">
+   <rect class="dk" x="0" y="14" width="32" height="1"/>
+   <rect class="dk" x="12" y="10" width="19" height="1"/><rect class="dk" x="13" y="11" width="1" height="3"/><rect class="dk" x="29" y="11" width="1" height="3"/>
+   <path class="sp" d="M17 -2h1v3h-1zM16 -1h3v1h-3z" fill="#f65f4a"/><path class="sp" style="animation-delay:1s" d="M24 -1h1v3h-1zM23 0h3v1h-3z" fill="#f65f4a"/><path class="sp" style="animation-delay:2s" d="M28 1h1v2h-1zM27.5 1.5h2v1h-2z" fill="#cfcac3"/>
+   <rect x="14" y="1" width="12" height="8" fill="#2b2b2b"/><rect x="15" y="2" width="10" height="6" fill="#121212"/>
+   <rect class="ln l1" x="16" y="3.75" width="3" height=".5" fill="#f65f4a"/><rect class="ln l2" x="16" y="4.75" width="7" height=".5" fill="#cfcac3"/><rect class="ln l3" x="16" y="5.75" width="5" height=".5" fill="#cfcac3"/><rect class="ln l4" x="16" y="6.75" width="6" height=".5" fill="#cfcac3"/><rect class="cur2" x="22.5" y="6.75" width=".5" height=".5" fill="#f65f4a"/>
+   <rect x="13" y="9" width="14" height="1" fill="#8e8a84"/>
+   <rect x="28" y="8" width="2" height="2" fill="#e8e4dd"/><rect x="28" y="8" width="2" height=".5" fill="#f65f4a"/><rect x="30" y="8.5" width="1" height="1" fill="#e8e4dd"/>
+   <rect class="st" x="28.5" y="6.5" width=".5" height="1" fill="#9a9a9a"/><rect class="st" style="animation-delay:.9s" x="29.2" y="6" width=".5" height="1" fill="#9a9a9a"/>
+   <g transform="translate(1,6)"><g class="al"><g class="ab"><path class="aL" d="M0 2h2v2H0z" fill="#f65f4a"/><path class="aR" d="M10 2h2v2h-2z" fill="#f65f4a"/><path d="M2 0h8v6H2zM2 6h1v2H2zM4 6h1v2H4zM7 6h1v2H7zM9 6h1v2H9z" fill="#f65f4a"/><rect class="ae" x="4" y="1" width="1" height="1" fill="#111"/><rect class="ae" x="9" y="1" width="1" height="1" fill="#111"/></g></g></g>
+  </svg>
+  <h1 id="wt"></h1>
+  <p class="wsub" id="wsub"></p>
+  <button class="wbtn" id="wgo"><span></span><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button>
+ </main>
+</div>
 <script>
 'use strict';
 /* ============ CONFIG ============ */
@@ -295,6 +350,17 @@ const MODELS = [
  {k:'openai', name:'Solara', by:'GPT', d:'Modelo GPT principal, equilibrado y preciso', ids:['openai']},
  {k:'fast', name:'GPT Fast', by:'GPT', d:'Modelo GPT con respuestas más rápidas', ids:['openai-fast']}
 ];
+// Modelos locales (WebLLM, se ejecutan en el navegador con WebGPU). 'base' = nombre en el catálogo de WebLLM; la variante exacta (q4f16/q4f32) se elige y valida en tiempo de ejecución.
+const WEBLLM_URL = 'https://esm.run/@mlc-ai/web-llm';
+const LOCAL_MODELS = [
+ {k:'local-smollm2', name:'SmolLM2 360M', by:'Local', d:'Ultraligero (360M). Respuestas básicas y muy rápidas.', base:'SmolLM2-360M-Instruct'},
+ {k:'local-llama1b', name:'Llama 3.2 1B', by:'Local', d:'Pequeño y equilibrado (1B). Bueno para tareas sencillas.', base:'Llama-3.2-1B-Instruct'},
+ {k:'local-qwen15', name:'Qwen 2.5 1.5B', by:'Local', d:'Más capaz con código y razonamiento (1.5B).', base:'Qwen2.5-1.5B-Instruct'},
+ {k:'local-llama3b', name:'Llama 3.2 3B', by:'Local', d:'El más capaz de los locales (3B). Necesita más memoria.', base:'Llama-3.2-3B-Instruct'}
+];
+LOCAL_MODELS.forEach(m => MODELS.push({ ...m, ids: [], local: true }));
+// Pantalla de bienvenida
+const WELCOME = { title: 'Bienvenido a Atomium', sub: 'Tu compañero de ideas para grandes ambiciones', cta: 'Entrar', leaveMs: 650 };
 const SYSTEM = 'Eres Atomium Code, un asistente de IA útil y preciso, experto en programación. Responde en el idioma del usuario, usa Markdown y escribe el código siempre en bloques con el lenguaje indicado.';
 
 const PLUGINS = [
@@ -364,6 +430,92 @@ async function loadModels() {
  } catch (e) { console.warn('No se pudo actualizar la lista de modelos', e); }
 }
 loadModels();
+
+/* ============ MODELOS LOCALES (WebLLM + WebGPU) ============ */
+const LOC = { lib: null, libP: null, engine: null, wid: null, key: null, loading: null, pend: {}, gpu: null, state: {}, okc: new Set(), ready: new Set(ls('localReady') || []) };
+async function detectGpu() {
+ try {
+  if (!navigator.gpu) return { ok: false, why: 'Tu navegador no tiene WebGPU (usa Chrome o Edge 113 o superior).' };
+  const ad = await navigator.gpu.requestAdapter();
+  if (!ad) return { ok: false, why: 'No se encontró una GPU compatible con WebGPU.' };
+  return { ok: true, feat: [...ad.features] };
+ } catch { return { ok: false, why: 'WebGPU no está disponible en este navegador.' }; }
+}
+LOC.gpuP = detectGpu().then(g => {
+ LOC.gpu = g;
+ if (!g.ok && model().local) { modelKey = MODELS[0].k; ls('model', modelKey); toast('Los modelos locales no están disponibles aquí. Usando ' + model().name + '.'); }
+ renderModelBtn(); updPop();
+});
+function setLoc(k, st) { LOC.state[k] = st; renderModelBtn(); updPop(); }
+function localLib() {
+ if (LOC.lib) return Promise.resolve(LOC.lib);
+ return LOC.libP || (LOC.libP = import(WEBLLM_URL).then(async lib => { await LOC.gpuP; resolveLocal(lib); LOC.lib = lib; return lib; })
+  .catch(() => { LOC.libP = null; throw new Error('No se pudo cargar el motor de modelos locales (¿sin conexión?).'); }));
+}
+// Valida cada modelo contra el catálogo real de la biblioteca y las capacidades de la GPU; los que no existan o no sean compatibles se ocultan.
+function resolveLocal(lib) {
+ const list = lib.prebuiltAppConfig?.model_list || [], feat = new Set(LOC.gpu?.feat || []);
+ LOCAL_MODELS.forEach(lm => {
+  const m = MODELS.find(x => x.k === lm.k), e = ['q4f16_1', 'q4f32_1'].map(q => list.find(x => x.model_id === lm.base + '-' + q + '-MLC'))
+   .find(x => x && (x.required_features || []).every(f => feat.has(f)));
+  m.gone = !e; m.wid = e?.model_id || null; m.mb = e?.vram_required_MB || null;
+ });
+ const cm = model(); if (cm.local && cm.gone) { modelKey = MODELS[0].k; ls('model', modelKey); toast(cm.name + ' no está disponible en este dispositivo.'); }
+ renderModelBtn(); if (!$('#pop').classList.contains('hide')) buildPop();
+}
+async function localConsent(m, lib) {
+ if (LOC.ready.has(m.k) || LOC.okc.has(m.k)) return true;
+ try { if (await lib.hasModelInCache?.(m.wid)) { LOC.ready.add(m.k); return true; } } catch {}
+ if (!navigator.onLine) throw new Error('Sin conexión: este modelo aún no está descargado.');
+ const gb = m.mb ? ' (necesita unos ' + (m.mb / 1024).toFixed(1) + ' GB de memoria de GPU)' : '', low = navigator.deviceMemory && navigator.deviceMemory <= 4 ? '\n\nTu dispositivo parece tener poca memoria: podría ir lento o fallar.' : '';
+ const ok = confirm(m.name + ' se ejecuta en tu dispositivo, sin enviar tus mensajes a ningún servidor.\n\nLa primera vez se descarga el modelo' + gb + ' y puede tardar varios minutos. Requiere un navegador con WebGPU.' + low + '\n\n¿Descargar y usar?');
+ if (ok) LOC.okc.add(m.k); return ok;
+}
+function ensureLocal(m) { return LOC.pend[m.k] || (LOC.pend[m.k] = doEnsure(m).finally(() => { delete LOC.pend[m.k]; })); }
+async function doEnsure(m) {
+ await LOC.gpuP; if (!LOC.gpu.ok) throw new Error(LOC.gpu.why);
+ const lib = await localLib(); if (m.gone) throw new Error('Este modelo local no está disponible en tu dispositivo.');
+ if (LOC.engine && LOC.wid === m.wid) return LOC.engine;
+ if (LOC.loading) { try { await LOC.loading; } catch {} if (LOC.engine && LOC.wid === m.wid) return LOC.engine; }
+ if (!(await localConsent(m, lib))) throw new Error('Descarga cancelada.');
+ const p = (async () => {
+  setLoc(m.k, { s: 'loading', p: 0 });
+  try {
+   if (LOC.engine) { const old = LOC.engine, ok = LOC.key; LOC.engine = null; LOC.wid = null; LOC.key = null; LOC.state[ok] = { s: 'idle' }; try { await old.unload(); } catch {} }
+   const eng = await lib.CreateMLCEngine(m.wid, { initProgressCallback: r => setLoc(m.k, { s: 'loading', p: r.progress || 0, t: r.text || '' }) });
+   LOC.engine = eng; LOC.wid = m.wid; LOC.key = m.k; LOC.ready.add(m.k); ls('localReady', [...LOC.ready]); setLoc(m.k, { s: 'ready' }); return eng;
+  } catch (e) { setLoc(m.k, { s: 'error', t: String(e?.message || e) }); throw e; }
+ })();
+ LOC.loading = p; try { return await p; } finally { if (LOC.loading === p) LOC.loading = null; }
+}
+// Comprueba y prepara un modelo local al elegirlo; devuelve true si se puede seleccionar.
+async function localPrepare(m) {
+ try {
+  await LOC.gpuP; if (!LOC.gpu.ok) { toast(LOC.gpu.why); return false; }
+  if (!LOC.lib) toast('Preparando el motor local…');
+  const lib = await localLib(); if (m.gone) { toast(m.name + ' no está disponible en tu dispositivo.'); return false; }
+  if (!(await localConsent(m, lib))) return false;
+ } catch (e) { toast(e.message); return false; }
+ ensureLocal(m).catch(e => toast('No se pudo cargar ' + m.name + ': ' + (e.message || e)));
+ return true;
+}
+function trimHist(msgs, max = 9000) {
+ const flat = msgs.map(x => ({ role: x.role, content: Array.isArray(x.content) ? x.content.filter(p => p.type === 'text').map(p => p.text).join('\\n') : x.content }));
+ const sys = flat[0]?.role === 'system' ? flat.shift() : null; let n = sys ? sys.content.length : 0; const keep = [];
+ for (let i = flat.length - 1; i >= 0; i--) { let c = flat[i].content; if (n + c.length > max) { if (keep.length) break; c = c.slice(-Math.max(500, max - n)); } keep.unshift({ role: flat[i].role, content: c }); n += c.length; }
+ return sys ? [sys, ...keep] : keep;
+}
+async function localChat(m, messages, a, paint, signal) {
+ const abort = new Promise((_, rej) => signal.addEventListener('abort', () => rej(new Error('Detenido')), { once: true })); abort.catch(() => {});
+ let eng; try { eng = await Promise.race([ensureLocal(m), abort]); } catch (e) { if (signal.aborted) return; throw e; }
+ const stop = () => { try { eng.interruptGenerate(); } catch {} };
+ signal.addEventListener('abort', stop, { once: true });
+ try {
+  const stream = await eng.chat.completions.create({ messages: trimHist(messages), stream: true, temperature: 0.7, max_tokens: 1024 });
+  for await (const ch of stream) { if (signal.aborted) break; const d = ch.choices?.[0]?.delta?.content; if (d) { a.content += d; paint(); } }
+ } finally { signal.removeEventListener('abort', stop); }
+ if (!a.content && !signal.aborted) throw new Error('El modelo no devolvió respuesta.');
+}
 
 /* ============ SESIÓN LOCAL ============ */
 function startSession(u) { user = u; initApp(); }
@@ -539,20 +691,55 @@ function renderChat() {
 const scrollEnd = force => { const s = $('#scroll'); if (force || s.scrollHeight - s.scrollTop - s.clientHeight < 140) s.scrollTop = s.scrollHeight; };
 
 /* ============ SELECTOR DE MODELOS ============ */
-function renderModelBtn() { $('#mbtn').innerHTML = `${sprite(14)}<span>${model().name}</span>${ico('down', 13)}`; }
+function locInfo(m) { // estado visible de un modelo local
+ if (LOC.gpu && !LOC.gpu.ok) return { t: 'No disponible', c: 'na', off: true, why: LOC.gpu.why };
+ const s = LOC.state[m.k] || {};
+ if (s.s === 'loading') return { t: 'Cargando ' + Math.round((s.p || 0) * 100) + '%', c: 'ld', p: s.p || 0, why: s.t };
+ if (s.s === 'ready') return { t: 'Listo', c: 'ok' };
+ if (s.s === 'error') return { t: 'Error', c: 'er', why: s.t };
+ return LOC.ready.has(m.k) ? { t: 'Descargado', c: 'ok' } : { t: 'Requiere descarga', c: '' };
+}
+function renderModelBtn() {
+ const m = model(), i = m.local ? locInfo(m) : null, b = $('#mbtn');
+ b.innerHTML = `${sprite(14)}<span></span>${ico('down', 13)}`;
+ b.querySelector('span').textContent = m.name + (i && i.p !== undefined ? ' · ' + Math.round(i.p * 100) + '%' : i && i.c === 'er' ? ' · error' : '');
+}
+function fillRow(b, m) {
+ const on = navigator.onLine, i = m.local ? locInfo(m) : { t: on ? m.by : 'Sin conexión', c: on ? '' : 'na' }, t = b.querySelector('.tag');
+ t.textContent = i.t; t.className = 'tag ' + (i.c || ''); b.disabled = !!i.off; b.title = i.why || '';
+ const bar = b.querySelector('.pbar'); if (bar) { bar.style.display = i.p !== undefined ? 'block' : 'none'; bar.firstChild.style.width = Math.round((i.p || 0) * 100) + '%'; }
+}
+function buildPop() {
+ const p = $('#pop'); p.innerHTML = '';
+ const grp = (label, list, note) => {
+  if (!list.length) return;
+  const h = document.createElement('div'); h.className = 'gh'; h.textContent = label; p.append(h);
+  list.forEach(m => {
+   const b = document.createElement('button'); b.className = 'mo' + (m.k === modelKey ? ' on' : ''); b.dataset.k = m.k;
+   b.innerHTML = `<div><b></b><small></small>${m.local ? '<div class="pbar"><i></i></div>' : ''}</div><span class="tag"></span>${m.k === modelKey ? ico('check', 15) : ''}`;
+   b.querySelector('b').textContent = m.name; b.querySelector('small').textContent = m.d; fillRow(b, m);
+   b.onclick = async () => {
+    p.classList.add('hide');
+    if (m.local && !(await localPrepare(m))) return;
+    modelKey = m.k; ls('model', m.k); renderModelBtn(); toast('Modelo: ' + m.name); $('#in').focus();
+   };
+   p.append(b);
+  });
+  if (note) { const n = document.createElement('div'); n.className = 'pn2'; n.textContent = note; p.append(n); }
+ };
+ grp('En línea · gratis, sin clave', MODELS.filter(m => !m.local));
+ grp('En tu dispositivo · privado', MODELS.filter(m => m.local && !m.gone), 'Se ejecutan en tu GPU: descarga única, requieren WebGPU (Chrome o Edge), memoria suficiente y algo de paciencia.');
+ const f = document.createElement('div'); f.className = 'pf'; f.textContent = modelsUpdated ? 'Lista actualizada: ' + modelsUpdated.toLocaleDateString() : 'Lista base (sin conexión al catálogo)'; p.append(f);
+}
+function updPop() {
+ const p = $('#pop'); if (!p || p.classList.contains('hide')) return;
+ p.querySelectorAll('.mo[data-k]').forEach(b => { const m = MODELS.find(x => x.k === b.dataset.k); if (m) fillRow(b, m); });
+}
+addEventListener('online', updPop); addEventListener('offline', updPop);
 $('#mbtn').onclick = e => {
  e.stopPropagation(); const p = $('#pop');
  if (!p.classList.contains('hide')) return p.classList.add('hide');
- p.innerHTML = '';
- MODELS.forEach(m => {
-  const b = document.createElement('button'); b.className = 'mo' + (m.k === modelKey ? ' on' : '');
-  b.innerHTML = `<div><b></b><small></small></div><span class="tag"></span>${m.k === modelKey ? ico('check', 15) : ''}`;
-  b.querySelector('b').textContent = m.name; b.querySelector('small').textContent = m.d; b.querySelector('.tag').textContent = m.by;
-  b.onclick = () => { modelKey = m.k; ls('model', m.k); renderModelBtn(); toast('Modelo: ' + m.name); p.classList.add('hide'); $('#in').focus(); };
-  p.append(b);
- });
- const f = document.createElement('div'); f.className = 'pf'; f.textContent = modelsUpdated ? 'Lista actualizada: ' + modelsUpdated.toLocaleDateString() : 'Lista base (sin conexión al catálogo)'; p.append(f);
- p.classList.remove('hide'); p.style.animation = 'none'; p.offsetWidth; p.style.animation = '';
+ buildPop(); p.classList.remove('hide'); p.style.animation = 'none'; p.offsetWidth; p.style.animation = '';
 };
 
 /* ============ ENVÍO + STREAMING ============ */
@@ -571,10 +758,12 @@ async function send(text, imgsArg, filesArg) {
  const paint = () => { if (raf) return; raf = requestAnimationFrame(() => { raf = 0; if (cur === c && el()) { fill(el(), a); scrollEnd(); } }); };
  const history = [{ role: 'system', content: buildSystem() }, ...c.msgs.slice(0, -1).map(({ role, content, imgs, files }) => { const t = files?.length ? content + files.map(f => '\n\n[Archivo: ' + f.name + ']\n```\n' + f.text + '\n```').join('') : content; return { role, content: imgs?.length ? [{ type: 'text', text: t }, ...imgs.map(u => ({ type: 'image_url', image_url: { url: u } }))] : t }; })];
  const hasImg = c.msgs.some(m => m.imgs?.length);
- const cands = hasImg ? [...new Set([...(model().vision ? model().ids : []), ...visionIds()])] : model().ids; let last = null, lastId = '';
+ const lm = !hasImg && model().local ? model() : null;
+ const cands = lm ? [] : hasImg ? [...new Set([...(model().vision ? model().ids : []), ...visionIds()])] : model().ids; let last = null, lastId = '';
  ctl = new AbortController();
  try {
-  outer: for (const id of cands) for (const url of ENDPOINTS) {
+  if (lm) { lastId = lm.name; try { await localChat(lm, history, a, paint, ctl.signal); } catch (e) { last = e; } }
+  else outer: for (const id of cands) for (const url of ENDPOINTS) {
    lastId = id;
    try { await streamChat(url, id, history, a, paint, ctl.signal); last = null; break outer; }
    catch (e) { last = e; if (stopReq || a.content || e.status === 429) break outer; }
@@ -582,7 +771,7 @@ async function send(text, imgsArg, filesArg) {
   if (last && !stopReq) throw last;
  } catch (e) {
   console.error('Atomium error', lastId, e);
-  a.error = (e.status === 429 ? 'Límite del servicio gratuito alcanzado. Espera unos segundos e inténtalo de nuevo.' : hasImg ? 'Ningún modelo gratuito con visión respondió ahora mismo. Inténtalo de nuevo en un rato.' : errMsg(e)) + ' (modelo: ' + lastId + ')';
+  a.error = (e.status === 429 ? 'Límite del servicio gratuito alcanzado. Espera unos segundos e inténtalo de nuevo.' : lm ? 'El modelo local falló: ' + (e.message || e) : hasImg ? 'Ningún modelo gratuito con visión respondió ahora mismo. Inténtalo de nuevo en un rato.' : errMsg(e)) + ' (modelo: ' + lastId + ')';
  }
  if (a.content && !a.error && lastId) a.model = lastId;
  if (stopReq && !a.content) a.content = '*Respuesta detenida.*';
@@ -666,7 +855,7 @@ function renderPrev() {
 async function addImgs(files) {
  files = [...files].filter(f => f.type.startsWith('image/'));
  if (!files.length) return;
- if (!model().vision && !pend.length) toast('Se usará automáticamente un modelo con visión.');
+ if (!model().vision && !pend.length) toast(model().local ? 'Los modelos locales no ven imágenes: se usará un modelo en línea.' : 'Se usará automáticamente un modelo con visión.');
  if (pend.length + files.length > MAXI) toast('Máximo ' + MAXI + ' imágenes por mensaje');
  for (const f of files.slice(0, MAXI - pend.length)) {
   if (f.size > 15e6) { toast('Una imagen supera los 15 MB'); continue; }
@@ -752,13 +941,14 @@ let cpCtl = [], cpBusy = false;
 function cpFill() {
  ['#cpa', '#cpb'].forEach(sel => {
   const s = $(sel), prev = s.value; s.innerHTML = '';
-  MODELS.forEach(m => { const o = document.createElement('option'); o.value = m.k; o.textContent = m.name; s.append(o); });
+  MODELS.filter(m => !m.gone).forEach(m => { const o = document.createElement('option'); o.value = m.k; o.textContent = m.local ? m.name + ' (local)' : m.name; o.disabled = !!(m.local && LOC.gpu && !LOC.gpu.ok); s.append(o); });
   if (MODELS.some(m => m.k === prev)) s.value = prev;
  });
  if (!$('#cpa').dataset.init) { $('#cpa').dataset.init = 1; $('#cpa').value = modelKey; $('#cpb').value = (MODELS.find(m => m.k !== modelKey) || MODELS[0]).k; }
 }
 const cpShow = on => { $('#cmp').classList.toggle('hide', !on); if (on) { toggleSide(false); cpFill(); $('#cpin').focus(); } };
 async function runOne(mod, history, a, paint, signal) {
+ if (mod.local) return localChat(mod, history, a, paint, signal);
  let last = null;
  outer: for (const id of mod.ids) for (const url of ENDPOINTS) {
   try { await streamChat(url, id, history, a, paint, signal); last = null; break outer; }
@@ -768,6 +958,7 @@ async function runOne(mod, history, a, paint, signal) {
 }
 async function cpRun() {
  const text = $('#cpin').value.trim(); if (!text || cpBusy) return;
+ if (['#cpa', '#cpb'].every(sel => MODELS.find(m => m.k === $(sel).value)?.local)) return toast('Elige solo un modelo local por comparación: comparten la GPU.');
  cpBusy = true; $('#cpgo').classList.add('hide'); $('#cpstop').classList.remove('hide');
  cpCtl = [new AbortController(), new AbortController()];
  const history = [{ role: 'system', content: buildSystem() }, { role: 'user', content: text }];
@@ -789,6 +980,22 @@ $('#cpgo').onclick = cpRun;
 $('#cpstop').onclick = () => cpCtl.forEach(c => c.abort());
 $('#cpin').onkeydown = e => { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); cpRun(); } };
 document.addEventListener('keydown', e => { if (e.key === 'Escape' && !$('#cmp').classList.contains('hide') && $('#cm').classList.contains('hide')) cpShow(false); });
+
+/* ============ BIENVENIDA ============ */
+(() => {
+ const w = $('#welcome'), app = $('#app'); if (!w) return;
+ $('#wt').innerHTML = WELCOME.title.split(' ').map((t, i) => `<span style="--i:${i}">${t}</span>`).join(' ');
+ $('#wsub').textContent = WELCOME.sub; $('#wgo span').textContent = WELCOME.cta;
+ app.inert = true;
+ const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches; let done = false;
+ const enter = () => {
+  if (done) return; done = true; document.removeEventListener('keydown', key);
+  w.classList.add('leave'); app.inert = false;
+  setTimeout(() => { w.remove(); $('#in')?.focus({ preventScroll: true }); }, reduce ? 0 : WELCOME.leaveMs);
+ };
+ const key = e => { if (e.key === 'Enter') { e.preventDefault(); enter(); } };
+ $('#wgo').onclick = enter; document.addEventListener('keydown', key);
+})();
 
 /* ============ ARRANQUE ============ */
 // Se ejecuta al final, cuando todo ya está definido: restaura la sesión guardada.
