@@ -255,8 +255,8 @@ svg.alien{overflow:visible}
 // Modelos gratuitos de Pollinations.ai: sin login, sin API key. "ids" = nombres a probar en orden.
 const ENDPOINTS = ['https://gen.pollinations.ai/v1/chat/completions', 'https://text.pollinations.ai/openai'];
 const MODELS = [
- {k:'openai', name:'Solara', by:'GPT', d:'Modelo GPT principal, equilibrado y preciso', ids:['openai'], vision:true},
- {k:'fast', name:'GPT Fast', by:'GPT', d:'Modelo GPT con respuestas más rápidas', ids:['openai-fast'], vision:true}
+ {k:'openai', name:'Solara', by:'GPT', d:'Modelo GPT principal, equilibrado y preciso', ids:['openai']},
+ {k:'fast', name:'GPT Fast', by:'GPT', d:'Modelo GPT con respuestas más rápidas', ids:['openai-fast']}
 ];
 const SYSTEM = 'Eres Atomium Code, un asistente de IA útil y preciso, experto en programación. Responde en el idioma del usuario, usa Markdown y escribe el código siempre en bloques con el lenguaje indicado.';
 
@@ -506,7 +506,6 @@ async function send(text, imgsArg) {
  const fromUI = text === undefined, imgs = imgsArg ?? (fromUI ? pend.slice() : []);
  text = (text ?? $('#in').value).trim(); if (!text && imgs.length) text = 'Describe esta imagen.';
  if (!text || busy) return; micStop(false);
- if (imgs.length && !model().vision) return toast('Este modelo no admite imágenes. Elige otro modelo.');
  if (!cur) { cur = { id: uid(), title: 'Nueva conversación', msgs: [], t: Date.now(), model: modelKey }; chats.push(cur); }
  const c = cur, a = { role: 'assistant', content: '', streaming: true };
  if (!c.msgs.length) c.title = text.replace(/\s+/g, ' ').slice(0, 45);
@@ -515,8 +514,9 @@ async function send(text, imgsArg) {
  renderChat(); renderList(); scrollEnd(true);
  const el = () => $('#msgs').lastElementChild?.querySelector('.md');
  const paint = () => { if (raf) return; raf = requestAnimationFrame(() => { raf = 0; if (cur === c && el()) { fill(el(), a); scrollEnd(); } }); };
- const history = [{ role: 'system', content: buildSystem() }, ...c.msgs.slice(0, -1).map(({ role, content, imgs }) => ({ role, content: imgs?.length && model().vision ? [{ type: 'text', text: content }, ...imgs.map(u => ({ type: 'image_url', image_url: { url: u } }))] : content }))];
- const cands = model().ids; let last = null, lastId = '';
+ const history = [{ role: 'system', content: buildSystem() }, ...c.msgs.slice(0, -1).map(({ role, content, imgs }) => ({ role, content: imgs?.length ? [{ type: 'text', text: content }, ...imgs.map(u => ({ type: 'image_url', image_url: { url: u } }))] : content }))];
+ const hasImg = c.msgs.some(m => m.imgs?.length);
+ const cands = hasImg ? [...new Set([...(model().vision ? model().ids : []), ...visionIds()])] : model().ids; let last = null, lastId = '';
  ctl = new AbortController();
  try {
   outer: for (const id of cands) for (const url of ENDPOINTS) {
@@ -527,7 +527,7 @@ async function send(text, imgsArg) {
   if (last && !stopReq) throw last;
  } catch (e) {
   console.error('Atomium error', lastId, e);
-  a.error = (e.status === 429 ? 'Límite del servicio gratuito alcanzado. Espera unos segundos e inténtalo de nuevo.' : errMsg(e)) + ' (modelo: ' + lastId + ')';
+  a.error = (e.status === 429 ? 'Límite del servicio gratuito alcanzado. Espera unos segundos e inténtalo de nuevo.' : hasImg ? 'Ningún modelo gratuito con visión respondió ahora mismo. Inténtalo de nuevo en un rato.' : errMsg(e)) + ' (modelo: ' + lastId + ')';
  }
  if (stopReq && !a.content) a.content = '*Respuesta detenida.*';
  a.streaming = false; busy = false; setSend(); cancelAnimationFrame(raf); raf = 0;
@@ -588,6 +588,8 @@ if (!SR) $('#mic').classList.add('hide'); else micUI(false);
 
 /* ============ IMÁGENES ============ */
 const MAXI = 4;
+// Modelos con visión: primero los que el catálogo marca como tal, luego candidatos conocidos. Se prueban en orden hasta que uno responda.
+const visionIds = () => [...new Set([...MODELS.filter(m => m.vision).flatMap(m => m.ids), 'gemini-fast', 'gemini', 'openai-large', 'mistral'])].filter(i => i !== 'openai' && i !== 'openai-fast').slice(0, 6);
 const shrink = f => new Promise((ok, no) => {
  const u = URL.createObjectURL(f), i = new Image();
  i.onload = () => { const k = Math.min(1, 1280 / Math.max(i.width, i.height)), c = document.createElement('canvas');
@@ -606,7 +608,7 @@ function renderPrev() {
 async function addImgs(files) {
  files = [...files].filter(f => f.type.startsWith('image/'));
  if (!files.length) return;
- if (!model().vision) return toast('Este modelo no admite imágenes. Elige otro modelo.');
+ if (!model().vision && !pend.length) toast('Se usará automáticamente un modelo con visión.');
  if (pend.length + files.length > MAXI) toast('Máximo ' + MAXI + ' imágenes por mensaje');
  for (const f of files.slice(0, MAXI - pend.length)) {
   if (f.size > 15e6) { toast('Una imagen supera los 15 MB'); continue; }
@@ -615,7 +617,7 @@ async function addImgs(files) {
  renderPrev();
 }
 $('#attach').innerHTML = ico('img', 17);
-$('#attach').onclick = () => { if (busy) return; if (!model().vision) return toast('Este modelo no admite imágenes. Elige otro modelo.'); $('#file').click(); };
+$('#attach').onclick = () => { if (busy) return; $('#file').click(); };
 $('#file').onchange = e => { addImgs(e.target.files); e.target.value = ''; };
 inp.addEventListener('paste', e => { const fs = [...(e.clipboardData?.files || [])].filter(f => f.type.startsWith('image/')); if (fs.length) { e.preventDefault(); addImgs(fs); } });
 $('#comp').addEventListener('dragover', e => e.preventDefault());
