@@ -46,14 +46,10 @@ aside{width:272px;background:var(--bar);border-right:1px solid var(--bd);display
 .uc{display:flex;align-items:center;gap:10px;padding:12px;border-top:1px solid var(--bd)}
 .uc img,.uc .ph{width:30px;height:30px;border-radius:50%;background:var(--ac2);display:flex;align-items:center;justify-content:center;font-weight:600}
 .uc div{flex:1;min-width:0}.uc b{display:block;font-weight:500;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.uc small{color:var(--mu);font-size:11px}
-main{flex:1;display:flex;flex-direction:column;min-width:0;position:relative;isolation:isolate}
-main::before{content:"";position:absolute;inset:0;z-index:-1;pointer-events:none;background:radial-gradient(ellipse at 12% 18%,#d87c6910,transparent 42%),radial-gradient(ellipse at 88% 82%,#a45a4b0c,transparent 38%);background-size:140% 140%;animation:ambient 18s ease-in-out infinite alternate}
-@keyframes ambient{to{background-position:100% 0,0 100%}}
+main{flex:1;display:flex;flex-direction:column;min-width:0;position:relative}
 header{height:44px;background:var(--bar);border-bottom:1px solid var(--bd);display:flex;align-items:center;gap:8px;padding:0 12px}
 header h2{flex:1;font-size:13px;font-weight:500;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;text-align:center}
-#menu{display:flex}
-#side.collapsed{display:none}
-#app.side-collapsed main{flex:1}
+#menu{display:none}
 #scroll{flex:1;overflow-y:auto;scroll-behavior:smooth}
 #msgs{max-width:780px;margin:0 auto;padding:24px 16px 12px;display:flex;flex-direction:column;gap:22px}
 .m{display:flex;gap:12px;animation:up .35s cubic-bezier(.2,.8,.2,1)}
@@ -97,7 +93,7 @@ textarea::placeholder{color:#8a8a8a}
 small.ft{display:block;text-align:center;color:#6f6f6f;font-size:11px;margin-top:8px}
 #ov{display:none}
 @media(max-width:760px){
- aside{position:fixed;inset:0 auto 0 0;transform:translateX(-100%);display:flex}aside.open{transform:none}aside.collapsed{display:flex;transform:translateX(-100%)}
+ aside{position:fixed;inset:0 auto 0 0;transform:translateX(-100%)}aside.open{transform:none}
  #ov.open{display:block;position:fixed;inset:0;background:#0008;z-index:15;animation:up .2s}
  #menu{display:flex}.ub{max-width:90%}
 }
@@ -265,8 +261,7 @@ svg.alien{overflow:visible}
 @keyframes wrain{to{transform:translate(-2px,28px)}}
 @keyframes wdrop{0%{opacity:0;transform:translateY(0)}15%{opacity:.8}85%{opacity:.5}100%{opacity:0;transform:translateY(12px)}}
 @keyframes wtw{0%,60%{opacity:1}62%,70%{opacity:.2}72%,100%{opacity:1}}
-@media(prefers-reduced-motion:reduce){#welcome *{animation:none!important;transition:none!important}main::before{animation:none!important}}
-@media(max-width:760px){main::before{background-size:180% 180%;animation-duration:24s}}
+@media(prefers-reduced-motion:reduce){#welcome *{animation:none!important;transition:none!important}}
 /* extras 2 */
 #settings,#fv{position:fixed;inset:0;z-index:40;background:var(--bg);display:flex;flex-direction:column;animation:pop .22s}
 .box{position:relative}
@@ -450,23 +445,14 @@ html[data-fs=s] .md,html[data-fs=s] .ub{font-size:13.5px}html[data-fs=l] .md,htm
 const ENDPOINTS = ['https://gen.pollinations.ai/v1/chat/completions', 'https://text.pollinations.ai/openai'];
 const MODELS = [
  {k:'openai', name:'Solara', by:'GPT', d:'Modelo GPT principal, equilibrado y preciso', ids:['openai']},
- {k:'fast', name:'GPT Fast', by:'GPT', d:'Modelo GPT con respuestas más rápidas', ids:['openai-fast']},
- {k:'gemini-fast', name:'Gemini Flash', by:'Google', d:'Rápido y versátil para tareas cotidianas', ids:['gemini-fast','gemini']},
- {k:'gemini', name:'Gemini', by:'Google', d:'Modelo multimodal para análisis y escritura', ids:['gemini']},
- {k:'openai-large', name:'OpenAI Large', by:'OpenAI', d:'Alternativa de mayor capacidad para tareas complejas', ids:['openai-large']},
- {k:'mistral', name:'Mistral', by:'Mistral', d:'Modelo ágil para escritura y consultas generales', ids:['mistral']},
- {k:'qwen-coder', name:'Qwen Coder', by:'Qwen', d:'Enfocado en programación y análisis de código', ids:['qwen-coder']},
- {k:'llama', name:'Llama', by:'Meta', d:'Modelo abierto equilibrado para uso general', ids:['llama']},
+ {k:'fast', name:'GPT Fast', by:'GPT', d:'Modelo GPT con respuestas más rápidas', ids:['openai-fast']}
 ];
 // Modelos locales (WebLLM, se ejecutan en el navegador con WebGPU). 'base' = nombre en el catálogo de WebLLM; la variante exacta (q4f16/q4f32) se elige y valida en tiempo de ejecución.
 const WEBLLM_URL = 'https://esm.run/@mlc-ai/web-llm';
 const LOCAL_MODELS = [
  {k:'local-smollm2', name:'SmolLM2 360M', by:'Local', d:'Ultraligero (360M). Respuestas básicas y muy rápidas.', base:'SmolLM2-360M-Instruct'},
-  {k:'local-smollm17', name:'SmolLM2 1.7B', by:'Hugging Face', d:'Ligero y capaz para tareas diarias. Descarga automática en el navegador.', base:'SmolLM2-1.7B-Instruct'},
-  {k:'local-gemma3', name:'Gemma 3 1B', by:'Hugging Face', d:'Muy ligero y rápido para consultas sencillas. Descarga automática en el navegador.', base:'gemma-3-1b-it'},
  {k:'local-llama1b', name:'Llama 3.2 1B', by:'Local', d:'Pequeño y equilibrado (1B). Bueno para tareas sencillas.', base:'Llama-3.2-1B-Instruct'},
  {k:'local-qwen15', name:'Qwen 2.5 1.5B', by:'Local', d:'Más capaz con código y razonamiento (1.5B).', base:'Qwen2.5-1.5B-Instruct'},
-  {k:'local-qwen-coder3', name:'Qwen2.5 Coder 3B', by:'Hugging Face', d:'Especializado en programación y código. Descarga automática en el navegador.', base:'Qwen2.5-Coder-3B-Instruct'},
  {k:'local-llama3b', name:'Llama 3.2 3B', by:'Local', d:'El más capaz de los locales (3B). Necesita más memoria.', base:'Llama-3.2-3B-Instruct'}
 ];
 LOCAL_MODELS.forEach(m => MODELS.push({ ...m, ids: [], local: true }));
@@ -750,8 +736,7 @@ function rename(d, c) {
 }
 function open(c) { if (busy) return; cur = c; if (MODELS.some(m => m.k === c.model)) modelKey = c.model; renderList(); renderChat(); renderModelBtn(); toggleSide(false); }
 const toggleSide = on => { $('#side').classList.toggle('open', on); $('#ov').classList.toggle('open', on); };
-const toggleChats = () => { const side = $('#side'), collapsed = side.classList.toggle('collapsed'); $('#app').classList.toggle('side-collapsed', collapsed); $('#menu').setAttribute('aria-label', collapsed ? 'Mostrar chats' : 'Ocultar chats'); $('#menu').title = collapsed ? 'Mostrar chats' : 'Ocultar chats'; if (matchMedia('(max-width:760px)').matches) toggleSide(!collapsed); };
-$('#menu').onclick = toggleChats; $('#ov').onclick = () => toggleSide(false);
+$('#menu').onclick = () => toggleSide(true); $('#ov').onclick = () => toggleSide(false);
 $('#new').onclick = () => { if (busy) return; cur = null; renderList(); renderChat(); toggleSide(false); $('#in').focus(); };
 
 /* ============ MARKDOWN + CODE BLOCKS ============ */
@@ -852,7 +837,7 @@ function buildPop() {
   });
   if (note) { const n = document.createElement('div'); n.className = 'pn2'; n.textContent = note; p.append(n); }
  };
-  grp('En línea · gratis, sin clave', MODELS.filter(m => !m.local));
+ grp('En línea · gratis, sin clave', MODELS.filter(m => !m.local));
  grp('En tu dispositivo · privado', MODELS.filter(m => m.local && !m.gone), 'Se ejecutan en tu GPU: descarga única, requieren WebGPU (Chrome o Edge), memoria suficiente y algo de paciencia.');
  const f = document.createElement('div'); f.className = 'pf'; f.textContent = modelsUpdated ? 'Lista actualizada: ' + modelsUpdated.toLocaleDateString() : 'Lista base (sin conexión al catálogo)'; p.append(f);
  const ef = document.createElement('div'); ef.className = 'eff';
@@ -889,12 +874,12 @@ async function send(text, imgsArg, filesArg) {
  const paint = () => { if (raf) return; raf = requestAnimationFrame(() => { raf = 0; if (cur === c && el()) { fill(el(), a); scrollEnd(); } }); };
  const history = [{ role: 'system', content: buildSystem() }, ...c.msgs.slice(0, -1).map(({ role, content, imgs, files }) => { const t = files?.length ? content + files.map(f => '\n\n[Archivo: ' + f.name + ']\n```\n' + f.text + '\n```').join('') : content; return { role, content: imgs?.length ? [{ type: 'text', text: t }, ...imgs.map(u => ({ type: 'image_url', image_url: { url: u } }))] : t }; })];
  const hasImg = c.msgs.some(m => m.imgs?.length);
-  const lm = !hasImg && model().local ? model() : null;
-  const cands = lm ? [] : hasImg ? [...new Set([...(model().vision ? model().ids : []), ...visionIds()])] : model().ids; let last = null, lastId = '';
+ const lm = !hasImg && model().local ? model() : null;
+ const cands = lm ? [] : hasImg ? [...new Set([...(model().vision ? model().ids : []), ...visionIds()])] : model().ids; let last = null, lastId = '';
  ctl = new AbortController();
  try {
   if (lm) { lastId = lm.name; try { await localChat(lm, history, a, paint, ctl.signal); } catch (e) { last = e; } }
-   else outer: for (const id of cands) for (const url of ENDPOINTS) {
+  else outer: for (const id of cands) for (const url of ENDPOINTS) {
    lastId = id;
    try { await streamChat(url, id, history, a, paint, ctl.signal); last = null; break outer; }
    catch (e) { last = e; if (stopReq || a.content || e.status === 429) break outer; }
@@ -902,7 +887,7 @@ async function send(text, imgsArg, filesArg) {
   if (last && !stopReq) throw last;
  } catch (e) {
   console.error('Atomium error', lastId, e);
-   a.error = (e.status === 429 ? 'Límite del servicio gratuito alcanzado. Espera unos segundos e inténtalo de nuevo.' : lm ? 'El modelo local falló: ' + (e.message || e) : hasImg ? 'Ningún modelo gratuito con visión respondió ahora mismo. Inténtalo de nuevo en un rato.' : errMsg(e)) + ' (modelo: ' + lastId + ')';
+  a.error = (e.status === 429 ? 'Límite del servicio gratuito alcanzado. Espera unos segundos e inténtalo de nuevo.' : lm ? 'El modelo local falló: ' + (e.message || e) : hasImg ? 'Ningún modelo gratuito con visión respondió ahora mismo. Inténtalo de nuevo en un rato.' : errMsg(e)) + ' (modelo: ' + lastId + ')';
  }
  if (a.content && !a.error && lastId) a.model = lastId;
  if (stopReq && !a.content) a.content = '*Respuesta detenida.*';
@@ -1082,7 +1067,7 @@ const cpShow = on => { $('#cmp').classList.toggle('hide', !on); if (on) { toggle
 async function runOne(mod, history, a, paint, signal) {
  if (mod.local) return localChat(mod, history, a, paint, signal);
  let last = null;
-  outer: for (const id of mod.ids) for (const url of ENDPOINTS) {
+ outer: for (const id of mod.ids) for (const url of ENDPOINTS) {
   try { await streamChat(url, id, history, a, paint, signal); last = null; break outer; }
   catch (e) { last = e; if (signal.aborted || a.content || e.status === 429) break outer; }
  }
