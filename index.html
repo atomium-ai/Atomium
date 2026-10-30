@@ -292,6 +292,139 @@ html[data-fs=s] .md,html[data-fs=s] .ub{font-size:13.5px}html[data-fs=l] .md,htm
 .hpr{display:flex;align-items:center;gap:12px;padding:6px 0;font-size:14px}
 .hpr kbd{background:var(--b3);border:1px solid var(--bd);border-radius:6px;padding:2px 8px;font:12px ui-monospace,monospace;min-width:108px;text-align:center}
 .hpt{color:var(--mu);font-size:12.5px;margin:12px 0 16px!important;line-height:1.4}
+/* extras 4: animaciones ligadas al nivel de esfuerzo (solo transform/opacity) */
+html{--e:2;--eff-t:1.2s}
+html[data-eff="0"]{--e:0;--eff-t:.7s}html[data-eff="1"]{--e:1;--eff-t:.95s}html[data-eff="2"]{--e:2;--eff-t:1.2s}html[data-eff="3"]{--e:3;--eff-t:1.6s}html[data-eff="4"]{--e:4;--eff-t:2.1s}
+@keyframes dote{0%,80%,100%{opacity:.25;transform:scale(.7)}40%{opacity:1;transform:scale(calc(1 + var(--e)*.12))}}
+.dots i{animation:dote var(--eff-t) infinite;will-change:transform,opacity}.dots i:nth-child(2){animation-delay:calc(var(--eff-t)*.125)}.dots i:nth-child(3){animation-delay:calc(var(--eff-t)*.25)}
+.cur{box-shadow:0 0 calc(var(--e)*3px) var(--ac)}
+.efffill{transition:width .28s cubic-bezier(.2,.8,.2,1),box-shadow .28s;box-shadow:0 0 calc(var(--e)*4px) #3b82f677}
+.effdots i{transition:transform .25s,background .25s}.effdots i.on{background:#fff;transform:scale(1.7)}
+#effr{touch-action:pan-y;-webkit-tap-highlight-color:transparent}
+#effr::-webkit-slider-thumb{transition:transform .15s}#effr::-moz-range-thumb{transition:transform .15s}
+#effr:active::-webkit-slider-thumb{transform:scale(1.12)}#effr:active::-moz-range-thumb{transform:scale(1.12)}
+#effr:focus-visible::-webkit-slider-thumb{box-shadow:0 0 0 3px #3b82f688}#effr:focus-visible::-moz-range-thumb{box-shadow:0 0 0 3px #3b82f688}
+#effv{display:inline-block}#effv.bump{animation:up .25s}
+.effm{display:inline-flex;align-items:flex-end;gap:2px;height:12px;margin-right:6px}
+.effm i{width:3px;height:100%;border-radius:2px;background:#4a4a4a;transform:scaleY(.3);transform-origin:bottom;transition:background .25s}
+.effm i.on{background:#3b82f6;animation:wv var(--eff-t) ease-in-out infinite}
+.effm i:nth-child(2).on{animation-delay:calc(var(--eff-t)*.1)}.effm i:nth-child(3).on{animation-delay:calc(var(--eff-t)*.2)}.effm i:nth-child(4).on{animation-delay:calc(var(--eff-t)*.3)}.effm i:nth-child(5).on{animation-delay:calc(var(--eff-t)*.4)}
+@media(prefers-reduced-motion:reduce){.dots i{animation:none;opacity:.7;will-change:auto}.cur{animation:none}.effm i.on{animation:none;transform:scaleY(.8)}#effv.bump{animation:none}.efffill,.effdots i,#effr::-webkit-slider-thumb,#effr::-moz-range-thumb{transition:none}}
+/* extras 5: motion graphics de interfaz + mascota sobre el input */
+#msgs{padding-bottom:44px}
+.ci{transition:background .15s,transform .2s}
+@media(hover:hover){.ci:hover{transform:translateX(2px)}}
+.ghost:active,.new:active,.chip:active,.gl:active,.pc:active,.mo:active,#mbtn:active,.sli:active,.ib:active{transform:scale(.96)}
+#send:active:not(:disabled){transform:scale(.92)}
+@keyframes sendpop{0%{transform:scale(.8)}60%{transform:scale(1.08)}100%{transform:none}}
+#send:not(:disabled){animation:sendpop .3s}
+.chip{animation:pop .45s cubic-bezier(.2,.8,.2,1) backwards}
+.chip:nth-child(1){animation-delay:.2s}.chip:nth-child(2){animation-delay:.27s}.chip:nth-child(3){animation-delay:.34s}.chip:nth-child(4){animation-delay:.41s}
+#hero h1{animation:up .5s .1s backwards}#hero p{animation:up .5s .18s backwards}
+.mo{animation:up .22s backwards}
+/* mascota: variables por nivel de esfuerzo (bt = ciclo de rebote, ba = altura, ay = brazos, as = ciclo de brazos, ey = ojos) */
+#mas{position:absolute;left:22px;bottom:calc(100% - 1px);width:56px;height:38px;z-index:2;cursor:pointer;-webkit-tap-highlight-color:transparent;touch-action:manipulation;--bt:1.4s;--ba:-3px;--ay:-.5;--as:1.4s;--ey:1;--k:1}
+#mas svg{display:block}
+html[data-eff="0"] #mas{--bt:4s;--ba:-1px;--ay:-.1;--as:4s;--ey:.5}
+html[data-eff="1"] #mas{--bt:2.6s;--ba:-2px;--ay:-.3;--as:2.6s;--ey:.85}
+html[data-eff="2"] #mas{--bt:1.4s;--ba:-3px;--ay:-.5;--as:1.4s;--ey:1}
+html[data-eff="3"] #mas{--bt:.8s;--ba:-4px;--ay:-.9;--as:.7s;--ey:.75}
+html[data-eff="4"] #mas{--bt:.45s;--ba:-5px;--ay:-1.4;--as:.4s;--ey:1.5}
+#mas.typing{--k:.7}#mas.busy{--k:.55}
+.mw{width:100%;height:100%;transform-origin:50% 100%;will-change:transform;animation:mbn calc(var(--bt)*var(--k)) ease-in-out infinite}
+@keyframes mbn{50%{transform:translateY(var(--ba))}}
+#mas .al{animation:none}
+#mas .ab{animation:mab calc(var(--bt)*var(--k)) ease-in-out infinite}
+@keyframes mab{50%{transform:scale(1.03,.97)}}
+#mas .aL,#mas .aR{transform-box:fill-box;animation:mar calc(var(--as)*var(--k)) ease-in-out infinite}
+@keyframes mar{50%{transform:translateY(calc(var(--ay)*1px))}}
+#mas .ae{animation:mae 5s infinite}
+@keyframes mae{0%,90%,100%{transform:scaleY(var(--ey))}93%,96%{transform:scaleY(.1)}}
+.ms{position:absolute;left:8px;right:8px;bottom:-1px;height:3px;border-radius:50%;background:#0006;animation:msh calc(var(--bt)*var(--k)) ease-in-out infinite}
+@keyframes msh{50%{transform:scaleX(.8);opacity:.5}}
+[data-theme=light] .ms{background:#0003}
+.mg{position:absolute;left:50%;top:50%;width:72px;height:72px;margin:-36px 0 0 -36px;border-radius:50%;background:radial-gradient(circle,#d87c6955,#d87c6900 70%);opacity:0;pointer-events:none}
+html[data-eff="3"] .mg,#mas.busy .mg{opacity:.4}
+html[data-eff="4"] .mg{animation:mgl .9s ease-in-out infinite}
+@keyframes mgl{0%,100%{opacity:.3;transform:scale(.9)}50%{opacity:.9;transform:scale(1.15)}}
+.mp{position:absolute;left:50%;top:6px;width:4px;height:4px;margin-left:-2px;border-radius:50%;background:var(--ac);opacity:0;pointer-events:none}
+.mp:nth-child(3){--dx:-16px}.mp:nth-child(4){--dx:0px;animation-delay:.3s!important}.mp:nth-child(5){--dx:16px;animation-delay:.6s!important}
+html[data-eff="3"] .mp,html[data-eff="4"] .mp,#mas.busy .mp{animation:mpu var(--pt,1.2s) ease-out infinite}
+html[data-eff="4"] .mp{--pt:.8s}
+@keyframes mpu{0%{opacity:0;transform:translate(0,0) scale(.6)}30%{opacity:.9}100%{opacity:0;transform:translate(var(--dx),-22px) scale(1)}}
+html[data-eff="4"] #mas svg{animation:mshk .14s linear infinite}
+@keyframes mshk{25%{transform:translateX(.6px)}75%{transform:translateX(-.6px)}}
+#mas.react .mw{animation:mhop .55s cubic-bezier(.3,1.6,.5,1)}
+@keyframes mhop{0%{transform:none}30%{transform:translateY(-14px) scale(.92,1.1)}60%{transform:translateY(0) scale(1.1,.9)}100%{transform:none}}
+@media(max-width:480px){#mas{left:14px;width:44px;height:30px}#mas svg{width:44px;height:29.3px}.mg{display:none}}
+@media(prefers-reduced-motion:reduce){.chip,.mo,#hero h1,#hero p,#send:not(:disabled){animation:none}.ci:hover{transform:none}.ghost:active,.new:active,.chip:active,.gl:active,.pc:active,.mo:active,#mbtn:active,.sli:active,.ib:active,#send:active:not(:disabled){transform:none}#mas *,#mas svg{animation:none!important}}
+
+/* extras 6: motion graphics refinado + estados expresivos de la mascota */
+:root{--motion-ease:cubic-bezier(.2,.75,.25,1)}
+button,.pc,.cc,.sec,.fvc,.cb,.ub,.av{transition:transform .22s var(--motion-ease),box-shadow .22s var(--motion-ease),border-color .22s ease,background-color .22s ease}
+button:focus-visible,.chip:focus-visible,.mo:focus-visible{outline:2px solid var(--ac);outline-offset:3px}
+.m{animation:message-arrive .42s var(--motion-ease) both}
+@keyframes message-arrive{from{opacity:0;transform:translateY(12px) scale(.992)}to{opacity:1;transform:translateY(0) scale(1)}}
+#pop:not(.hide),#sl:not(.hide){animation:panel-arrive .2s var(--motion-ease) both}
+@keyframes panel-arrive{from{opacity:0;transform:translateY(7px) scale(.985)}to{opacity:1;transform:none}}
+.pc:hover,.cc:hover,.fvc:hover{box-shadow:0 10px 28px #0002}
+#mas{--mood-glow:0;transition:filter .3s ease}
+#mas .mw{filter:drop-shadow(0 2px 4px #0003)}
+#mas[data-state="typing"]{filter:drop-shadow(0 0 7px #d87c6966)}
+#mas[data-state="thinking"]{filter:drop-shadow(0 0 9px #d87c6999)}
+#mas[data-state="thinking"] .mw{animation:mas-think var(--bt) ease-in-out infinite}
+@keyframes mas-think{0%,100%{transform:translateY(0) rotate(0)}35%{transform:translateY(calc(var(--ba)*.6)) rotate(-2deg)}70%{transform:translateY(0) rotate(2deg)}}
+#mas[data-mode="local"] .mg{background:radial-gradient(circle,#7c9cff55,#7c9cff00 70%)}
+#mas[data-mode="cloud"] .mg{background:radial-gradient(circle,#d87c6955,#d87c6900 70%)}
+#mas[data-eff="0"]{--unused:0}
+@media(prefers-reduced-motion:reduce){.m{animation:none}#pop:not(.hide),#sl:not(.hide){animation:none}button,.pc,.cc,.sec,.fvc,.cb,.ub,.av{transition:none}#mas[data-state="thinking"] .mw{animation:none}}
+
+
+
+/* Nube de pensamiento discreta durante la respuesta */
+#mas .thought-cloud{
+ position:absolute;left:39px;top:-17px;width:31px;height:20px;
+ display:flex;align-items:center;justify-content:center;gap:3px;
+ padding:0 6px;border:1px solid var(--bd);border-radius:12px;
+ background:var(--panel);box-shadow:0 3px 10px #0002;
+ opacity:0;transform:translateY(4px) scale(.92);
+ transition:opacity .28s ease,transform .32s cubic-bezier(.2,.75,.25,1);
+ pointer-events:none;z-index:4
+}
+#mas .thought-cloud:before,#mas .thought-cloud:after{
+ content:"";position:absolute;border:1px solid var(--bd);
+ background:var(--panel);border-radius:50%
+}
+#mas .thought-cloud:before{width:6px;height:6px;left:-4px;bottom:-4px}
+#mas .thought-cloud:after{width:4px;height:4px;left:-8px;bottom:-9px}
+#mas .thought-cloud i{
+ width:3px;height:3px;border-radius:50%;background:var(--ac);
+ opacity:.45;animation:thought-dot 1.15s ease-in-out infinite
+}
+#mas .thought-cloud i:nth-child(2){animation-delay:.18s}
+#mas .thought-cloud i:nth-child(3){animation-delay:.36s}
+#mas[data-state="thinking"] .thought-cloud{
+ opacity:1;transform:translateY(0) scale(1)
+}
+#mas[data-state="thinking"] .mp{display:none}
+@keyframes thought-dot{
+ 0%,100%{opacity:.35;transform:scale(.78)}
+ 50%{opacity:1;transform:scale(1.18)}
+}
+@media(prefers-reduced-motion:reduce){
+ #mas .thought-cloud{transition:none}
+ #mas .thought-cloud i{animation:none;opacity:.8}
+}
+
+
+/* Acceso independiente a Atomium Code */
+.code-link{margin-bottom:8px;text-decoration:none;justify-content:flex-start;color:var(--tx)}
+.code-link:hover{border-color:var(--ac);background:#262626;color:#fff}
+.code-link .code-mascot{width:30px;height:20px;flex:none;overflow:visible;image-rendering:pixelated;filter:drop-shadow(0 1px 1px #0003)}
+.code-link .code-glasses{stroke:#252329;stroke-width:.48}
+.code-link span{font-weight:500}
+[data-theme=light] .code-link:hover{background:#e9e5df;color:#111}
+
 </style>
 </head>
 <body>
@@ -302,7 +435,7 @@ html[data-fs=s] .md,html[data-fs=s] .ub{font-size:13.5px}html[data-fs=l] .md,htm
   <div class="sh"><button class="new" id="new" title="Ctrl+K"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>Nueva conversación</button></div>
   <input id="q" type="search" placeholder="Buscar chats…" autocomplete="off">
   <div id="list"></div>
-  <div class="sh" style="padding:8px 12px 12px"><button class="new" id="plbtn"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.5 11H19V7a2 2 0 0 0-2-2h-4V3.5a2.5 2.5 0 0 0-5 0V5H4a2 2 0 0 0-2 2v3.8h1.5a2.7 2.7 0 0 1 0 5.4H2V20a2 2 0 0 0 2 2h3.8v-1.5a2.7 2.7 0 0 1 5.4 0V22H17a2 2 0 0 0 2-2v-4h1.5a2.5 2.5 0 0 0 0-5z"/></svg>Plugins<span class="badge hide" id="plcount"></span></button><button class="new" id="stbtn" style="margin-top:8px"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg>Configuración</button><button class="new" id="cpbtn" style="margin-top:8px"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h3M16 3h3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-3M12 2v20"/></svg>Comparar modelos</button><button class="new" id="fvbtn" style="margin-top:8px"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m12 2 3.1 6.3 6.9 1-5 4.9 1.2 6.8L12 17.8 5.8 21l1.2-6.8-5-4.9 6.9-1z"/></svg>Favoritos<span class="badge hide" id="fvcount"></span></button></div>
+  <div class="sh" style="padding:8px 12px 12px"><a class="new code-link" id="atomiumCodeLink" href="TU_LINK_AQUI" target="_blank" rel="noopener noreferrer" aria-label="Abrir Atomium Code"><svg class="code-mascot" width="30" height="20" viewBox="0 0 12 8" aria-hidden="true" shape-rendering="crispEdges"><g fill="#f65f4a"><path d="M0 2h2v2H0zM10 2h2v2h-2zM2 0h8v6H2zM2 6h1v2H2zM4 6h1v2H4zM7 6h1v2H7zM9 6h1v2H9z"/></g><g fill="#111"><rect x="3" y="1" width="1" height="1"/><rect x="8" y="1" width="1" height="1"/></g><g class="code-glasses" fill="none" stroke="#242126" stroke-width=".48" stroke-linejoin="round"><path d="M2.35 1.05h2.15v1.35H2.35zM7.5 1.05h2.15v1.35H7.5zM4.5 1.65h3"/><path d="M2.35 1.35 1.9 1.2M9.65 1.35l.45-.15" stroke-linecap="round"/></g></svg><span>Atomium Code</span></a><button class="new" id="plbtn"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.5 11H19V7a2 2 0 0 0-2-2h-4V3.5a2.5 2.5 0 0 0-5 0V5H4a2 2 0 0 0-2 2v3.8h1.5a2.7 2.7 0 0 1 0 5.4H2V20a2 2 0 0 0 2 2h3.8v-1.5a2.7 2.7 0 0 1 5.4 0V22H17a2 2 0 0 0 2-2v-4h1.5a2.5 2.5 0 0 0 0-5z"/></svg>Plugins<span class="badge hide" id="plcount"></span></button><button class="new" id="stbtn" style="margin-top:8px"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg>Configuración</button><button class="new" id="cpbtn" style="margin-top:8px"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h3M16 3h3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-3M12 2v20"/></svg>Comparar modelos</button><button class="new" id="fvbtn" style="margin-top:8px"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m12 2 3.1 6.3 6.9 1-5 4.9 1.2 6.8L12 17.8 5.8 21l1.2-6.8-5-4.9 6.9-1z"/></svg>Favoritos<span class="badge hide" id="fvcount"></span></button></div>
  </aside>
  <div id="ov"></div>
  <main>
@@ -315,6 +448,7 @@ html[data-fs=s] .md,html[data-fs=s] .ub{font-size:13.5px}html[data-fs=l] .md,htm
   <div id="comp">
    <div id="pop" class="hide"></div>
    <div class="box">
+    <div id="mas" role="img" aria-label="Alien naranja animado" data-state="idle" data-mode="cloud"></div>
     <button id="tobot" class="hide" title="Ir al final"></button><div id="sl" class="hide"></div><div id="prev" class="hide"></div>
     <textarea id="in" rows="1" placeholder="Pregunta lo que quieras…"></textarea>
     <div class="bar">
@@ -445,7 +579,9 @@ html[data-fs=s] .md,html[data-fs=s] .ub{font-size:13.5px}html[data-fs=l] .md,htm
 const ENDPOINTS = ['https://gen.pollinations.ai/v1/chat/completions', 'https://text.pollinations.ai/openai'];
 const MODELS = [
  {k:'openai', name:'Solara', by:'GPT', d:'Modelo GPT principal, equilibrado y preciso', ids:['openai']},
- {k:'fast', name:'GPT Fast', by:'GPT', d:'Modelo GPT con respuestas más rápidas', ids:['openai-fast']}
+ {k:'fast', name:'GPT Fast', by:'GPT', d:'Modelo GPT con respuestas más rápidas', ids:['openai-fast']},
+ // GPT-5.5 cuesta ~$5 / $30 por 1M tokens (no es gratis ni barato), así que se ofrece esta alternativa económica. Si el id no existe en Pollinations, cae a 'openai-fast'.
+ {k:'nano54', name:'GPT-5.4 Nano', by:'Económico', d:'Alternativa barata a GPT-5.5: muy rápido y ligero', ids:['gpt-5.4-nano','openai/gpt-5.4-nano','openai-fast']}
 ];
 // Modelos locales (WebLLM, se ejecutan en el navegador con WebGPU). 'base' = nombre en el catálogo de WebLLM; la variante exacta (q4f16/q4f32) se elige y valida en tiempo de ejecución.
 const WEBLLM_URL = 'https://esm.run/@mlc-ai/web-llm';
@@ -506,7 +642,7 @@ applyTheme(theme);
 const errMsg = e => e?.error?.message || e?.message || (typeof e === 'string' ? e : 'Error desconocido');
 
 /* ============ ESTADO ============ */
-let user = null, chats = [], cur = null, busy = false, stopReq = false, ctl = null, raf = 0;
+let user = null, chats = [], cur = null, busy = false, mascotResponding = false, stopReq = false, ctl = null, raf = 0;
 const TONES = [['breve', 'Breve y directo', 'Responde de forma breve y directa, sin rodeos.'], ['detallado', 'Detallado', 'Explica con detalle y paso a paso, con ejemplos cuando ayuden.'], ['tecnico', 'Técnico', 'Usa un tono técnico y preciso, con la terminología correcta.'], ['amigable', 'Amigable', 'Usa un tono cercano, cálido y motivador.'], ['formal', 'Formal', 'Usa un tono formal y profesional.']];
 // Nivel de esfuerzo: [nombre, instrucción añadida al sistema, máx. tokens en modelos locales, descripción]
 const EFFORT = [
@@ -517,6 +653,7 @@ const EFFORT = [
  ['Máximo', 'Máximo esfuerzo: analiza el problema a fondo, considera alternativas y casos límite, razona paso a paso, verifica el resultado y entrega una respuesta completa y rigurosa.', 1024, 'Análisis a fondo, casos límite y verificación. Más lento.']
 ];
 let effort = (v => Number.isInteger(v) && v >= 0 && v <= 4 ? v : 2)(ls('effort'));
+document.documentElement.dataset.eff = effort;
 const GOALS = ['Aprender a programar', 'Crear proyectos y apps', 'Estudiar y hacer tareas', 'Trabajo y productividad', 'Escribir y crear contenido', 'Resolver dudas del día a día'];
 let cfg = Object.assign({ name: '', goal: '', custom: '' }, ls('settings'));
 const saveCfg = () => ls('settings', cfg);
@@ -627,6 +764,25 @@ async function localChat(m, messages, a, paint, signal) {
 /* ============ SESIÓN LOCAL ============ */
 function startSession(u) { user = u; initApp(); }
 $('#hsp').innerHTML = sprite(20);
+/* Mascota parada sobre el input: su animación depende del nivel de esfuerzo (html[data-eff]) y del estado (escribiendo / respondiendo) */
+$('#mas').innerHTML = `<i class="mg"></i><div class="mw">${sprite(56)}</div><div class="thought-cloud" aria-hidden="true"><i></i><i></i><i></i></div><b class="mp"></b><b class="mp"></b><b class="mp"></b><i class="ms"></i>`;
+function syncMascotState() {
+ const m = $('#mas'); if (!m) return;
+ const input = $('#in');
+ m.dataset.state = busy ? 'thinking' : input?.value.trim() ? 'typing' : 'idle';
+ m.dataset.mode = model().local ? 'local' : 'cloud';
+ m.dataset.eff = String(effort);
+ m.classList.toggle('busy', busy);
+ m.classList.toggle('typing', !busy && !!input?.value.trim());
+}
+function masReact() {
+ const m = $('#mas'); if (!m) return;
+ m.classList.remove('react'); void m.offsetWidth; m.classList.add('react');
+ clearTimeout(masReact.t); masReact.t = setTimeout(() => m.classList.remove('react'), 600);
+}
+$('#mas').onclick = masReact;
+$('#in').addEventListener('input', () => { syncMascotState(); });
+syncMascotState();
 
 /* ============ PERSISTENCIA ============ */
 const snap = () => chats.map(c => ({ ...c, msgs: c.msgs.filter(m => m.content).map(({ imgs, ...m }) => imgs?.length ? { ...m, nimg: imgs.length } : m) })).filter(c => c.msgs.length);
@@ -791,7 +947,7 @@ function renderChat() {
  window.speechSynthesis?.cancel();
  const box = $('#msgs'); box.innerHTML = ''; $('#title').textContent = cur?.title || 'Atomium Code';
  if (!cur || !cur.msgs.length) {
-  box.innerHTML = `<div id="hero">${sprite(112)}<h1>Atomium Code</h1><p>¿Qué hacemos primero? Pregunta sobre código o empecemos a escribirlo.</p><div class="chips"></div></div>`;
+  box.innerHTML = `<div id="hero"><h1>Atomium Code</h1><p>¿Qué hacemos primero? Pregunta sobre código o empecemos a escribirlo.</p><div class="chips"></div></div>`;
   ['Explícame closures en JavaScript', 'Escribe un servidor HTTP en Python', 'Optimiza esta consulta SQL', 'Diferencias entre REST y GraphQL'].forEach(t => {
    const b = document.createElement('button'); b.className = 'chip'; b.textContent = t; b.onclick = () => send(t); box.querySelector('.chips').append(b); });
   return;
@@ -831,7 +987,7 @@ function buildPop() {
    b.onclick = async () => {
     p.classList.add('hide');
     if (m.local && !(await localPrepare(m))) return;
-    modelKey = m.k; ls('model', m.k); renderModelBtn(); toast('Modelo: ' + m.name); $('#in').focus();
+    modelKey = m.k; ls('model', m.k); syncMascotState(); masReact(); renderModelBtn(); toast('Modelo: ' + m.name); $('#in').focus();
    };
    p.append(b);
   });
@@ -841,10 +997,16 @@ function buildPop() {
  grp('En tu dispositivo · privado', MODELS.filter(m => m.local && !m.gone), 'Se ejecutan en tu GPU: descarga única, requieren WebGPU (Chrome o Edge), memoria suficiente y algo de paciencia.');
  const f = document.createElement('div'); f.className = 'pf'; f.textContent = modelsUpdated ? 'Lista actualizada: ' + modelsUpdated.toLocaleDateString() : 'Lista base (sin conexión al catálogo)'; p.append(f);
  const ef = document.createElement('div'); ef.className = 'eff';
-  ef.innerHTML = '<div class="effh"><b>Esfuerzo</b><span id="effv"></span></div><div class="effc"><div class="efftrack"></div><div class="efffill"></div><div class="effdots" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></div><input type="range" id="effr" min="0" max="4" step="1" aria-label="Nivel de esfuerzo"></div><div class="efft">' + EFFORT.map(e => '<span></span>').join('') + '</div><small id="effd"></small>';
+  ef.innerHTML = '<div class="effh"><span class="effm" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></span><b>Esfuerzo</b><span id="effv"></span></div><div class="effc"><div class="efftrack"></div><div class="efffill"></div><div class="effdots" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></div><input type="range" id="effr" min="0" max="4" step="1" aria-label="Nivel de esfuerzo"></div><div class="efft">' + EFFORT.map(e => '<span></span>').join('') + '</div><small id="effd"></small>';
  const rg = ef.querySelector('#effr'), ts = ef.querySelectorAll('.efft span'); rg.value = effort;
  ts.forEach((t, n) => { t.textContent = EFFORT[n][0]; t.onclick = () => { rg.value = n; rg.oninput(); }; });
-  rg.oninput = () => { effort = +rg.value; ls('effort', effort); ef.style.setProperty('--eff-p', (effort / 4 * 100) + '%'); ef.querySelector('#effv').textContent = EFFORT[effort][0]; ef.querySelector('#effd').textContent = EFFORT[effort][3]; ts.forEach((t, n) => t.classList.toggle('on', n === effort)); renderModelBtn(); };
+  rg.oninput = () => { effort = +rg.value; ls('effort', effort); ef.style.setProperty('--eff-p', (effort / 4 * 100) + '%'); ef.querySelector('#effv').textContent = EFFORT[effort][0]; ef.querySelector('#effd').textContent = EFFORT[effort][3]; ts.forEach((t, n) => t.classList.toggle('on', n === effort)); document.documentElement.dataset.eff = effort;
+  ef.querySelectorAll('.effdots i').forEach((d, n) => d.classList.toggle('on', n <= effort));
+  ef.querySelectorAll('.effm i').forEach((d, n) => d.classList.toggle('on', n <= effort));
+  const ev = ef.querySelector('#effv'); ev.classList.remove('bump'); void ev.offsetWidth; ev.classList.add('bump');
+  if (rg.dataset.last && rg.dataset.last !== String(effort) && navigator.vibrate) { try { navigator.vibrate(8); } catch {} }
+  if (rg.dataset.last && rg.dataset.last !== String(effort)) masReact();
+  rg.dataset.last = effort; syncMascotState(); renderModelBtn(); };
  rg.oninput(); p.append(ef);
 }
 function updPop() {
@@ -859,7 +1021,7 @@ $('#mbtn').onclick = e => {
 };
 
 /* ============ ENVÍO + STREAMING ============ */
-function setSend() { const b = $('#send'); b.innerHTML = busy ? ico('stop', 16) : ico('up', 17); b.disabled = !busy && !$('#in').value.trim() && !pend.length && !pendF.length; b.title = busy ? 'Detener' : 'Enviar'; }
+function setSend() { syncMascotState(); const b = $('#send'); b.innerHTML = busy ? ico('stop', 16) : ico('up', 17); b.disabled = !busy && !$('#in').value.trim() && !pend.length && !pendF.length; b.title = busy ? 'Detener' : 'Enviar'; }
 async function send(text, imgsArg, filesArg) {
  const fromUI = text === undefined, imgs = imgsArg ?? (fromUI ? pend.slice() : []), files = filesArg ?? (fromUI ? pendF.slice() : []);
  text = (text ?? $('#in').value).trim(); if (!text && (imgs.length || files.length)) text = imgs.length ? 'Describe esta imagen.' : 'Analiza este archivo.';
@@ -868,10 +1030,10 @@ async function send(text, imgsArg, filesArg) {
  const c = cur, a = { role: 'assistant', content: '', streaming: true };
  if (!c.msgs.length) c.title = text.replace(/\s+/g, ' ').slice(0, 45);
  const um = { role: 'user', content: text }; if (imgs.length) um.imgs = imgs; if (files.length) um.files = files; c.msgs.push(um, a); c.model = modelKey; c.t = Date.now();
- $('#in').value = ''; ls('draft', ''); if (fromUI) { pend = []; pendF = []; renderPrev(); } autosize(); busy = true; stopReq = false; setSend();
+ $('#in').value = ''; ls('draft', ''); if (fromUI) { pend = []; pendF = []; renderPrev(); } autosize(); busy = true; mascotResponding = false; stopReq = false; setSend();
  renderChat(); renderList(); scrollEnd(true);
  const el = () => $('#msgs').lastElementChild?.querySelector('.md');
- const paint = () => { if (raf) return; raf = requestAnimationFrame(() => { raf = 0; if (cur === c && el()) { fill(el(), a); scrollEnd(); } }); };
+ const paint = () => { if (a.content) { mascotResponding = true; syncMascotState(); } if (raf) return; raf = requestAnimationFrame(() => { raf = 0; if (cur === c && el()) { fill(el(), a); scrollEnd(); } }); };
  const history = [{ role: 'system', content: buildSystem() }, ...c.msgs.slice(0, -1).map(({ role, content, imgs, files }) => { const t = files?.length ? content + files.map(f => '\n\n[Archivo: ' + f.name + ']\n```\n' + f.text + '\n```').join('') : content; return { role, content: imgs?.length ? [{ type: 'text', text: t }, ...imgs.map(u => ({ type: 'image_url', image_url: { url: u } }))] : t }; })];
  const hasImg = c.msgs.some(m => m.imgs?.length);
  const lm = !hasImg && model().local ? model() : null;
@@ -891,7 +1053,7 @@ async function send(text, imgsArg, filesArg) {
  }
  if (a.content && !a.error && lastId) a.model = lastId;
  if (stopReq && !a.content) a.content = '*Respuesta detenida.*';
- a.streaming = false; busy = false; setSend(); cancelAnimationFrame(raf); raf = 0;
+ a.streaming = false; busy = false; mascotResponding = false; setSend(); cancelAnimationFrame(raf); raf = 0;
  if (cur === c && el()) fill(el(), a);
  c.t = Date.now(); save(); renderList();
 }
