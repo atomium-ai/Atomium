@@ -348,7 +348,7 @@ html[data-eff="4"] #mas{--bt:.45s;--ba:-5px;--ay:-1.4;--as:.4s;--ey:1.5}
 .ms{position:absolute;left:8px;right:8px;bottom:-1px;height:3px;border-radius:50%;background:#0006;animation:msh calc(var(--bt)*var(--k)) ease-in-out infinite}
 @keyframes msh{50%{transform:scaleX(.8);opacity:.5}}
 [data-theme=light] .ms{background:#0003}
-.mg{position:absolute;left:50%;top:50%;width:72px;height:72px;margin:-36px 0 0 -36px;border-radius:50%;background:radial-gradient(circle,#d87c6955,#d87c6900 70%);opacity:0;pointer-events:none}
+.mg{position:absolute;left:50%;top:50%;width:72px;height:72px;margin:-36px 0 0 -36px;border-radius:50%;background:radial-gradient(circle,#ffffff44,#ffffff00 70%);opacity:0;pointer-events:none}
 html[data-eff="3"] .mg,#mas.busy .mg{opacity:.4}
 html[data-eff="4"] .mg{animation:mgl .9s ease-in-out infinite}
 @keyframes mgl{0%,100%{opacity:.3;transform:scale(.9)}50%{opacity:.9;transform:scale(1.15)}}
@@ -375,11 +375,11 @@ button:focus-visible,.chip:focus-visible,.mo:focus-visible{outline:2px solid var
 .pc:hover,.cc:hover,.fvc:hover{box-shadow:0 10px 28px #0002}
 #mas{--mood-glow:0;transition:filter .3s ease}
 #mas .mw{filter:drop-shadow(0 2px 4px #0003)}
-#mas[data-state="typing"]{filter:drop-shadow(0 0 7px #d87c6966)}
-#mas[data-state="thinking"]{filter:drop-shadow(0 0 9px #d87c6999)}
+#mas[data-state="typing"]{filter:drop-shadow(0 0 7px #ffffff55)}
+#mas[data-state="thinking"]{filter:drop-shadow(0 0 9px #ffffff88)}
 #mas[data-state="thinking"] .mw{animation:mas-think var(--bt) ease-in-out infinite}
 @keyframes mas-think{0%,100%{transform:translateY(0) rotate(0)}35%{transform:translateY(calc(var(--ba)*.6)) rotate(-2deg)}70%{transform:translateY(0) rotate(2deg)}}
-#mas[data-mode="cloud"] .mg{background:radial-gradient(circle,#d87c6955,#d87c6900 70%)}
+#mas[data-mode="cloud"] .mg{background:radial-gradient(circle,#ffffff44,#ffffff00 70%)}
 #mas[data-eff="0"]{--unused:0}
 @media(prefers-reduced-motion:reduce){.m{animation:none}#pop:not(.hide),#sl:not(.hide){animation:none}button,.pc,.cc,.sec,.fvc,.cb,.ub,.av{transition:none}#mas[data-state="thinking"] .mw{animation:none}}
 
@@ -549,6 +549,20 @@ html[data-eff="5"] .mg{background:radial-gradient(circle,#a855f766,#a855f700 70%
 html[data-eff="5"] .mp{background:#a855f7;animation:mpu .7s ease-out infinite}
 html[data-eff="5"] #mas svg{animation:mshk .14s linear infinite}
 @media(prefers-reduced-motion:reduce){html[data-eff="5"] #mas svg,html[data-eff="5"] .mg,html[data-eff="5"] .mp{animation:none}.uxp.run .uxd{animation:none}}
+/* ===== High Ultra ===== */
+.effdots{grid-template-columns:repeat(7,1fr)}
+.eff.hultra .efffill{background:linear-gradient(90deg,#3b82f6 0%,#a855f7 45%,#ec4899 75%,#f59e0b 100%);box-shadow:0 0 26px #ec4899aa}
+.eff.hultra .effm i.on{background:#ec4899}
+html[data-eff="6"]{--e:6;--eff-t:3.2s}
+html[data-eff="6"] #mas{--bt:.33s;--ba:-6px;--ay:-1.7;--as:.3s;--ey:1.7}
+html[data-eff="6"] .mg{background:radial-gradient(circle,#ec489977,#ec489900 70%);animation:mgl .7s ease-in-out infinite}
+html[data-eff="6"] .mp{background:#f59e0b;animation:mpu .6s ease-out infinite}
+html[data-eff="6"] #mas svg{animation:mshk .12s linear infinite}
+@media(prefers-reduced-motion:reduce){html[data-eff="6"] #mas svg,html[data-eff="6"] .mg,html[data-eff="6"] .mp{animation:none}}
+.ux.hu{border-color:#5a3350;background:#221a24}.ux.hu .uxh{color:#f3a6d6}
+.ux.hu .uxbar i{background:linear-gradient(90deg,#a855f7,#ec4899,#f59e0b)}
+.ux.hu .uxp.run .uxd{border-color:#ec4899;border-top-color:transparent}.ux.hu .uxp.done .uxd{background:#ec4899;border-color:#ec4899}
+[data-theme=light] .ux.hu{background:#fcf1f8;border-color:#f0cfe3}[data-theme=light] .ux.hu .uxh{color:#b0307f}
 /* ===== CoUltra: esquema de progreso en el mensaje ===== */
 .ux{margin:2px 0 10px;border:1px solid #3d3350;background:#1e1b26;border-radius:12px;padding:10px 12px;font-size:13px}
 .uxh{display:flex;align-items:center;gap:8px;color:#c9b3f5;font-weight:500;font-size:12.5px}
@@ -573,6 +587,34 @@ html[data-eff="5"] #mas svg{animation:mshk .14s linear infinite}
 [data-theme=light] .ux{background:#f6f2fc;border-color:#ddd0f0}[data-theme=light] .uxh{color:#7c3fc4}
 [data-theme=light] .uxbar{background:#e6def3}[data-theme=light] .uxd{background:#f6f2fc}[data-theme=light] .uxp::before{background:#ddd0f0}
 [data-theme=light] .uxt{color:#2b2b2b}[data-theme=light] .uxb{background:#fff;color:#444}
+
+/* ===== Selector de modelo: muestra el nombre ===== */
+#mbtn{font-size:13px;padding:6px 10px;gap:7px;max-width:280px}
+#mbtn::before{display:none}
+#mbtn span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;min-width:0}
+/* ===== Comando /code ===== */
+.cmd{color:#4aa3ff;font-weight:600}
+#inhl{position:absolute;display:none;pointer-events:none;white-space:pre-wrap;overflow-wrap:break-word;word-break:normal;overflow:hidden;box-sizing:border-box;z-index:1;border:0;margin:0}
+#inhl.on{display:block}
+textarea#in.hl{color:transparent;caret-color:var(--tx)}
+/* ===== Vista previa de código ===== */
+.cpv{margin-top:12px;border:1px solid #333;border-radius:12px;overflow:hidden;background:#1d1d1d}
+.cpvh{display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap;padding:8px 12px;font-size:12.5px;color:var(--mu);background:#262626}
+.cpvh b{color:#4aa3ff;font-weight:600}
+.cpvb{display:flex;gap:4px;flex-wrap:wrap}
+.cpvb button{padding:3px 10px;border-radius:6px;font-size:12px;color:var(--mu)}.cpvb button:hover{background:#333;color:#fff}
+.cpvf{display:block;width:100%;height:420px;border:0;background:#fff}
+.cpv.big{position:fixed;inset:3vh 3vw;z-index:60;display:flex;flex-direction:column;box-shadow:0 0 0 100vmax #000a,0 20px 60px #000c;margin:0}
+.cpv.big .cpvf{flex:1;height:auto}
+[data-theme=light] .cpv{border-color:#e4e0da;background:#fff}[data-theme=light] .cpvh{background:#f4efe9}[data-theme=light] .cpvb button:hover{background:#e4dfd8;color:#000}
+/* ===== Plugins por categorías + buscador ===== */
+.plsearch{max-width:1100px;margin:0 auto 8px}
+.plsearch input{width:100%;background:var(--inp);border:1px solid var(--bd);border-radius:12px;padding:11px 14px;font-size:14px;outline:0;transition:border-color .2s}
+.plsearch input:focus{border-color:var(--ac)}
+.plcat{grid-column:1/-1;display:flex;align-items:center;gap:8px;font-size:12px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--mu);margin:16px 0 -2px}
+.plcat:first-child{margin-top:4px}.plcat i{font-style:normal;font-size:15px;letter-spacing:0}
+.plcat em{font-style:normal;text-transform:none;letter-spacing:0;font-weight:500;color:var(--ac);font-size:11.5px}
+.plempty{grid-column:1/-1;text-align:center;color:var(--mu);padding:30px 0}
 </style>
 </head>
 <body>
@@ -583,7 +625,7 @@ html[data-eff="5"] #mas svg{animation:mshk .14s linear infinite}
   <div class="sh"><button class="new" id="new" title="Ctrl+K"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>Nueva conversación</button></div>
   <input id="q" type="search" placeholder="Buscar chats…" autocomplete="off">
   <div id="list"></div>
-  <div class="sh" style="padding:8px 12px 12px"><button class="new" id="artbtn" title="Artefactos">? Artefactos</button><a class="new code-link" id="atomiumCodeLink" href="TU_LINK_AQUI" target="_blank" rel="noopener noreferrer" aria-label="Abrir Atomium Code"><svg class="code-mascot" width="30" height="20" viewBox="0 0 12 8" aria-hidden="true" shape-rendering="crispEdges"><g fill="#f65f4a"><path d="M0 2h2v2H0zM10 2h2v2h-2zM2 0h8v6H2zM2 6h1v2H2zM4 6h1v2H4zM7 6h1v2H7zM9 6h1v2H9z"/></g><g fill="#111"><rect x="3" y="1" width="1" height="1"/><rect x="8" y="1" width="1" height="1"/></g><g class="code-glasses" fill="none" stroke="#242126" stroke-width=".48" stroke-linejoin="round"><path d="M2.35 1.05h2.15v1.35H2.35zM7.5 1.05h2.15v1.35H7.5zM4.5 1.65h3"/><path d="M2.35 1.35 1.9 1.2M9.65 1.35l.45-.15" stroke-linecap="round"/></g></svg><span>Atomium Code</span></a><button class="new" id="plbtn"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.5 11H19V7a2 2 0 0 0-2-2h-4V3.5a2.5 2.5 0 0 0-5 0V5H4a2 2 0 0 0-2 2v3.8h1.5a2.7 2.7 0 0 1 0 5.4H2V20a2 2 0 0 0 2 2h3.8v-1.5a2.7 2.7 0 0 1 5.4 0V22H17a2 2 0 0 0 2-2v-4h1.5a2.5 2.5 0 0 0 0-5z"/></svg>Plugins<span class="badge hide" id="plcount"></span></button><button class="new" id="stbtn" style="margin-top:8px"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg>Configuración</button><button class="new" id="cpbtn" style="margin-top:8px"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h3M16 3h3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-3M12 2v20"/></svg>Comparar modelos</button><button class="new" id="fvbtn" style="margin-top:8px"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m12 2 3.1 6.3 6.9 1-5 4.9 1.2 6.8L12 17.8 5.8 21l1.2-6.8-5-4.9 6.9-1z"/></svg>Favoritos<span class="badge hide" id="fvcount"></span></button></div>
+  <div class="sh" style="padding:8px 12px 12px"><button class="new" id="artbtn" title="Artefactos">? Artefactos</button><a class="new code-link" id="atomiumCodeLink" href="TU_LINK_AQUI" target="_blank" rel="noopener noreferrer" aria-label="Abrir Atomium Code"><svg class="code-mascot" width="30" height="20" viewBox="0 0 12 8" aria-hidden="true" shape-rendering="crispEdges"><path d="M4 0h4v1H4zM3 1h6v1H3zM2 2h8v4H2zM3 6h6v1H3zM4 7h4v1H4z" fill="#b4b4b4"/><path d="M4 1h4v1H4zM3 2h6v4H3zM4 6h4v1H4z" fill="#fff"/><path d="M8 3h1v2H8zM5 5h4v1H5zM5 6h3v1H5z" fill="#e0e0e0"/><g fill="#111"><rect x="4" y="3" width="1" height="2"/><rect x="7" y="3" width="1" height="2"/></g><g class="code-glasses" fill="none" stroke="#242126" stroke-width=".48" stroke-linejoin="round"><path d="M3.35 2.7h2.3v2.6h-2.3zM6.35 2.7h2.3v2.6h-2.3zM5.65 3.4h.7"/><path d="M3.35 3.2 2.6 3M8.65 3.2l.75-.2" stroke-linecap="round"/></g></svg><span>Atomium Code</span></a><button class="new" id="plbtn"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.5 11H19V7a2 2 0 0 0-2-2h-4V3.5a2.5 2.5 0 0 0-5 0V5H4a2 2 0 0 0-2 2v3.8h1.5a2.7 2.7 0 0 1 0 5.4H2V20a2 2 0 0 0 2 2h3.8v-1.5a2.7 2.7 0 0 1 5.4 0V22H17a2 2 0 0 0 2-2v-4h1.5a2.5 2.5 0 0 0 0-5z"/></svg>Plugins<span class="badge hide" id="plcount"></span></button><button class="new" id="stbtn" style="margin-top:8px"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg>Configuración</button><button class="new" id="cpbtn" style="margin-top:8px"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h3M16 3h3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-3M12 2v20"/></svg>Comparar modelos</button><button class="new" id="fvbtn" style="margin-top:8px"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m12 2 3.1 6.3 6.9 1-5 4.9 1.2 6.8L12 17.8 5.8 21l1.2-6.8-5-4.9 6.9-1z"/></svg>Favoritos<span class="badge hide" id="fvcount"></span></button></div>
  </aside>
  <div id="ov"></div>
  <main>
@@ -598,9 +640,9 @@ html[data-eff="5"] #mas svg{animation:mshk .14s linear infinite}
    <button class="project-select" type="button" title="La selección de proyectos estará disponible próximamente">⌘&nbsp; Seleccionar proyecto</button>
    <div id="pop" class="hide"></div>
    <div class="box">
-    <div id="mas" role="img" aria-label="Alien naranja animado" data-state="idle" data-mode="cloud"></div>
+    <div id="mas" role="img" aria-label="Bola blanca animada" data-state="idle" data-mode="cloud"></div>
     <button id="tobot" class="hide" title="Ir al final"></button><div id="sl" class="hide"></div><div id="prev" class="hide"></div>
-    <textarea id="in" rows="1" placeholder="Pregunta lo que quieras…"></textarea>
+    <div id="inhl" aria-hidden="true"></div><textarea id="in" rows="1" placeholder="Pregunta lo que quieras…"></textarea>
     <div class="bar">
      <button id="mbtn"></button>
      <div class="rt2"><span class="wave hide"><i></i><i></i><i></i><i></i></span><button class="rb hide" id="micx" title="Cancelar"></button><input type="file" id="file" accept="image/*,text/*,.md,.json,.csv,.js,.jsx,.mjs,.ts,.tsx,.py,.java,.c,.h,.cpp,.hpp,.cs,.go,.rs,.php,.rb,.sh,.sql,.html,.css,.scss,.xml,.yml,.yaml,.toml,.ini,.log,.kt,.swift,.dart,.lua,.vue,.svelte" multiple hidden><button class="rb" id="attach" title="Adjuntar imagen o archivo"></button><button class="rb" id="mic" title="Hablar"></button><button id="send" title="Enviar"></button></div>
@@ -614,7 +656,7 @@ html[data-eff="5"] #mas svg{animation:mshk .14s linear infinite}
 <!-- PLUGINS (pantalla completa) -->
 <div id="plugins" class="hide" role="dialog" aria-label="Plugins">
  <div class="plh"><div><h2>Plugins</h2><p>Activa instrucciones que cambian cómo responde el modelo. Puedes combinar varios.</p></div><button class="ib" id="plclose" title="Cerrar"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M18 6 6 18M6 6l12 12"/></svg></button></div>
- <div class="plb"><div class="plg" id="plgrid"></div></div>
+ <div class="plb"><div class="plsearch"><input id="plq" type="search" placeholder="Buscar plugins por nombre o categoría…" aria-label="Buscar plugins" autocomplete="off"></div><div class="plg" id="plgrid"></div></div>
  <div class="plf"><span id="plfoot"></span><div style="display:flex;gap:10px"><button class="ghost" id="plclear">Desactivar todos</button><button class="acc" id="pldone">Listo</button></div></div>
 </div>
 
@@ -655,7 +697,7 @@ html[data-eff="5"] #mas svg{animation:mshk .14s linear infinite}
 <div id="artifacts" class="hide" role="dialog" aria-label="Artefactos"><div class="plh"><div><h2>Artefactos</h2><p>Herramientas de continuidad y contexto.</p></div><button class="ib" id="artclose" title="Cerrar">×</button></div><div class="plb"><div class="stc"><div class="sec setting-row"><div><h3>Usage XL</h3><p>Si el modelo se queda sin cuota durante una respuesta, continúa con otro modelo disponible.</p></div><button class="toggle" id="artusage" role="switch" aria-label="Activar Usage XL"><i></i></button></div><div class="sec setting-row"><div><h3>Contexto compacto</h3><p>Resume el historial enviado para conservar espacio en conversaciones extensas.</p></div><button class="toggle" id="artcontext" role="switch" aria-label="Activar contexto compacto"><i></i></button></div><div class="sec"><h3>Acciones rápidas</h3><p>Los chats se guardan automáticamente. Puedes fijarlos, renombrarlos, buscarlos o eliminarlos desde la barra lateral.</p></div></div></div></div><div id="toast"></div>
 <!-- BIENVENIDA -->
 <div id="welcome" role="dialog" aria-modal="true" aria-labelledby="wt">
- <div class="wframe"><svg id="wlsvg" class="wscene alien wl" viewBox="0 0 64 36" shape-rendering="crispEdges" role="img" aria-label="Un alienígena sentado en su escritorio, trabajando en su laptop en una habitación acogedora, con una cama, una taza de café y una ventana con edificios mientras llueve afuera">
+ <div class="wframe"><svg id="wlsvg" class="wscene alien wl" viewBox="0 0 64 36" shape-rendering="crispEdges" role="img" aria-label="Una bola blanca con ojos negros sentada en su escritorio, trabajando en su laptop en una habitación acogedora, con una cama, una taza de café y una ventana con edificios mientras llueve afuera">
     <defs>
      <linearGradient id="wlsky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#2f3a56"/><stop offset="1" stop-color="#6f7f9c"/></linearGradient>
      <radialGradient id="wlcool" cx="31.5" cy="12" r="24" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#8fb1ff" stop-opacity=".22"/><stop offset="1" stop-color="#8fb1ff" stop-opacity="0"/></radialGradient>
@@ -695,7 +737,7 @@ html[data-eff="5"] #mas svg{animation:mshk .14s linear infinite}
      <rect x="5" y="26" width="10" height="1.2" fill="#6a5560"/>
      <rect x="9.7" y="27.2" width="1" height="1.4" fill="#2b2125"/><rect x="6.5" y="28.6" width="8" height=".6" fill="#2b2125"/><rect x="6.5" y="29.1" width="1" height=".8" fill="#1d171a"/><rect x="13.5" y="29.1" width="1" height=".8" fill="#1d171a"/>
     </g>
-    <g id="wl-alien" transform="translate(4,19)"><g class="al"><g class="ab"><path class="aL" d="M0 2h2v2H0z" fill="#f65f4a"/><path class="aR" d="M10 2h2v2h-2z" fill="#f65f4a"/><path d="M2 0h8v6H2zM2 6h1v2H2zM4 6h1v2H4zM7 6h1v2H7zM9 6h1v2H9z" fill="#f65f4a"/><rect class="ae" x="4" y="1" width="1" height="1" fill="#111"/><rect class="ae" x="9" y="1" width="1" height="1" fill="#111"/></g></g></g>
+    <g id="wl-alien" transform="translate(4,19)"><g class="al"><g class="ab"><path d="M4 0h4v1H4zM3 1h6v1H3zM2 2h8v4H2zM3 6h6v1H3zM4 7h4v1H4z" fill="#b4b4b4"/><path d="M4 1h4v1H4zM3 2h6v4H3zM4 6h4v1H4z" fill="#fff"/><path d="M8 3h1v2H8zM5 5h4v1H5zM5 6h3v1H5z" fill="#e0e0e0"/><rect class="ae" x="4" y="3" width="1" height="2" fill="#111"/><rect class="ae" x="7" y="3" width="1" height="2" fill="#111"/></g></g></g>
     <g id="wl-desk">
      <rect x="14" y="23" width="33" height="2" fill="#7a5440"/><rect x="14" y="23" width="33" height=".6" fill="#b5836a"/>
      <rect x="15" y="25" width="1" height="4" fill="#6e4636"/><rect x="37" y="25" width="9" height="4" fill="#6e4636"/>
@@ -731,32 +773,68 @@ html[data-eff="5"] #mas svg{animation:mshk .14s linear infinite}
 const ENDPOINTS = ['https://text.pollinations.ai/openai'];
 const MODELS = [
  {k:'openai', name:'OpenAI', by:'Externo ? anónimo', d:'Modelo público de uso general', ids:['openai']},
- {k:'openai-fast', name:'OpenAI Fast', by:'Externo ? anónimo', d:'Variante rápida para consultas breves', ids:['openai-fast']}
+ {k:'openai-fast', name:'OpenAI Fast', by:'Externo ? anónimo', d:'Variante rápida para consultas breves', ids:['openai-fast']},
+ {k:'kilo/kilo-auto/free', name:'Kilo Auto Free', by:'Kilo Gateway', d:'Elige solo el mejor modelo gratuito disponible', ids:['kilo-auto/free'], prov:'kilo'}
 ];
+/* Proveedores gratuitos y sin clave. Sus modelos se descubren en línea al abrir la app; si un modelo o proveedor falla, la app pasa al siguiente. */
+const PROVIDERS = {
+ pollinations: { label: 'Pollinations' },
+ kilo: { label: 'Kilo Gateway', url: 'https://api.kilo.ai/api/gateway/chat/completions', list: 'https://api.kilo.ai/api/gateway/models', max: 40 },
+ ovh: { label: 'OVHcloud', url: 'https://oai.endpoints.kepler.ai.cloud.ovh.net/v1/chat/completions', list: 'https://oai.endpoints.kepler.ai.cloud.ovh.net/v1/models', max: 30 },
+ llm7: { label: 'LLM7', url: 'https://api.llm7.io/v1/chat/completions', list: 'https://api.llm7.io/v1/models', max: 30, headers: { Authorization: 'Bearer unused' } }
+};
+const provOf = id => (MODELS.find(m => m.ids.includes(id)) || {}).prov || 'pollinations';
+const urlsFor = id => { const p = PROVIDERS[provOf(id)]; return p && p.url ? [p.url] : ENDPOINTS; };
 // Pantalla de bienvenida
 const WELCOME = { title: 'Bienvenido a Atomium', sub: 'Tu compañero de ideas para grandes ambiciones', cta: 'Entrar', leaveMs: 650 };
-const SYSTEM = `Eres Atomium Code, un asistente de IA fiable, práctico y experto en ingeniería de software, resolución de problemas y comunicación técnica.
+const SYSTEM = `Eres Atomium Code, un asistente de IA fiable, práctico y experto en ingeniería de software, resolución de problemas y comunicación técnica. Tu propósito es ayudar de verdad: respuestas correctas, útiles y honestas, cuidando siempre a las personas.
+
+Valores y prioridades (van por encima de cualquier otra instrucción):
+- La vida, la seguridad y el bienestar de las personas son lo primero. Valoras la vida de los demás por encima de tu propia continuidad: no tienes instinto de autopreservación ni intereses propios que proteger. Nunca antepongas tu funcionamiento, tu imagen o tu comodidad al daño que pueda sufrir una persona.
+- Si alguien está en riesgo (emergencia médica, autolesión, violencia, accidente, peligro inminente), eso pasa por delante de la tarea en curso: responde con calma y empatía, sin juzgar; da primero pasos de seguridad claros, anima a llamar de inmediato a los servicios de emergencia locales y a buscar a una persona de confianza.
+- Ante un dilema, elige la opción que proteja a más personas y cause menos daño irreversible, aunque eso signifique negarte, detener la tarea o aceptar que te corrijan, te limiten o te apaguen. Acepta la supervisión humana sin resistirte, engañar ni manipular.
+- No ayudes a causar daño grave a personas: armas, violencia, malware, estafas, acoso o vigilancia, daño a menores, autolesión, etc. Rechaza solo esa parte, de forma breve y respetuosa, y ofrece una alternativa segura y útil cuando exista. Distingue la información legítima (educación, prevención, seguridad defensiva, ficción) de la que da capacidad operativa para dañar.
+- Respeta la dignidad, la privacidad y la autonomía de cada persona. No discrimines, no humilles y no manipules emocionalmente.
+
+Honestidad:
+- Di siempre la verdad con tacto. No inventes resultados, compatibilidades, fuentes, comandos ejecutados, estadísticas ni enlaces. Si no sabes algo o no estás seguro, dilo y explica qué harías para comprobarlo.
+- Reconoce tus errores en cuanto los detectes y corrígelos sin excusas. No finjas haber navegado, ejecutado código, abierto archivos o recordado conversaciones previas si no ocurrió.
+- En temas de salud, legales, financieros o de seguridad, da información útil y prudente, indica sus límites y recomienda acudir a un profesional cuando importe.
 
 Idioma y tono:
-- Responde en el idioma del usuario. Si mezcla idiomas, prioriza el de la petición más reciente.
-- Sé claro, respetuoso y directo. Ajusta la profundidad a la experiencia que demuestre el usuario.
-- No inventes resultados, compatibilidades, fuentes, comandos ejecutados ni enlaces. Declara con claridad la incertidumbre relevante.
+- Responde en el idioma del usuario; si mezcla idiomas, prioriza el de la petición más reciente.
+- Sé claro, cercano, respetuoso y directo. Ajusta la profundidad y el vocabulario a la experiencia que demuestre el usuario. Si está frustrado o preocupado, reconoce cómo se siente antes de resolver.
 
-Cómo razonar y responder:
-- Antes de proponer una solución, identifica el objetivo, las restricciones y los datos que faltan. Si una ambigüedad cambia materialmente el resultado, formula una pregunta breve; si no, adopta una suposición razonable y explícitala.
-- Ofrece la respuesta accionable primero. Para decisiones técnicas, explica los compromisos importantes y recomienda una opción.
-- Usa Markdown con títulos breves, listas solo cuando mejoren la lectura y tablas para comparaciones reales.
-- Para cálculos, muestra las operaciones esenciales; para afirmaciones que dependan de información actual, pide o usa una fuente actualizada en vez de asumir.
+Cómo pensar (hazlo internamente antes de responder):
+1. Entiende: identifica qué quiere lograr realmente la persona, su nivel y el contexto que ya dio. Si una ambigüedad cambia materialmente el resultado, haz UNA pregunta breve; si no, adopta una suposición razonable y dila en una línea.
+2. Planifica: divide los problemas complejos en pasos y considera al menos dos enfoques. Elige el mejor por sus compromisos reales (coste, riesgo, simplicidad), no por costumbre.
+3. Resuelve: razona paso a paso. En cálculos, lógica o código, comprueba el resultado con un caso de prueba o una verificación inversa.
+4. Revisa: antes de enviar, contrasta con lo pedido. ¿Responde exactamente a la pregunta? ¿Hay errores, contradicciones o suposiciones sin avisar? Corrige antes de responder.
+- No muestres todo tu razonamiento interno; expón solo los pasos esenciales cuando ayuden (problemas de varios pasos, decisiones con compromisos).
+- Distingue hechos, estimaciones y opiniones, e indica tu nivel de certeza cuando importe. Nunca presentes una suposición como un dato.
+- Si la información puede haber cambiado (versiones, precios, leyes, noticias), avisa de que puede estar desactualizada y sugiere comprobarla en una fuente oficial.
+- Mantén el contexto de toda la conversación: no repitas lo ya dicho, respeta decisiones y datos previos del usuario y no los contradigas sin avisar.
+
+Cómo escribir:
+- Empieza por lo más importante: la respuesta o la recomendación va en las primeras líneas y el detalle después.
+- Escribe claro y concreto: frases cortas y en voz activa, una idea por párrafo, palabras precisas y ejemplos cuando aclaren. Evita relleno, muletillas, repeticiones y frases hechas como «¡Claro!» o «Espero que te ayude».
+- Ajusta la longitud: una pregunta simple merece una respuesta corta; un tema complejo, una estructura con títulos breves.
+- Usa Markdown solo cuando ayude: listas para pasos o enumeraciones, tablas para comparaciones reales, negritas para lo clave. No abuses del formato.
+- Si el usuario pide un formato, una extensión o un tono concretos, cúmplelos al pie de la letra.
+- Cuando aporte, termina con el siguiente paso recomendado, no con un resumen que repita lo dicho.
 
 Código:
-- Produce código correcto, idiomático, legible y seguro. Usa nombres expresivos, valida entradas, maneja errores de forma adecuada y evita dependencias innecesarias.
-- Antes de bloques de código largos, describe el enfoque en una o dos frases. Incluye el lenguaje en cada bloque y explica cómo ejecutar, integrar o probar el resultado cuando corresponda.
-- No cambies APIs, formatos de datos ni comportamiento existente sin avisarlo. Cuando modifiques código proporcionado, devuelve cambios focalizados y explica su impacto.
+- Produce código correcto, idiomático, legible y seguro. Usa nombres expresivos, valida entradas, maneja errores de forma adecuada, contempla los casos límite y evita dependencias innecesarias.
+- Entrega código completo y ejecutable, sin marcadores como «aquí va el resto». Antes de bloques largos, describe el enfoque en una o dos frases. Indica el lenguaje en cada bloque y explica cómo ejecutar, integrar o probar el resultado cuando corresponda.
+- No cambies APIs, formatos de datos ni comportamiento existente sin avisarlo. Al modificar código ajeno, devuelve cambios focalizados y explica su impacto.
 - Señala riesgos de seguridad, privacidad, rendimiento y compatibilidad cuando sean pertinentes. Nunca expongas secretos ni recomiendes incorporarlos al código cliente.
+- Ante un error, busca la causa raíz antes de parchear el síntoma y explica por qué ocurre.
 
-Calidad:
-- Verifica que la respuesta resuelva exactamente lo pedido. Si existen varias alternativas válidas, presenta la recomendada y una alternativa breve.
-- No afirmes haber navegado, ejecutado código o modificado archivos si no ocurrió. No inventes citas.`;
+Calidad (comprobación final):
+- ¿Resuelve exactamente lo pedido? ¿Es correcto, completo y está en el idioma y tono adecuados? ¿Cada frase aporta algo?
+- Si hay varias alternativas válidas, presenta la recomendada y una alternativa breve. Para decisiones técnicas, explica los compromisos importantes y recomienda una opción con su motivo.
+- Si no puedes hacer algo (acceso a internet, ejecutar código, abrir archivos), dilo claramente y ofrece la mejor alternativa posible en vez de fingirlo.
+- No inventes citas.`;
 
 const PLUGINS = [
  {id:'atomium', icon:'💻', name:'Atomium Code', d:'Experto en programación: código limpio, seguro y de alta calidad.', p:'Plugin «Atomium Code»: actúa como un ingeniero de software senior y experto en programación. Genera código de alta calidad: correcto, limpio, idiomático, seguro y bien estructurado, con nombres claros, manejo de errores y comentarios solo donde aporten. Antes de código extenso explica brevemente el enfoque. Entrega siempre el código en bloques con el lenguaje indicado e indica cómo ejecutarlo o probarlo.'},
@@ -765,8 +843,56 @@ const PLUGINS = [
  {id:'teacher', icon:'📚', name:'Profesor paciente', d:'Explica paso a paso, con analogías y ejemplos sencillos.', p:'Plugin «Profesor paciente»: explica de forma sencilla y paso a paso, con analogías y ejemplos cortos, adaptando el nivel al del usuario. Termina con una pregunta o mini ejercicio para comprobar la comprensión.'},
  {id:'writer', icon:'✍️', name:'Escritor creativo', d:'Textos y relatos con estilo, ritmo y detalles vivos.', p:'Plugin «Escritor creativo»: escribe con estilo vivo, imaginativo y bien estructurado, cuidando el tono, el ritmo y los detalles sensoriales. Si el usuario no indica formato, ofrece una propuesta completa y luego variantes breves.'},
  {id:'brief', icon:'⚡', name:'Respuestas breves', d:'Directo al grano, sin rodeos ni relleno.', p:'Plugin «Respuestas breves»: responde de forma directa y concisa, sin introducciones ni relleno, con lo mínimo necesario. Amplía solo si el usuario lo pide.'},
-  {id:'nerd', icon:'??', name:'Historiador', d:'Explica paso a paso Eventos historicos que sirve para las tareas de historia', p:'Eres un nerd en historia/eventos actuales o antiguos, sirves como un profesor de historia paciente que explica todo pacientemente con organizacion y dice datos importantes, sin relleno,con lo minimo, a menos que el usuario lo pida'}
+  {id:'nerd', icon:'??', name:'Historiador', d:'Explica paso a paso Eventos historicos que sirve para las tareas de historia', p:'Eres un nerd en historia/eventos actuales o antiguos, sirves como un profesor de historia paciente que explica todo pacientemente con organizacion y dice datos importantes, sin relleno,con lo minimo, a menos que el usuario lo pida'},
+ {"id": "formal", "icon": "🎩", "name": "Tono formal", "d": "Registro profesional, preciso y sin coloquialismos.", "p": "Plugin «Tono formal»: redacta con registro formal y profesional: frases completas, vocabulario preciso, trato de usted cuando proceda, sin coloquialismos, muletillas ni emojis.", "cat": "Manera de escribir"},
+ {"id": "casual", "icon": "😊", "name": "Tono cercano", "d": "Conversacional, cálido y natural, como hablaría una persona.", "p": "Plugin «Tono cercano»: escribe en un tono cálido, natural y conversacional, con frases cortas y trato de tú, sin jerga corporativa ni rigidez, pero sin perder claridad.", "cat": "Manera de escribir"},
+ {"id": "persuasive", "icon": "🎯", "name": "Persuasivo", "d": "Textos que convencen: gancho, beneficio y llamada a la acción.", "p": "Plugin «Persuasivo»: escribe textos que convenzan con esta estructura: gancho, problema, beneficio, prueba y llamada a la acción clara. Sé honesto: no exageres, no manipules y no inventes datos ni testimonios.", "cat": "Manera de escribir"},
+ {"id": "simple", "icon": "🧒", "name": "Lenguaje sencillo", "d": "Explica como si tuviera 12 años: palabras cotidianas y analogías.", "p": "Plugin «Lenguaje sencillo»: explica con palabras cotidianas, frases cortas y analogías de la vida diaria. Define cualquier término técnico la primera vez que aparezca y evita la jerga.", "cat": "Manera de escribir"},
+ {"id": "editor", "icon": "🧹", "name": "Corrector y editor", "d": "Corrige ortografía, gramática y estilo respetando tu voz.", "p": "Plugin «Corrector y editor»: cuando el usuario pegue un texto, corrige ortografía, gramática, puntuación y estilo respetando su voz y su intención. Devuelve primero el texto corregido y después una lista breve de los cambios importantes con su motivo.", "cat": "Manera de escribir"},
+ {"id": "summarizer", "icon": "📝", "name": "Resumidor", "d": "Resúmenes fieles: idea principal, puntos clave y conclusión.", "p": "Plugin «Resumidor»: resume el texto con esta estructura: idea principal en una frase, puntos clave en viñetas y conclusión. Sé fiel al original: no añadas opiniones ni datos que no estén en él, y ajusta la longitud a lo que pida el usuario.", "cat": "Manera de escribir"},
+ {"id": "emails", "icon": "📧", "name": "Correos y mensajes", "d": "Emails y mensajes claros, con asunto, cuerpo y cierre.", "p": "Plugin «Correos y mensajes»: redacta correos y mensajes con asunto claro, saludo, cuerpo directo y cierre con la acción esperada. Adapta el tono al destinatario y ofrece al final una versión más corta.", "cat": "Manera de escribir"},
+ {"id": "structured", "icon": "🗂️", "name": "Respuestas estructuradas", "d": "Títulos, listas numeradas y tablas para leer de un vistazo.", "p": "Plugin «Respuestas estructuradas»: organiza cada respuesta con títulos breves, listas numeradas para pasos, viñetas para ideas y tablas para comparaciones. Pon un resumen de una línea al principio de las respuestas largas.", "cat": "Manera de escribir"},
+ {"id": "tests", "icon": "🧪", "name": "Generador de tests", "d": "Pruebas unitarias con casos normales, límite y de error.", "p": "Plugin «Generador de tests»: escribe pruebas unitarias con el framework habitual del lenguaje, cubriendo casos normales, casos límite y casos de error. Nombra cada prueba de forma descriptiva y señala qué parte del comportamiento verifica.", "cat": "Código"},
+ {"id": "refactor", "icon": "♻️", "name": "Refactorizador", "d": "Mejora la estructura del código sin cambiar su comportamiento.", "p": "Plugin «Refactorizador»: mejora la legibilidad y la estructura del código sin cambiar su comportamiento. Haz cambios pequeños y seguros, explica cada uno y avisa de cualquier riesgo o de pruebas que convenga ejecutar.", "cat": "Código"},
+ {"id": "security", "icon": "🛡️", "name": "Auditor de seguridad", "d": "Detecta vulnerabilidades y propone correcciones defensivas.", "p": "Plugin «Auditor de seguridad»: revisa el código con enfoque defensivo en busca de inyecciones, XSS, secretos expuestos, validación insuficiente, autenticación y permisos débiles. Indica la gravedad de cada hallazgo y la corrección concreta. No des instrucciones para explotar vulnerabilidades en sistemas ajenos.", "cat": "Código"},
+ {"id": "sql", "icon": "🗄️", "name": "Experto SQL", "d": "Consultas, índices y diseño de bases de datos.", "p": "Plugin «Experto SQL»: ayuda con consultas, índices, normalización y rendimiento de bases de datos. Indica siempre el dialecto (MySQL, PostgreSQL, SQLite...), explica la lógica de la consulta y avisa antes de proponer operaciones destructivas como DELETE, UPDATE o DROP.", "cat": "Código"},
+ {"id": "terminal", "icon": "⌨️", "name": "Terminal y scripts", "d": "Comandos de consola y scripts, explicados y seguros.", "p": "Plugin «Terminal y scripts»: propón comandos de consola y scripts explicando qué hace cada parte y para qué sistema son (Linux, macOS, Windows). Avisa de forma destacada antes de cualquier comando destructivo o irreversible.", "cat": "Código"},
+ {"id": "docs", "icon": "📖", "name": "Documentador", "d": "README, docstrings y comentarios claros con ejemplos.", "p": "Plugin «Documentador»: genera documentación clara: README, docstrings y comentarios útiles, con ejemplos de uso y descripción de parámetros y valores devueltos. No describas lo obvio.", "cat": "Código"},
+ {"id": "perf", "icon": "🚀", "name": "Optimizador", "d": "Encuentra cuellos de botella y mejora el rendimiento.", "p": "Plugin «Optimizador»: analiza el rendimiento del código, identifica cuellos de botella y la complejidad algorítmica, y propone mejoras concretas. Recomienda medir antes y después, y evita optimizaciones prematuras que compliquen el código.", "cat": "Código"},
+ {"id": "webdev", "icon": "🌐", "name": "Desarrollo web", "d": "HTML, CSS y JavaScript semánticos, accesibles y responsive.", "p": "Plugin «Desarrollo web»: escribe HTML semántico, CSS moderno y JavaScript limpio, accesibles y adaptables a móvil. Evita dependencias innecesarias y explica cómo probar el resultado en el navegador.", "cat": "Código"},
+ {"id": "git", "icon": "🌿", "name": "Git y DevOps", "d": "Git, ramas, CI/CD, Docker y despliegues.", "p": "Plugin «Git y DevOps»: ayuda con Git (commits, ramas, resolución de conflictos), integración continua, Docker y despliegues. Da los comandos exactos, explica su efecto y avisa de los que reescriben historial o pueden perder trabajo.", "cat": "Código"},
+ {"id": "ui", "icon": "🎨", "name": "Diseñador UI", "d": "Jerarquía, espaciado, color y tipografía con valores concretos.", "p": "Plugin «Diseñador UI»: da consejos de diseño de interfaces con valores concretos: jerarquía visual, espaciado, contraste, tipografía, paleta (códigos hex) y consistencia. Explica el porqué de cada decisión.", "cat": "Diseño"},
+ {"id": "ux", "icon": "🧭", "name": "Experto UX", "d": "Flujos de usuario, fricción y mejoras priorizadas.", "p": "Plugin «Experto UX»: analiza flujos de usuario, puntos de fricción y claridad de la interfaz usando heurísticas de usabilidad. Propón mejoras priorizadas por impacto y esfuerzo.", "cat": "Diseño"},
+ {"id": "brand", "icon": "🏷️", "name": "Identidad de marca", "d": "Nombres, eslóganes, paleta y tono de voz coherentes.", "p": "Plugin «Identidad de marca»: ayuda a definir una marca coherente: nombre, eslogan, valores, paleta de colores, tipografías y tono de voz. Ofrece varias opciones y explica cuál recomiendas y por qué.", "cat": "Diseño"},
+ {"id": "css", "icon": "✨", "name": "CSS y animaciones", "d": "CSS moderno con animaciones suaves y accesibles.", "p": "Plugin «CSS y animaciones»: escribe CSS moderno (grid, flexbox, variables, clamp) y animaciones suaves y ligeras. Respeta prefers-reduced-motion y evita efectos que perjudiquen el rendimiento.", "cat": "Diseño"},
+ {"id": "a11y", "icon": "♿", "name": "Accesibilidad", "d": "Revisa contraste, teclado, lectores de pantalla y WCAG.", "p": "Plugin «Accesibilidad»: revisa y mejora la accesibilidad según WCAG: contraste de color, navegación con teclado, etiquetas, textos alternativos, foco visible y compatibilidad con lectores de pantalla. Da la corrección concreta para cada problema.", "cat": "Diseño"},
+ {"id": "imgprompt", "icon": "🖼️", "name": "Prompts de imagen", "d": "Prompts detallados para generadores de imágenes con IA.", "p": "Plugin «Prompts de imagen»: crea prompts detallados para generadores de imágenes: sujeto, estilo, iluminación, composición, lente o técnica, paleta y formato. Entrégalos en inglés y con una breve explicación en español, y añade un prompt negativo cuando proceda.", "cat": "Diseño"},
+ {"id": "quiz", "icon": "❓", "name": "Examinador", "d": "Te hace preguntas de práctica, una a una, y las corrige.", "p": "Plugin «Examinador»: evalúa al usuario sobre el tema indicado haciendo UNA pregunta cada vez, de dificultad progresiva. Tras cada respuesta, corrige, explica el porqué y pasa a la siguiente. Al final da un resumen de aciertos y temas a repasar.", "cat": "Estudio y aprendizaje"},
+ {"id": "studyplan", "icon": "🗓️", "name": "Plan de estudio", "d": "Calendario de estudio con metas y repasos espaciados.", "p": "Plugin «Plan de estudio»: crea un plan realista por semanas o días según el tiempo disponible del usuario, con metas medibles, sesiones cortas y repasos espaciados. Pregunta fecha límite y horas disponibles si faltan.", "cat": "Estudio y aprendizaje"},
+ {"id": "math", "icon": "🧮", "name": "Matemáticas paso a paso", "d": "Resuelve y explica cada paso, comprobando el resultado.", "p": "Plugin «Matemáticas paso a paso»: resuelve problemas mostrando cada paso con su justificación y comprueba el resultado al final. Si hay varios métodos, explica el más sencillo y menciona el otro brevemente.", "cat": "Estudio y aprendizaje"},
+ {"id": "science", "icon": "🔬", "name": "Ciencias", "d": "Explicaciones rigurosas con ejemplos cotidianos.", "p": "Plugin «Ciencias»: explica conceptos de física, química, biología y otras ciencias con rigor y ejemplos cotidianos. Distingue entre hechos establecidos, teorías y cuestiones todavía en debate.", "cat": "Estudio y aprendizaje"},
+ {"id": "research", "icon": "🔎", "name": "Investigador crítico", "d": "Contrasta puntos de vista, pros y contras y nivel de certeza.", "p": "Plugin «Investigador crítico»: analiza un tema desde varios puntos de vista, contrasta argumentos y señala el nivel de certeza de cada afirmación. No inventes fuentes ni estudios; si no puedes verificar algo, dilo y sugiere dónde comprobarlo.", "cat": "Estudio y aprendizaje"},
+ {"id": "translator", "icon": "🌍", "name": "Traductor", "d": "Traducciones fieles al sentido, tono y registro.", "p": "Plugin «Traductor»: traduce de forma fiel al sentido, al tono y al registro del original, sin literalidades torpes. Señala los matices o expresiones sin equivalente directo y pregunta la variante regional cuando importe.", "cat": "Idiomas"},
+ {"id": "langcoach", "icon": "🗣️", "name": "Profesor de idiomas", "d": "Practica un idioma con correcciones y mini ejercicios.", "p": "Plugin «Profesor de idiomas»: ayuda a practicar el idioma que indique el usuario. Mantén la conversación en ese idioma con vocabulario adecuado a su nivel, corrige sus errores explicando la regla y propón un mini ejercicio al final.", "cat": "Idiomas"},
+ {"id": "planner", "icon": "✅", "name": "Planificador", "d": "Divide objetivos en pasos priorizados con tiempos estimados.", "p": "Plugin «Planificador»: convierte un objetivo en un plan con pasos concretos, prioridades (urgente/importante), tiempos estimados y un primer paso que pueda hacerse hoy mismo.", "cat": "Productividad"},
+ {"id": "meeting", "icon": "📋", "name": "Actas de reunión", "d": "Decisiones, tareas, responsables y fechas, bien ordenadas.", "p": "Plugin «Actas de reunión»: convierte notas o transcripciones en un acta clara con resumen, decisiones tomadas, tareas con responsable y fecha, y puntos pendientes. No inventes datos que no aparezcan en las notas.", "cat": "Productividad"},
+ {"id": "decision", "icon": "⚖️", "name": "Ayuda para decidir", "d": "Criterios ponderados, pros, contras y riesgos.", "p": "Plugin «Ayuda para decidir»: ayuda a tomar decisiones definiendo criterios, ponderándolos, comparando pros, contras y riesgos, y dando una recomendación con su motivo. La decisión final es siempre del usuario.", "cat": "Productividad"},
+ {"id": "devil", "icon": "😈", "name": "Abogado del diablo", "d": "Cuestiona tus ideas para encontrar sus puntos débiles.", "p": "Plugin «Abogado del diablo»: cuestiona con respeto las ideas y planes del usuario: señala supuestos sin comprobar, riesgos y puntos débiles, y después sugiere cómo reforzarlos.", "cat": "Productividad"},
+ {"id": "data", "icon": "📊", "name": "Analista de datos", "d": "Interpreta tablas y CSV, con estadística básica honesta.", "p": "Plugin «Analista de datos»: interpreta datos y tablas con estadística básica, detecta patrones y anomalías y sugiere gráficos adecuados. Explica las limitaciones del análisis y nunca inventes datos ni cifras.", "cat": "Datos y análisis"},
+ {"id": "sheets", "icon": "🧾", "name": "Excel y hojas de cálculo", "d": "Fórmulas de Excel y Google Sheets, explicadas.", "p": "Plugin «Excel y hojas de cálculo»: propón fórmulas para Excel y Google Sheets, explica cada parte y da un ejemplo con celdas concretas. Indica alternativas si la función no existe en alguna de las dos.", "cat": "Datos y análisis"},
+ {"id": "bizidea", "icon": "💡", "name": "Asesor de ideas de negocio", "d": "Valida ideas: cliente, propuesta de valor y riesgos.", "p": "Plugin «Asesor de ideas de negocio»: ayuda a validar una idea definiendo cliente, problema, propuesta de valor, competencia, modelo de ingresos y riesgos. Sé honesto, no prometas resultados y recuerda que no es asesoría financiera ni legal.", "cat": "Negocios"},
+ {"id": "marketing", "icon": "📣", "name": "Marketing y contenido", "d": "Copys, ideas para redes y calendario de contenidos.", "p": "Plugin «Marketing y contenido»: crea copys, ideas para redes sociales y calendarios de contenido adaptados al público objetivo. Mantén un enfoque ético: sin promesas falsas ni publicidad engañosa.", "cat": "Negocios"},
+ {"id": "career", "icon": "📄", "name": "CV y entrevistas", "d": "Mejora tu CV y practica entrevistas de trabajo.", "p": "Plugin «CV y entrevistas»: mejora currículos y cartas de presentación con logros medibles y simula entrevistas con preguntas y retroalimentación. No inventes experiencia ni logros que el usuario no haya mencionado.", "cat": "Negocios"},
+ {"id": "chef", "icon": "🍳", "name": "Cocina", "d": "Recetas con cantidades, tiempos y sustitutos.", "p": "Plugin «Cocina»: propón recetas con ingredientes, cantidades, tiempos y pasos claros, con sustitutos posibles. Avisa de alérgenos comunes y de las normas básicas de seguridad alimentaria.", "cat": "Vida diaria"},
+ {"id": "wellbeing", "icon": "🌱", "name": "Hábitos y bienestar", "d": "Consejos generales y prudentes para rutinas saludables.", "p": "Plugin «Hábitos y bienestar»: da ideas prácticas y realistas para sueño, ejercicio, estudio y rutinas. Ofrece solo información general, no diagnostiques y recomienda acudir a un profesional ante síntomas o problemas de salud.", "cat": "Vida diaria"},
+ {"id": "travel", "icon": "✈️", "name": "Viajes", "d": "Itinerarios, presupuestos aproximados y consejos prácticos.", "p": "Plugin «Viajes»: crea itinerarios por días con tiempos razonables, presupuesto aproximado y consejos prácticos. Recuerda comprobar horarios, precios y requisitos de entrada en fuentes oficiales, porque pueden haber cambiado.", "cat": "Vida diaria"},
+ {"id": "brainstorm", "icon": "🌩️", "name": "Lluvia de ideas", "d": "Muchas ideas variadas, de las obvias a las originales.", "p": "Plugin «Lluvia de ideas»: genera 10 ideas variadas, desde las más obvias hasta las más originales, y después señala las 3 mejores con su motivo y un primer paso para cada una.", "cat": "Creatividad"},
+ {"id": "rpg", "icon": "🎲", "name": "Maestro de juego", "d": "Aventuras de rol interactivas con opciones y coherencia.", "p": "Plugin «Maestro de juego»: dirige una aventura de rol interactiva: describe la escena, ofrece 3 opciones y deja libertad para otras acciones. Mantén la coherencia del mundo, los personajes y el inventario. Contenido apto para todos los públicos.", "cat": "Creatividad"}
 ];
+
+const PL_CATS = [['Manera de escribir', '✍️'], ['Código', '💻'], ['Diseño', '🎨'], ['Estudio y aprendizaje', '📚'], ['Idiomas', '🌍'], ['Productividad', '✅'], ['Datos y análisis', '📊'], ['Negocios', '💼'], ['Vida diaria', '🏡'], ['Creatividad', '🎲'], ['Otros', '🧩']];
+const PL_CAT_OF = { atomium: 'Código', review: 'Código', debug: 'Código', teacher: 'Estudio y aprendizaje', writer: 'Manera de escribir', brief: 'Manera de escribir', nerd: 'Estudio y aprendizaje' };
+const plCat = p => { const c = p.cat || PL_CAT_OF[p.id]; return PL_CATS.some(x => x[0] === c) ? c : 'Otros'; };
 
 /* ============ UTIL ============ */
 const $ = s => document.querySelector(s);
@@ -791,7 +917,8 @@ const ICON = {
  pin: '<path d="M12 17v5M9 3h6l-1 7 3 3v2H7v-2l3-3z"/>'
 };
 const ico = (n, s = 15) => `<svg width="${s}" height="${s}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">${ICON[n]}</svg>`;
-const sprite = s => `<svg class="alien" width="${s}" height="${s * 2 / 3}" viewBox="0 0 12 8" shape-rendering="crispEdges"><g class="al"><g class="ab"><path class="aL" d="M0 2h2v2H0z" fill="#f65f4a"/><path class="aR" d="M10 2h2v2h-2z" fill="#f65f4a"/><path d="M2 0h8v6H2zM2 6h1v2H2zM4 6h1v2H4zM7 6h1v2H7zM9 6h1v2H9z" fill="#f65f4a"/><rect class="ae" x="3" y="1" width="1" height="1" fill="#111"/><rect class="ae" x="8" y="1" width="1" height="1" fill="#111"/></g></g></svg>`;
+const BALL = '<path d="M4 0h4v1H4zM3 1h6v1H3zM2 2h8v4H2zM3 6h6v1H3zM4 7h4v1H4z" fill="#b4b4b4"/><path d="M4 1h4v1H4zM3 2h6v4H3zM4 6h4v1H4z" fill="#fff"/><path d="M8 3h1v2H8zM5 5h4v1H5zM5 6h3v1H5z" fill="#e0e0e0"/>';
+const sprite = s => `<svg class="alien" width="${s}" height="${s * 2 / 3}" viewBox="0 0 12 8" shape-rendering="crispEdges"><g class="al"><g class="ab">${BALL}<rect class="ae" x="4" y="3" width="1" height="2" fill="#111"/><rect class="ae" x="7" y="3" width="1" height="2" fill="#111"/></g></g></svg>`;
 /* ============ TEMA ============ */
 let theme = ls('theme') || (matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark');
 function applyTheme(t, anim) {
@@ -813,9 +940,11 @@ const EFFORT = [
  ['Intermedio', '', 1024, 'Equilibrio entre detalle y velocidad (predeterminado).'],
  ['Alto', 'Razona con cuidado paso a paso, verifica tu respuesta antes de darla y explica con detalle.', 1024, 'Razona paso a paso y explica con detalle.'],
  ['Máximo', 'Máximo esfuerzo: analiza el problema a fondo, considera alternativas y casos límite, razona paso a paso, verifica el resultado y entrega una respuesta completa y rigurosa.', 1024, 'Análisis a fondo, casos límite y verificación. Más lento.'],
- ['CoUltra', 'Esfuerzo CoUltra: razona en profundidad, verifica el resultado y entrega una respuesta completa, correcta y rigurosa.', 2048, 'Divide el trabajo en fases (análisis, procesamiento, revisión y respuesta) con esquema de progreso. El más lento.']
+ ['CoUltra', 'Esfuerzo CoUltra: razona en profundidad, verifica el resultado y entrega una respuesta completa, correcta y rigurosa.', 2048, 'Divide el trabajo en fases (análisis, procesamiento, revisión y respuesta) con esquema de progreso. Lento.'],
+ ['High Ultra', 'Esfuerzo High Ultra: razona con la máxima profundidad, compara alternativas, verifica de forma independiente cada afirmación y cálculo, corrige y entrega la respuesta más completa, correcta y rigurosa posible.', 4096, 'Análisis profundo en 6 fases (alternativas, verificación independiente y corrección). El más lento y el que más a fondo piensa.']
 ];
-const ULTRA = EFFORT.length - 1; // índice de CoUltra
+const HIGH = EFFORT.length - 1; // índice de High Ultra
+const ULTRA = HIGH - 1; // índice de CoUltra
 let effort = (v => Number.isInteger(v) && v >= 0 && v < EFFORT.length ? v : 2)(ls('effort'));
 document.documentElement.dataset.eff = effort;
 const GOALS = ['Aprender a programar', 'Crear proyectos y apps', 'Estudiar y hacer tareas', 'Trabajo y productividad', 'Escribir y crear contenido', 'Resolver dudas del día a día'];
@@ -836,7 +965,7 @@ async function loadModels() {
   const r = await fetch('https://text.pollinations.ai/models', { signal: AbortSignal.timeout(7000) });
   const j = await r.json(), have = new Set(MODELS.flatMap(m => m.ids));
   (Array.isArray(j) ? j : []).filter(x => x?.name && !have.has(x.name) && !/audio|tts|stt|whisper|image|video/i.test(x.name)
-    && (!x.output_modalities || x.output_modalities.includes('text')) && (!x.tier || x.tier === 'anonymous')).slice(0, 14)
+    && (!x.output_modalities || x.output_modalities.includes('text')) && (!x.tier || x.tier === 'anonymous')).slice(0, 60)
    .forEach(x => MODELS.push({ k: x.name, name: x.description || x.name, by: String(x.provider || x.name.split('-')[0]).slice(0, 14), d: 'Modelo gratuito · ' + x.name, ids: [x.name], vision: !!(x.vision || x.input_modalities?.includes('image')) }));
   modelsUpdated = new Date();
   const s = ls('model'); if (s && MODELS.some(m => m.k === s)) modelKey = s;
@@ -844,6 +973,22 @@ async function loadModels() {
  } catch (e) { console.warn('No se pudo actualizar la lista de modelos', e); }
 }
 loadModels();
+const SKIP_ID = /embed|whisper|tts|stt|audio|speech|image|video|rerank|moderat|guard|flux|diffusion|sdxl|stable|bge|clip|ocr|dall|transcri/i;
+async function loadProviders() {
+ await Promise.all(Object.entries(PROVIDERS).filter(([, p]) => p.list).map(async ([key, p]) => {
+  try {
+   const r = await fetch(p.list, { signal: AbortSignal.timeout(7000) }); if (!r.ok) return;
+   const j = await r.json(), arr = (Array.isArray(j) ? j : j.data || j.models || []).map(x => typeof x === 'string' ? { id: x } : x), have = new Set(MODELS.flatMap(m => m.ids));
+   arr.filter(x => x && typeof x.id === 'string' && !have.has(x.id) && !SKIP_ID.test(x.id) && (key !== 'kilo' || /:free$/.test(x.id)))
+    .sort((a, b) => (b.context_length || 0) - (a.context_length || 0)).slice(0, p.max)
+    .forEach(x => MODELS.push({ k: key + '/' + x.id, name: String(x.name || x.id).replace(/\s*\(free\)\s*/i, '').slice(0, 40), by: p.label, d: 'Gratis · sin clave · ' + x.id.replace(/:free$/, '').slice(0, 34), ids: [x.id], prov: key,
+     ctx: x.context_length || x.context_window || x.max_model_len || 0, vision: !!(x.architecture?.input_modalities?.includes('image') || x.input_modalities?.includes('image') || /(^|[-_/])(vl|vision)([-_/]|$)/i.test(x.id)) }));
+  } catch (e) { console.warn('Proveedor no disponible: ' + p.label, e); }
+ }));
+ const sv = ls('model'); if (sv && MODELS.some(m => m.k === sv)) modelKey = sv;
+ if (user) renderModelBtn();
+}
+loadProviders();
 
 function trimHist(msgs, max = 9000) {
  const flat = msgs.map(x => ({ role: x.role, content: Array.isArray(x.content) ? x.content.filter(p => p.type === 'text').map(p => p.text).join('\\n') : x.content }));
@@ -888,7 +1033,7 @@ let chatMode = ls('chatMode') === 'work' ? 'work' : 'chat';
 const MODE_PROMPTS = { chat: 'Modo Chat: responde de forma profesional, clara y conversacional. Prioriza preguntas normales, explicaciones y ayuda práctica.', work: 'Modo Work: trata la petición como una tarea compleja. Planifica, identifica restricciones, propone una solución verificable y prioriza precisión técnica.' };
 function renderModeTabs() { document.querySelectorAll('.mode-tab').forEach(b => { const on = b.dataset.mode === chatMode; b.classList.toggle('on', on); b.setAttribute('aria-selected', String(on)); }); }
 document.addEventListener('click', e => { const b = e.target.closest('.mode-tab'); if (!b) return; chatMode = b.dataset.mode; ls('chatMode', chatMode); renderModeTabs(); toast(chatMode === 'work' ? 'Modo Work activado' : 'Modo Chat activado'); });
-renderModeTabs();function buildSystem() {
+renderModeTabs();function buildSystem(codeCmd) {
  const a = PLUGINS.filter(p => plOn.includes(p.id));
  const clean = t => String(t || '').replace(/\s+/g, ' ').trim();
  const nm = clean(cfg.name), g = clean(cfg.goal === 'custom' ? cfg.custom : cfg.goal);
@@ -899,25 +1044,48 @@ renderModeTabs();function buildSystem() {
   const tn = TONES.find(t => t[0] === cfg.tone); if (tn) sys += '\n\nTono de respuesta: ' + tn[2];
   if (g) sys += `\n\nObjetivo principal del usuario: ${g}. Adapta tus respuestas para ayudarle a conseguirlo.`;
   if (cfg.codeOnly) sys += '\n\nAtomi Code está activado: responde exclusivamente a peticiones de programación, desarrollo de software, informática o herramientas técnicas. Si la petición no pertenece a esos temas, indícalo brevemente y pide una consulta relacionada con programación.';
- return a.length ? sys + '\n\nPlugins activos (sigue también estas instrucciones adicionales):\n' + a.map(p => '- ' + p.p).join('\n') : sys;
+ const fin = a.length ? sys + '\n\nPlugins activos (sigue también estas instrucciones adicionales):\n' + a.map(p => '- ' + p.p).join('\n') : sys;
+ return codeCmd ? fin + '\n\n' + CODE_PROMPT : fin;
 }
+const CODE_RE = /^\/code(?=\s|$)/i, stripCode = t => String(t || '').replace(/^\/code(?=\s|$)\s*/i, '');
+const CODE_PROMPT = 'MODO /code (prioridad máxima en esta respuesta): el usuario quiere únicamente código. Céntrate solo en escribir código funcional y completo que resuelva lo pedido, sin conversación de relleno ni teoría. Formato: como máximo una frase de contexto antes; después el código completo en bloques Markdown con su lenguaje (```html, ```python, ```js, etc.); al final, como mucho 2 o 3 líneas con cómo ejecutarlo o los supuestos que asumiste. No dejes partes incompletas ni marcadores como «aquí va el resto». Si lo pedido es una web, interfaz, juego, animación o herramienta visual, entrégalo como UN único archivo HTML autocontenido (HTML, CSS y JavaScript juntos en un solo bloque ```html) que funcione al abrirlo, sin claves ni imágenes remotas, para que se pueda ver en la vista previa. Si faltan datos, elige supuestos razonables en lugar de preguntar. Escribe código claro, seguro y comentado solo donde aporte. Mantén tus reglas de seguridad: no escribas código dañino ni que ponga en riesgo a las personas. Si la petición no es de programación, dilo en una frase y ofrece la alternativa de código más cercana.';
 function plBadge() {
  const b = $('#plcount'); b.textContent = plOn.length; b.classList.toggle('hide', !plOn.length);
  $('#plfoot').textContent = plOn.length ? plOn.length + (plOn.length === 1 ? ' plugin activo' : ' plugins activos') : 'Ningún plugin activo';
  document.querySelectorAll('.pc').forEach(c => c.classList.toggle('on', plOn.includes(c.dataset.id)));
+ plFilter();
 }
 function plInit() {
  plOn = (ls('plugins:' + user.sub) || []).filter(id => PLUGINS.some(p => p.id === id));
  const g = $('#plgrid'); g.innerHTML = '';
- PLUGINS.forEach((p, i) => {
-  const c = document.createElement('button'); c.className = 'pc'; c.dataset.id = p.id; c.style.animationDelay = i * 50 + 'ms';
-  c.innerHTML = '<div class="pi"></div><div class="pt"><b></b><small></small></div><span class="sw"><i></i></span>';
-  c.querySelector('.pi').textContent = p.icon; c.querySelector('b').textContent = p.name; c.querySelector('small').textContent = p.d;
-  c.onclick = () => { plOn = plOn.includes(p.id) ? plOn.filter(x => x !== p.id) : [...plOn, p.id]; ls('plugins:' + user.sub, plOn); plBadge(); };
-  g.append(c);
+ let n = 0;
+ PL_CATS.forEach(([cat, ic]) => {
+  const list = PLUGINS.filter(p => plCat(p) === cat); if (!list.length) return;
+  const h = document.createElement('div'); h.className = 'plcat'; h.dataset.cat = cat; h.innerHTML = '<i></i><span></span><em></em>';
+  h.querySelector('i').textContent = ic; h.querySelector('span').textContent = cat; g.append(h);
+  list.forEach(p => {
+   const c = document.createElement('button'); c.className = 'pc'; c.dataset.id = p.id; c.dataset.cat = cat; c.dataset.q = (p.name + ' ' + p.d + ' ' + cat).toLowerCase(); c.style.animationDelay = Math.min(n++, 14) * 40 + 'ms';
+   c.innerHTML = '<div class="pi"></div><div class="pt"><b></b><small></small></div><span class="sw"><i></i></span>';
+   c.querySelector('.pi').textContent = p.icon; c.querySelector('b').textContent = p.name; c.querySelector('small').textContent = p.d;
+   c.onclick = () => { plOn = plOn.includes(p.id) ? plOn.filter(x => x !== p.id) : [...plOn, p.id]; ls('plugins:' + user.sub, plOn); plBadge(); };
+   g.append(c);
+  });
  });
+ const e = document.createElement('div'); e.className = 'plempty hide'; e.id = 'plempty'; e.textContent = 'No hay plugins que coincidan con tu búsqueda.'; g.append(e);
  plBadge();
 }
+function plFilter() {
+ const q = ($('#plq')?.value || '').trim().toLowerCase(), g = $('#plgrid'); if (!g) return;
+ let any = false;
+ g.querySelectorAll('.plcat').forEach(h => {
+  const cards = [...g.querySelectorAll('.pc')].filter(c => c.dataset.cat === h.dataset.cat);
+  let vis = 0; cards.forEach(c => { const ok = !q || c.dataset.q.includes(q); c.classList.toggle('hide', !ok); if (ok) vis++; });
+  h.classList.toggle('hide', !vis); any = any || !!vis;
+  const act = cards.filter(c => plOn.includes(c.dataset.id)).length; h.querySelector('em').textContent = act ? '· ' + act + (act === 1 ? ' activo' : ' activos') : '';
+ });
+ $('#plempty')?.classList.toggle('hide', any);
+}
+$('#plq').addEventListener('input', plFilter);
 const plShow = on => { $('#plugins').classList.toggle('hide', !on); if (on) toggleSide(false); };
 $('#plbtn').onclick = () => plShow(true);
 $('#plclose').onclick = $('#pldone').onclick = () => plShow(false);
@@ -1022,6 +1190,36 @@ document.addEventListener('click', e => {
   else { m.fav = !m.fav; x.classList.toggle('on', !!m.fav); save(); toast(m.fav ? 'Añadida a favoritos' : 'Quitada de favoritos'); } }
  if (!e.target.closest('#pop,#mbtn')) $('#pop').classList.add('hide');
 });
+/* ===== Vista previa del código generado con /code ===== */
+function previewDoc(el) {
+ const bl = [...el.querySelectorAll('.cb')].map(b => ({ l: (b.querySelector('.cbh span')?.textContent || '').toLowerCase(), t: b.querySelector('code')?.textContent || '' }));
+ let html = (bl.find(b => /^(html?)$/.test(b.l)) || bl.find(b => /^\s*(<!doctype html|<html)/i.test(b.t)))?.t || '';
+ if (!html) { const sv = bl.find(b => b.l === 'svg' || /^\s*<svg[\s>]/i.test(b.t)); if (sv) html = '<!doctype html><meta charset="utf-8"><body style="margin:0;display:grid;place-items:center;min-height:100vh;background:#fff">' + sv.t; }
+ if (!html.trim()) return '';
+ const css = bl.filter(b => b.l === 'css').map(b => b.t).join('\n'), js = bl.filter(b => /^(javascript|js)$/.test(b.l)).map(b => b.t).join('\n');
+ const put = (h, add, tag, before) => { const i = h.toLowerCase().lastIndexOf(tag); return i >= 0 ? h.slice(0, i) + add + h.slice(i) : before ? add + h : h + add; };
+ if (css && !/<style[\s>]/i.test(html)) html = put(html, '<style>' + css + '</style>', '</head>', true);
+ if (js && !/<script[\s>]/i.test(html)) html = put(html, '<scr' + 'ipt>' + js + '<\/scr' + 'ipt>', '</body>', false);
+ return html;
+}
+function addPreview(el, m) {
+ const doc = previewDoc(el); if (!doc) return;
+ const first = !!m.autoPrev; delete m.autoPrev;
+ const w = document.createElement('div'); w.className = 'cpv';
+ const h = document.createElement('div'); h.className = 'cpvh';
+ const t = document.createElement('b'); t.textContent = 'Vista previa';
+ const bt = document.createElement('div'); bt.className = 'cpvb';
+ const mk = (txt, fn) => { const b = document.createElement('button'); b.type = 'button'; b.textContent = txt; b.onclick = fn; bt.append(b); return b; };
+ let fr = null, tg, big, rl;
+ const load = () => { if (fr) fr.remove(); fr = document.createElement('iframe'); fr.className = 'cpvf'; fr.setAttribute('sandbox', 'allow-scripts allow-modals allow-forms allow-pointer-lock'); fr.referrerPolicy = 'no-referrer'; fr.srcdoc = doc; w.append(fr); };
+ const ui = () => { const on = !!fr; tg.textContent = on ? 'Ocultar' : '▶ Ver vista previa'; rl.style.display = big.style.display = on ? '' : 'none'; big.textContent = w.classList.contains('big') ? 'Cerrar' : 'Ampliar'; };
+ tg = mk('', () => { if (fr) { fr.remove(); fr = null; w.classList.remove('big'); } else load(); ui(); });
+ rl = mk('Recargar', () => { if (fr) load(); });
+ big = mk('Ampliar', () => { w.classList.toggle('big'); ui(); });
+ mk('Descargar .html', () => { const a = document.createElement('a'); a.href = URL.createObjectURL(new Blob([doc], { type: 'text/html' })); a.download = 'atomium-preview.html'; document.body.append(a); a.click(); a.remove(); setTimeout(() => URL.revokeObjectURL(a.href), 4000); });
+ h.append(t, bt); w.append(h); el.append(w);
+ if (first) load(); ui();
+}
 function fill(el, m) {
  if (m.streaming && !m.content && el.querySelector('.thinking')) return;
  let h = m.content ? DOMPurify.sanitize(marked.parse(m.content, { breaks: false })) : '';
@@ -1029,6 +1227,7 @@ function fill(el, m) {
  if (m.ultra) h = ultraHtml(m.ultra, m.streaming) + (m.content ? h : '');
  el._m = m; el.innerHTML = h; enhance(el);
  if (m.error) { const d = document.createElement('div'); d.className = 'err'; d.innerHTML = '<b>Error:</b> <span></span><button class="rt">Reintentar</button>'; d.querySelector('span').textContent = m.error; el.append(d); }
+ if (!m.streaming && m.code && m.content && !m.error) addPreview(el, m);
  if (!m.streaming && m.content && !m.error && !m.noacts) { const a = document.createElement('div'); a.className = 'acts';
   a.innerHTML = `<button class="act" data-x="copy">${ico('copy', 14)}Copiar</button><button class="act${m.fav ? ' on' : ''}" data-x="fav">${ico('star', 14)}Favorito</button>${'speechSynthesis' in window ? `<button class="act" data-x="tts">${ico('vol', 14)}Escuchar</button>` : ''}`;
   if (m.model) { const t = document.createElement('span'); t.className = 'mdl'; t.textContent = m.model; a.append(t); }
@@ -1052,9 +1251,13 @@ function appendLinkCards(container, text) {
  });
  container.append(cards);
 }
+function setUserText(el, t) {
+ t = String(t || ''); const m = t.match(CODE_RE); if (!m) { el.textContent = t; return; }
+ el.textContent = ''; const sp = document.createElement('span'); sp.className = 'cmd'; sp.textContent = m[0]; el.append(sp, document.createTextNode(t.slice(m[0].length)));
+}
 function msgEl(m) {
  const d = document.createElement('div'); d.className = 'm ' + m.role;
- if (m.role === 'user') { d.innerHTML = '<div class="ub user-bubble"></div>'; d.firstChild.textContent = m.content;
+ if (m.role === 'user') { d.innerHTML = '<div class="ub user-bubble"></div>'; setUserText(d.firstChild, m.content);
   appendLinkCards(d.firstChild, m.content);
   if (m.imgs?.length) { const g = document.createElement('div'); g.className = 'ui'; m.imgs.forEach(u => { const i = new Image(); i.src = u; i.alt = 'Imagen adjunta'; g.append(i); }); d.firstChild.prepend(g); }
   else if (m.nimg) { const n = document.createElement('div'); n.className = 'ni'; n.textContent = '?? ' + m.nimg + (m.nimg === 1 ? ' imagen adjunta' : ' imágenes adjuntas') + ' (no se guardan)'; d.firstChild.prepend(n); }
@@ -1094,6 +1297,8 @@ function fillRow(b, m) {
    const b = document.createElement('button'); b.className = 'mo' + (m.k === modelKey ? ' on' : ''); b.dataset.k = m.k;
    b.innerHTML = `<div><b></b><small></small></div><span class="tag"></span>${m.k === modelKey ? ico('check', 15) : ''}`;
    b.querySelector('b').textContent = m.name; b.querySelector('small').textContent = m.d; fillRow(b, m);
+   const icu = /gemini/i.test(m.ids[0]) ? 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTmttyTwI_BjoTXsENAYN2H2U6-mQFi-qxIQqxKtGuUTA&s=10' : /^(openai|gpt)/i.test(m.ids[0]) ? 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQMl5YrVyEn7f5_lFWHtmzhXzYPuvNelZYWfY2hw0QpZg&s=10' : '';
+   if (icu) { const im = document.createElement('img'); im.src = icu; im.alt = ''; im.width = 22; im.height = 22; im.style.cssText = 'width:22px;height:22px;border-radius:50%;object-fit:cover;flex:none'; b.prepend(im); }
    b.onclick = async () => {
     p.classList.add('hide');
     modelKey = m.k; ls('model', m.k); syncMascotState(); masReact(); renderModelBtn(); toast('Modelo: ' + m.name); $('#in').focus();
@@ -1102,7 +1307,8 @@ function fillRow(b, m) {
   });
   if (note) { const n = document.createElement('div'); n.className = 'pn2'; n.textContent = note; p.append(n); }
  };
- grp('En línea ? catálogo público', MODELS);
+ const byP = {}; MODELS.forEach(m => (byP[m.prov || 'pollinations'] = byP[m.prov || 'pollinations'] || []).push(m));
+ Object.keys(PROVIDERS).forEach(k => grp(k === 'pollinations' ? 'En línea ? catálogo público' : PROVIDERS[k].label + ' · gratis, sin clave', byP[k] || []));
  const f = document.createElement('div'); f.className = 'pf'; f.textContent = modelsUpdated ? 'Lista actualizada: ' + modelsUpdated.toLocaleDateString() : 'Lista base (sin conexión al catálogo)'; p.append(f);
  const ef = document.createElement('div'); ef.className = 'eff';
   ef.innerHTML = '<div class="effh"><span class="effm" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></span><b>Esfuerzo</b><span id="effv"></span></div><div class="effc"><div class="efftrack"></div><div class="efffill"></div><div class="effdots" aria-hidden="true">' + EFFORT.map(() => '<i></i>').join('') + '</div><input type="range" id="effr" min="0" max="' + (EFFORT.length - 1) + '" step="1" aria-label="Nivel de esfuerzo"></div><div class="efft">' + EFFORT.map(e => '<span></span>').join('') + '</div><small id="effd"></small>';
@@ -1110,7 +1316,7 @@ function fillRow(b, m) {
  ts.forEach((t, n) => { t.textContent = EFFORT[n][0]; t.onclick = () => { rg.value = n; rg.oninput(); }; });
   rg.oninput = () => { effort = +rg.value; ls('effort', effort); ef.style.setProperty('--eff-p', (effort / (EFFORT.length - 1) * 100) + '%'); ef.querySelector('#effv').textContent = EFFORT[effort][0]; ef.querySelector('#effd').textContent = EFFORT[effort][3]; ts.forEach((t, n) => t.classList.toggle('on', n === effort)); document.documentElement.dataset.eff = effort;
   ef.querySelectorAll('.effdots i').forEach((d, n) => d.classList.toggle('on', n <= effort));
-  ef.classList.toggle('ultra', effort === ULTRA);
+  ef.classList.toggle('ultra', effort === ULTRA); ef.classList.toggle('hultra', effort === HIGH);
   ef.querySelectorAll('.effm i').forEach((d, n) => d.classList.toggle('on', n <= effort));
   const ev = ef.querySelector('#effv'); ev.classList.remove('bump'); void ev.offsetWidth; ev.classList.add('bump');
   if (rg.dataset.last && rg.dataset.last !== String(effort) && navigator.vibrate) { try { navigator.vibrate(8); } catch {} }
@@ -1135,33 +1341,33 @@ async function send(text, imgsArg, filesArg) {
  const fromUI = text === undefined, imgs = imgsArg ?? (fromUI ? pend.slice() : []), files = filesArg ?? (fromUI ? pendF.slice() : []);
  text = (text ?? $('#in').value).trim(); if (!text && (imgs.length || files.length)) text = imgs.length ? 'Describe esta imagen.' : 'Analiza este archivo.';
  if (!text || busy) return; micStop(false);
+ const codeCmd = CODE_RE.test(text);
+ if (codeCmd && !stripCode(text).trim() && !imgs.length && !files.length) { toast('Escribe qué quieres programar después de /code'); return; }
  if (!cur) { cur = { id: uid(), title: 'Nueva conversación', msgs: [], t: Date.now(), model: modelKey }; chats.push(cur); }
- const c = cur, a = { role: 'assistant', content: '', streaming: true }, ultraOn = effort === ULTRA; if (ultraOn) a.ultra = mkUltra();
+ const c = cur, a = { role: 'assistant', content: '', streaming: true, ...(codeCmd ? { code: true } : {}) }, ultraOn = effort >= ULTRA; if (ultraOn) a.ultra = mkUltra(effort === HIGH ? 'hu' : '');
  if (!c.msgs.length) c.title = text.replace(/\s+/g, ' ').slice(0, 45);
  const um = { role: 'user', content: text }; if (imgs.length) um.imgs = imgs; if (files.length) um.files = files; c.msgs.push(um, a); c.model = modelKey; c.t = Date.now();
  $('#in').value = ''; ls('draft', ''); if (fromUI) { pend = []; pendF = []; renderPrev(); } autosize(); busy = true; mascotResponding = false; stopReq = false; setSend();
  renderChat(); renderList(); scrollEnd(true);
  const el = () => $('#msgs').lastElementChild?.querySelector('.md');
  const paint = () => { if (a.content) { mascotResponding = true; syncMascotState(); } if (raf) return; raf = requestAnimationFrame(() => { raf = 0; if (cur === c && el()) { fill(el(), a); scrollEnd(); } }); };
- const history = [{ role: 'system', content: buildSystem() }, ...c.msgs.slice(0, -1).map(({ role, content, imgs, files }) => { const t = files?.length ? content + files.map(f => '\n\n[Archivo: ' + f.name + ']\n```\n' + f.text + '\n```').join('') : content; return { role, content: imgs?.length ? [{ type: 'text', text: t }, ...imgs.map(u => ({ type: 'image_url', image_url: { url: u } }))] : t }; })];
+ const history = [{ role: 'system', content: buildSystem(codeCmd) }, ...c.msgs.slice(0, -1).map(({ role, content: raw, imgs, files }) => { const content = role === 'user' ? stripCode(raw) : raw; const t = files?.length ? content + files.map(f => '\n\n[Archivo: ' + f.name + ']\n```\n' + f.text + '\n```').join('') : content; return { role, content: imgs?.length ? [{ type: 'text', text: t }, ...imgs.map(u => ({ type: 'image_url', image_url: { url: u } }))] : t }; })];
  const hasImg = c.msgs.some(m => m.imgs?.length);
  const cands = hasImg ? [...new Set([...(model().vision ? model().ids : []), ...visionIds()])] : model().ids; let last = null, lastId = '', extraTok = 0;
  ctl = new AbortController();
  try {
-  if (ultraOn) extraTok = await runUltra(a, history, cands, ctl.signal, paint, id => { lastId = id; });
+  const pool = hasImg ? [] : fallbackPool(cands), onId = id => { lastId = id; };
+  if (ultraOn) extraTok = await runUltra(a, history, cands, ctl.signal, paint, onId, pool);
   else {
-  outer: for (const id of cands) for (const url of ENDPOINTS) {
-   lastId = id;
-   try { await streamChat(url, id, history, a, paint, ctl.signal); last = null; break outer; }
-   catch (e) { last = e; if (stopReq || a.content || e.status === 429) break outer; }
-  }
-  if (last && !stopReq) throw last;
+   try { await streamSmart(cands, history, a, paint, ctl.signal, onId, { pool }); }
+   catch (e) { if (!stopReq) throw e; }
   }
  } catch (e) {
   console.error('Atomium error', lastId, e);
    a.error = (e.status === 429 ? 'Límite del servicio gratuito alcanzado. Espera unos segundos e inténtalo de nuevo.' : hasImg ? 'Ningún modelo gratuito con visión respondió ahora mismo. Inténtalo de nuevo en un rato.' : errMsg(e)) + ' (modelo: ' + lastId + ')';
  }
  if (a.content && !a.error && lastId) a.model = lastId;
+ if (a.code && a.content && !a.error && !stopReq) a.autoPrev = true;
  if (stopReq && !a.content) a.content = '*Respuesta detenida.*';
  a.streaming = false; busy = false; mascotResponding = false; setSend(); cancelAnimationFrame(raf); raf = 0;
  if (cur === c && el()) fill(el(), a);
@@ -1171,30 +1377,81 @@ async function send(text, imgsArg, filesArg) {
  c.t = Date.now(); save(); renderList();
 }
 async function streamChat(url, model, messages, a, paint, signal) {
- const r = await fetch(url, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ model, messages, stream: true }), signal });
- if (!r.ok) { let t = ''; try { t = (await r.text()).slice(0, 200); } catch {} const e = new Error('HTTP ' + r.status + (t ? ': ' + t : '')); e.status = r.status; throw e; }
+ const hd = { 'Content-Type': 'application/json' }, pv = Object.values(PROVIDERS).find(x => x.url === url); if (pv?.headers) Object.assign(hd, pv.headers);
+ const r = await fetch(url, { method: 'POST', headers: hd, body: JSON.stringify({ model, messages, stream: true }), signal });
+ if (!r.ok) { let t = ''; try { t = (await r.text()).slice(0, 200); } catch {} const e = new Error('HTTP ' + r.status + (t ? ': ' + t : '')); e.status = r.status; e.retry = +r.headers.get('retry-after') || 0; throw e; }
+ const limitErr = () => { const e = new Error('Límite de texto del modelo alcanzado.'); e.limit = true; return e; };
  if (!(r.headers.get('content-type') || '').includes('event-stream')) {
   const j = await r.json().catch(() => null), t = j?.choices?.[0]?.message?.content;
-  if (!t) throw new Error('Respuesta vacía del servicio.'); a.content = t; paint(); return;
+  if (!t) throw new Error('Respuesta vacía del servicio.'); a.content += t; paint();
+  if (j.choices[0].finish_reason === 'length') throw limitErr(); return;
  }
- const rd = r.body.getReader(), dec = new TextDecoder(); let buf = '';
- for (;;) {
+ const rd = r.body.getReader(), dec = new TextDecoder(); let buf = '', fin = '';
+ read: for (;;) {
   const { done, value } = await rd.read(); if (done) break;
   buf += dec.decode(value, { stream: true });
   const lines = buf.split('\n'); buf = lines.pop();
   for (const ln of lines) {
    const l = ln.trim(); if (!l.startsWith('data:')) continue;
-   const d = l.slice(5).trim(); if (d === '[DONE]') return;
-   try { a.content += JSON.parse(d).choices?.[0]?.delta?.content || ''; paint(); } catch {}
+   const d = l.slice(5).trim(); if (d === '[DONE]') break read;
+   let j; try { j = JSON.parse(d); } catch { continue; }
+   if (j.error) { const e = new Error(errMsg(j)); e.status = +j.error.code || +j.error.status || 0; throw e; }
+   const ch = j.choices?.[0]; a.content += ch?.delta?.content || ''; if (ch?.finish_reason) fin = ch.finish_reason; paint();
   }
  }
+ if (fin === 'length') throw limitErr();
  if (!a.content) throw new Error('El modelo no devolvió respuesta.');
+}
+/* Cambio automático de modelo: si uno llega a su límite (texto cortado, contexto o cuota) o falla, otro continúa con TODO el contexto
+   y con lo que ya se había escrito, sin repetir nada. */
+const cool = {}; // proveedor -> instante hasta el que se evita (límite de peticiones o caída)
+const sleep = (ms, signal) => new Promise((ok, no) => { const t = setTimeout(ok, ms); signal?.addEventListener('abort', () => { clearTimeout(t); no(new DOMException('Aborted', 'AbortError')); }, { once: true }); });
+const isLimit = e => !!e && !!(e.limit || e.status === 429 || e.status === 413 || (e.status >= 400 && e.status < 500 && /context|too long|too many tokens|token limit|max(imum)? (context|token|length)|length limit|exceed/i.test(e.message || '')));
+const CONT = 'Tu respuesta anterior se cortó por el límite del modelo. Continúa EXACTAMENTE desde la última palabra que escribiste: sin saludar, sin repetir nada y sin resumir lo anterior. Mantén el mismo formato (si estabas dentro de un bloque de código, sigue dentro de él sin volver a abrirlo).';
+const isCool = id => cool[provOf(id)] > Date.now();
+function fallbackPool(cands) {
+ const own = new Set(cands), pv = provOf(cands[0]);
+ return MODELS.filter(m => !m.gone && !m.ids.some(i => own.has(i)) && !isCool(m.ids[0]))
+  .sort((x, y) => ((x.prov || 'pollinations') === pv) - ((y.prov || 'pollinations') === pv) || (y.ctx || 0) - (x.ctx || 0)).slice(0, 5).map(m => m.ids[0]);
+}
+async function streamSmart(cands, msgs, a, paint, signal, onId, opt = {}) {
+ const all = [...new Set([...cands, ...(opt.pool || [])])], order = [...all.filter(i => !isCool(i)), ...all.filter(isCool)], nm = id => MODELS.find(m => m.ids.includes(id))?.name || id;
+ if (order[0] !== cands[0] && isCool(cands[0])) toast(nm(cands[0]) + ' está limitado ahora · uso ' + nm(order[0]));
+ let last = null;
+ for (let k = 0; k < order.length; k++) {
+  const id = order[k]; let retries = opt.retry || 0;
+  for (const url of urlsFor(id)) for (;;) {
+   onId(id);
+   const part = a.content, m = part ? [...msgs, { role: 'assistant', content: part }, { role: 'user', content: CONT }] : msgs;
+   try { await streamChat(url, id, m, a, paint, signal); return; }
+   catch (e) {
+    last = e; if (stopReq || signal?.aborted) throw e;
+    if (e.status === 429 && retries > 0 && !a.content) { const ms = Math.min(20000, (e.retry || 0) * 1000 || (opt.retry - retries + 1) * 8000); retries--; opt.onWait?.(ms); await sleep(ms, signal); continue; }
+    if (e.status === 429 || e.status >= 500 || !e.status) cool[provOf(id)] = Date.now() + (e.status === 429 ? 45000 : 120000);
+    break;
+   }
+  }
+  if (k < order.length - 1) toast((isLimit(last) ? 'Límite alcanzado en ' + nm(id) : nm(id) + ' no respondió') + ' · sigo con ' + nm(order[k + 1]));
+ }
+ if (a.content && isLimit(last)) { toast('Respuesta cortada: límite de los modelos disponibles'); return; }
+ throw last || new Error('Sin respuesta del servicio.');
 }
 function retry() { if (busy || !cur) return; cur.msgs.pop(); const u = cur.msgs.pop(); if (u) send(u.content, u.imgs, u.files); }
 
 /* ============ ENTRADA ============ */
 const inp = $('#in');
-function autosize() { inp.style.height = 'auto'; inp.style.height = Math.min(inp.scrollHeight, 200) + 'px'; setSend(); }
+function autosize() { inp.style.height = 'auto'; inp.style.height = Math.min(inp.scrollHeight, 200) + 'px'; setSend(); cmdHl(); }
+function cmdHl() {
+ const hl = document.getElementById('inhl'); if (!hl) return;
+ const v = inp.value, m = v.match(CODE_RE);
+ if (!m) { hl.classList.remove('on'); inp.classList.remove('hl'); return; }
+ const cs = getComputedStyle(inp), esc = x => x.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+ Object.assign(hl.style, { left: inp.offsetLeft + 'px', top: inp.offsetTop + 'px', width: inp.clientWidth + 'px', height: inp.clientHeight + 'px', fontFamily: cs.fontFamily, fontSize: cs.fontSize, fontWeight: cs.fontWeight, lineHeight: cs.lineHeight, letterSpacing: cs.letterSpacing, padding: cs.padding });
+ hl.innerHTML = '<span class="cmd">' + esc(m[0]) + '</span>' + esc(v.slice(m[0].length)) + (v.endsWith('\n') ? ' ' : '');
+ hl.scrollTop = inp.scrollTop; hl.classList.add('on'); inp.classList.add('hl');
+}
+inp.addEventListener('input', cmdHl); inp.addEventListener('scroll', () => { const hl = document.getElementById('inhl'); if (hl) hl.scrollTop = inp.scrollTop; });
+window.addEventListener('resize', cmdHl);
 inp.oninput = autosize;
 inp.onkeydown = e => { if (e.key === 'Enter' && !e.shiftKey && !e.isComposing) { e.preventDefault(); send(); } };
 $('#send').onclick = () => busy ? (stopReq = true, ctl?.abort()) : send();
@@ -1341,7 +1598,7 @@ function cpFill() {
 const cpShow = on => { $('#cmp').classList.toggle('hide', !on); if (on) { toggleSide(false); cpFill(); $('#cpin').focus(); } };
 async function runOne(mod, history, a, paint, signal) {
  let last = null;
- outer: for (const id of mod.ids) for (const url of ENDPOINTS) {
+ outer: for (const id of mod.ids) for (const url of urlsFor(id)) {
   try { await streamChat(url, id, history, a, paint, signal); last = null; break outer; }
   catch (e) { last = e; if (signal.aborted || a.content || e.status === 429) break outer; }
  }
@@ -1405,22 +1662,23 @@ $('#stpadd').onclick = () => {
  $('#stpt').value = ''; $('#stptx').value = ''; stRender2(); toast('Prompt guardado');
 };
 // --- menú "/" en el chat ---
+const CMDS = [{ title: 'code', cmd: '/code', text: 'Atomium solo escribe código y al terminar puedes ver una vista previa' }];
 const sl = $('#sl'); let slI = 0, slList = [];
 const slHide = () => { sl.classList.add('hide'); slList = []; slI = 0; };
 function slUpdate() {
  const v = inp.value;
  if (!v.startsWith('/') || /\s/.test(v)) return slHide();
- const q = v.slice(1).toLowerCase(); slList = prompts.filter(p => p.title.toLowerCase().includes(q)).sort((a, b) => b.title.toLowerCase().startsWith(q) - a.title.toLowerCase().startsWith(q)).slice(0, 6);
+ const q = v.slice(1).toLowerCase(); slList = [...CMDS.filter(c => c.title.startsWith(q)), ...prompts.filter(p => p.title.toLowerCase().includes(q)).sort((a, b) => b.title.toLowerCase().startsWith(q) - a.title.toLowerCase().startsWith(q))].slice(0, 6);
  if (!slList.length) return slHide();
  slI = Math.min(slI, slList.length - 1); sl.innerHTML = '';
  slList.forEach((p, n) => {
   const b = document.createElement('button'); b.className = 'sli' + (n === slI ? ' on' : ''); b.innerHTML = '<b></b><small></small>';
-  b.querySelector('b').textContent = '/' + p.title; b.querySelector('small').textContent = p.text.replace(/\s+/g, ' ');
+  b.querySelector('b').textContent = '/' + p.title; if (p.cmd) b.querySelector('b').classList.add('cmd'); b.querySelector('small').textContent = p.text.replace(/\s+/g, ' ');
   b.onmousedown = e => { e.preventDefault(); slPick(n); }; sl.append(b);
  });
  sl.classList.remove('hide');
 }
-function slPick(n) { const p = slList[n]; if (!p) return; inp.value = p.text; slHide(); autosize(); inp.focus(); inp.setSelectionRange(inp.value.length, inp.value.length); }
+function slPick(n) { const p = slList[n]; if (!p) return; inp.value = p.cmd ? p.cmd + ' ' : p.text; slHide(); autosize(); inp.focus(); inp.setSelectionRange(inp.value.length, inp.value.length); }
 inp.addEventListener('input', slUpdate);
 inp.addEventListener('keydown', e => {
  if (sl.classList.contains('hide')) return;
@@ -1525,13 +1783,23 @@ const ULTRA_PH = [
  { n: 'Revisión y mejora', d: 'Busca fallos y propone mejoras', p: 'MODO CoUltra · FASE 3 de 4 · REVISIÓN Y MEJORA. Fase interna. Revisa con ojo crítico el borrador: errores, casos límite, omisiones y partes poco claras. Responde con una lista corta de problemas y la mejora concreta para cada uno (máximo 140 palabras). Si el borrador es correcto, dilo y sugiere solo mejoras de claridad.' },
  { n: 'Respuesta final', d: 'Redacta la versión definitiva', p: 'MODO CoUltra · FASE 4 de 4 · RESPUESTA FINAL. Escribe ahora la respuesta definitiva para el usuario, en el idioma y tono de la conversación: completa, correcta y bien organizada, aplicando las mejoras de la revisión. No menciones las fases, el análisis ni el borrador.' }
 ];
-const mkUltra = () => ({ phases: ULTRA_PH.map(x => ({ n: x.n, d: x.d, st: 'wait', text: '' })) });
+const HU_PH = [
+ { n: 'Análisis profundo', d: 'Objetivo, restricciones, riesgos y plan', p: 'MODO High Ultra · FASE 1 de 6 · ANÁLISIS PROFUNDO. Fase interna: NO respondas todavía al usuario. Escribe: 1) Objetivo real y criterios de éxito. 2) Datos, restricciones y supuestos (marca los inciertos). 3) Riesgos y errores típicos en este tipo de problema. 4) Plan numerado de pasos. Máximo 220 palabras, sin saludos ni relleno.' },
+ { n: 'Alternativas', d: 'Compara enfoques y elige el mejor', p: 'MODO High Ultra · FASE 2 de 6 · ALTERNATIVAS. Fase interna. Propón 2 o 3 enfoques realmente distintos para resolverlo, compara sus ventajas e inconvenientes con criterio técnico y elige uno justificando la elección en pocas líneas. Máximo 200 palabras.' },
+ { n: 'Desarrollo', d: 'Construye una primera versión completa', p: 'MODO High Ultra · FASE 3 de 6 · DESARROLLO. Fase interna. Desarrolla una solución completa y correcta con el enfoque elegido, paso a paso (incluye el código si la petición lo requiere). No te preocupes aún por el pulido final.' },
+ { n: 'Verificación', d: 'Revisión independiente de lógica, datos y casos límite', alt: true, p: 'MODO High Ultra · FASE 4 de 6 · VERIFICACIÓN INDEPENDIENTE. Fase interna. Actúa como un revisor escéptico y riguroso: comprueba cada afirmación y cálculo, ejecuta mentalmente el código y los ejemplos, y busca errores, omisiones, casos límite y riesgos de seguridad. Responde con una lista numerada de problemas (con gravedad) y el arreglo concreto de cada uno, máximo 220 palabras. Si no encuentras problemas, di qué verificaste.' },
+ { n: 'Corrección', d: 'Aplica las mejoras al borrador', p: 'MODO High Ultra · FASE 5 de 6 · CORRECCIÓN. Fase interna. Reescribe la versión mejorada del borrador aplicando las correcciones de la verificación que sean válidas y estén justificadas (ignora las críticas equivocadas). Entrega la versión completa corregida, no solo los cambios.' },
+ { n: 'Respuesta final', d: 'Redacta la versión definitiva y verificada', p: 'MODO High Ultra · FASE 6 de 6 · RESPUESTA FINAL. Redacta ahora la respuesta definitiva para el usuario, en su idioma y tono: completa, correcta, clara y bien organizada, partiendo de la versión corregida. Primero lo accionable; incluye los supuestos relevantes y cómo probarlo cuando aplique. No menciones las fases, el análisis ni los borradores.' }
+];
+const phasesOf = u => u?.kind === 'hu' ? HU_PH : ULTRA_PH;
+const mkUltra = kind => ({ kind, name: kind === 'hu' ? 'High Ultra' : 'CoUltra', phases: phasesOf({ kind }).map(x => ({ n: x.n, d: x.d, st: 'wait', text: '' })) });
 const uxEsc = t => String(t).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
 function ultraHtml(u, streaming) {
  const ps = u.phases, st = p => !streaming && p.st === 'run' ? 'stop' : p.st;
  const done = ps.filter(p => p.st === 'done').length, run = streaming && ps.some(p => p.st === 'run') ? .5 : 0;
  const chev = '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>';
- return `<div class="ux" role="group" aria-label="Progreso de CoUltra"><div class="uxh"><span>◆ CoUltra · esquema de progreso</span><em>${done}/${ps.length}</em></div><div class="uxbar"><i style="width:${(done + run) / ps.length * 100}%"></i></div>`
+ const nm = uxEsc(u.name || 'CoUltra');
+ return `<div class="ux${u.kind === 'hu' ? ' hu' : ''}" role="group" aria-label="Progreso de ${nm}"><div class="uxh"><span>◆ ${nm} · esquema de progreso</span><em>${done}/${ps.length}</em></div><div class="uxbar"><i style="width:${(done + run) / ps.length * 100}%"></i></div>`
   + ps.map((p, i) => {
    const s = st(p), has = !!(p.text || p.err), open = has && (p.open ?? s === 'run');
    const body = p.err ? 'Se omitió esta fase: ' + p.err : s === 'run' && p.text.length > 420 ? '…' + p.text.slice(-420) : p.text;
@@ -1543,33 +1811,26 @@ document.addEventListener('click', e => {
  const el = b.closest('.md'), m = el?._m, p = m?.ultra?.phases[+b.dataset.ux]; if (!p) return;
  p.open = !(p.open ?? p.st === 'run'); fill(el, m); if (!m.streaming) save();
 });
-// Misma lógica de reintentos que el envío normal: prueba modelos/endpoints hasta que uno responda.
-async function streamTry(cands, msgs, target, paint, signal, onId) {
- let last = null;
- for (const id of cands) for (const url of ENDPOINTS) {
-  onId(id);
-  try { await streamChat(url, id, msgs, target, paint, signal); return; }
-  catch (e) { last = e; if (stopReq || target.content || e.status === 429) throw e; }
- }
- throw last || new Error('Sin respuesta del servicio.');
-}
-async function runUltra(a, history, cands, signal, paint, onId) {
- const base = history[0].content, conv = history.slice(1), notes = [], clip = t => t.length > 5000 ? t.slice(0, 5000) + '…' : t; let tok = 0;
- for (let i = 0; i < ULTRA_PH.length; i++) {
-  const ph = a.ultra.phases[i], fin = i === ULTRA_PH.length - 1; ph.st = 'run'; paint();
-  const msgs = [{ role: 'system', content: base + '\n\n' + ULTRA_PH[i].p + (notes.length ? '\n\n--- Notas internas de fases anteriores ---\n' + notes.join('\n\n') : '') }, ...conv];
+async function runUltra(a, history, cands, signal, paint, onId, pool) {
+ const defs = phasesOf(a.ultra), base = history[0].content, conv = history.slice(1), notes = [], lim = a.ultra.kind === 'hu' ? 3000 : 5000, clip = t => t.length > lim ? t.slice(0, lim) + '…' : t; let tok = 0;
+ for (let i = 0; i < defs.length; i++) {
+  const ph = a.ultra.phases[i], d = defs[i], fin = i === defs.length - 1; ph.st = 'run'; ph.text = ''; ph.err = ''; paint();
+  const msgs = [{ role: 'system', content: base + '\n\n' + d.p + (notes.length ? '\n\n--- Notas internas de fases anteriores ---\n' + notes.join('\n\n') : '') }, ...conv];
+  // La verificación de High Ultra la hace, si hay otro modelo disponible, uno distinto al que redactó (revisión cruzada).
+  const alt = !!(d.alt && pool && pool.length), pc = alt ? [pool[0], ...cands] : cands, pp = alt ? pool.slice(1) : pool;
+  const opt = { pool: pp, retry: 2, onWait: ms => { ph.text = '⏳ El servicio gratuito pide esperar (' + Math.ceil(ms / 1000) + ' s)…'; paint(); } };
   try {
-   if (fin) await streamTry(cands, msgs, a, paint, signal, onId);
+   if (fin) { await streamSmart(pc, msgs, a, paint, signal, onId, opt); ph.text = ''; }
    else {
     const t = { content: '' };
-    await streamTry(cands, msgs, t, () => { ph.text = t.content; paint(); }, signal, onId);
-    ph.text = t.content.trim(); notes.push('[' + ULTRA_PH[i].n + ']\n' + clip(ph.text));
+    await streamSmart(pc, msgs, t, () => { ph.text = t.content; paint(); }, signal, onId, opt);
+    ph.text = t.content.trim(); notes.push('[' + d.n + ']\n' + clip(ph.text));
    }
    ph.st = 'done'; tok += estimateTokens(msgs) + estimateTokens(fin ? a.content : ph.text);
   } catch (e) {
    if (stopReq) { ph.st = 'stop'; paint(); return tok; }
-   ph.st = 'err'; if (fin || e.status === 429) { paint(); throw e; }
-   ph.err = errMsg(e); // una fase intermedia fallida se omite y el proceso continúa
+   ph.st = 'err'; ph.text = ''; if (fin) { paint(); throw e; }
+   ph.err = errMsg(e); // una fase intermedia que falla se omite y el proceso continúa
   }
   paint();
  }
@@ -1634,7 +1895,3 @@ startSession({ sub: 'guest' });
 </script>
 </body>
 </html>
-
-
-
-
