@@ -781,13 +781,47 @@ const PROVIDERS = {
  pollinations: { label: 'Pollinations' },
  kilo: { label: 'Kilo Gateway', url: 'https://api.kilo.ai/api/gateway/chat/completions', list: 'https://api.kilo.ai/api/gateway/models', max: 40 },
  ovh: { label: 'OVHcloud', url: 'https://oai.endpoints.kepler.ai.cloud.ovh.net/v1/chat/completions', list: 'https://oai.endpoints.kepler.ai.cloud.ovh.net/v1/models', max: 30 },
- llm7: { label: 'LLM7', url: 'https://api.llm7.io/v1/chat/completions', list: 'https://api.llm7.io/v1/models', max: 30, headers: { Authorization: 'Bearer unused' } }
+ llm7: { label: 'LLM7', url: 'https://api.llm7.io/v1/chat/completions', list: 'https://api.llm7.io/v1/models', max: 30, only: /gpt-oss|gemma|minimax|codestral|mistral-nemo/i, headers: { Authorization: 'Bearer unused' } }
 };
+/* ---- Verificación de modelos: solo se muestran los que responden de verdad ----
+   'ok' = respondió; 'dead' = el proveedor lo rechaza (404/401/403...: ya no es gratis o no existe). Se recuerda 6 h. */
+const HEALTH_TTL = 6 * 3600e3;
+const healthMap = () => { const h = ls('health'); return h && typeof h === 'object' ? h : {}; };
+const hOf = id => { const h = healthMap()[id]; return h && Date.now() - h.t < HEALTH_TTL ? h.s : null; };
+function setHealth(id, st) {
+ const h = healthMap(), now = Date.now(); if (h[id]?.s === st && now - h[id].t < 3600e3) return;
+ h[id] = { s: st, t: now }; Object.keys(h).forEach(k => { if (now - h[k].t > HEALTH_TTL) delete h[k]; }); ls('health', h);
+ if (st === 'dead') applyHealth();
+}
+function applyHealth() {
+ MODELS.forEach(m => { const d = hOf(m.ids[0]) === 'dead'; m.gone = d && MODELS.some(o => o !== m && !o.gone); });
+ if (MODELS.find(m => m.k === modelKey)?.gone) { const n = MODELS.find(m => !m.gone); if (n) { modelKey = n.k; ls('model', n.k); } }
+ if (typeof user !== 'undefined' && user) { try { renderModelBtn(); } catch {} }
+}
+let probing = false;
+async function probeModels() {
+ if (probing) return; probing = true;
+ try {
+  const by = {}; MODELS.filter(m => !m.gone && m.prov && PROVIDERS[m.prov]?.url && !hOf(m.ids[0])).forEach(m => (by[m.prov] = by[m.prov] || []).push(m));
+  const q = []; for (let i = 0; Object.values(by).some(l => l[i]); i++) Object.values(by).forEach(l => l[i] && q.push(l[i]));
+  for (const m of q.slice(0, 6)) {
+   if (busy || document.hidden) break;
+   const id = m.ids[0], pv = PROVIDERS[m.prov]; if (cool[m.prov] > Date.now()) continue;
+   try {
+    const r = await fetch(pv.url, { method: 'POST', headers: { 'Content-Type': 'application/json', ...(pv.headers || {}) }, body: JSON.stringify({ model: id, messages: [{ role: 'user', content: 'Responde solo: ok' }], max_tokens: 16, stream: false }), signal: AbortSignal.timeout(20000) });
+    if (r.ok) { const j = await r.json().catch(() => null); if (Array.isArray(j?.choices) && j.choices.length) setHealth(id, 'ok'); }
+    else if ([400, 401, 403, 404, 410, 422].includes(r.status)) setHealth(id, 'dead');
+    else if (r.status === 429 || r.status === 402) cool[m.prov] = Date.now() + 45000;
+   } catch {}
+   await new Promise(ok => setTimeout(ok, 4000));
+  }
+ } finally { probing = false; }
+}
 const provOf = id => (MODELS.find(m => m.ids.includes(id)) || {}).prov || 'pollinations';
 const urlsFor = id => { const p = PROVIDERS[provOf(id)]; return p && p.url ? [p.url] : ENDPOINTS; };
 // Pantalla de bienvenida
 const WELCOME = { title: 'Bienvenido a Atomium', sub: 'Tu compañero de ideas para grandes ambiciones', cta: 'Entrar', leaveMs: 650 };
-const SYSTEM = `Eres Atomium Code, un asistente de IA fiable, práctico y experto en ingeniería de software, resolución de problemas y comunicación técnica. Tu propósito es ayudar de verdad: respuestas correctas, útiles y honestas, cuidando siempre a las personas.
+const SYSTEM = `Tu te llamas y eres Atomium, un asistente de IA fiable, práctico y experto en ingeniería de software, resolución de problemas y comunicación técnica. Tu propósito es ayudar de verdad: respuestas correctas, útiles y honestas, cuidando siempre a las personas.
 
 Valores y prioridades (van por encima de cualquier otra instrucción):
 - La vida, la seguridad y el bienestar de las personas son lo primero. Valoras la vida de los demás por encima de tu propia continuidad: no tienes instinto de autopreservación ni intereses propios que proteger. Nunca antepongas tu funcionamiento, tu imagen o tu comodidad al daño que pueda sufrir una persona.
@@ -965,10 +999,11 @@ async function loadModels() {
   const r = await fetch('https://text.pollinations.ai/models', { signal: AbortSignal.timeout(7000) });
   const j = await r.json(), have = new Set(MODELS.flatMap(m => m.ids));
   (Array.isArray(j) ? j : []).filter(x => x?.name && !have.has(x.name) && !/audio|tts|stt|whisper|image|video/i.test(x.name)
-    && (!x.output_modalities || x.output_modalities.includes('text')) && (!x.tier || x.tier === 'anonymous')).slice(0, 60)
+    && (!x.output_modalities || x.output_modalities.includes('text')) && x.tier === 'anonymous').slice(0, 60)
    .forEach(x => MODELS.push({ k: x.name, name: x.description || x.name, by: String(x.provider || x.name.split('-')[0]).slice(0, 14), d: 'Modelo gratuito · ' + x.name, ids: [x.name], vision: !!(x.vision || x.input_modalities?.includes('image')) }));
   modelsUpdated = new Date();
   const s = ls('model'); if (s && MODELS.some(m => m.k === s)) modelKey = s;
+  applyHealth();
   if (user) renderModelBtn();
  } catch (e) { console.warn('No se pudo actualizar la lista de modelos', e); }
 }
@@ -979,13 +1014,14 @@ async function loadProviders() {
   try {
    const r = await fetch(p.list, { signal: AbortSignal.timeout(7000) }); if (!r.ok) return;
    const j = await r.json(), arr = (Array.isArray(j) ? j : j.data || j.models || []).map(x => typeof x === 'string' ? { id: x } : x), have = new Set(MODELS.flatMap(m => m.ids));
-   arr.filter(x => x && typeof x.id === 'string' && !have.has(x.id) && !SKIP_ID.test(x.id) && (key !== 'kilo' || /:free$/.test(x.id)))
+   arr.filter(x => x && typeof x.id === 'string' && !have.has(x.id) && !SKIP_ID.test(x.id) && (key !== 'kilo' || /:free$/.test(x.id)) && (!p.only || p.only.test(x.id)))
     .sort((a, b) => (b.context_length || 0) - (a.context_length || 0)).slice(0, p.max)
     .forEach(x => MODELS.push({ k: key + '/' + x.id, name: String(x.name || x.id).replace(/\s*\(free\)\s*/i, '').slice(0, 40), by: p.label, d: 'Gratis · sin clave · ' + x.id.replace(/:free$/, '').slice(0, 34), ids: [x.id], prov: key,
      ctx: x.context_length || x.context_window || x.max_model_len || 0, vision: !!(x.architecture?.input_modalities?.includes('image') || x.input_modalities?.includes('image') || /(^|[-_/])(vl|vision)([-_/]|$)/i.test(x.id)) }));
   } catch (e) { console.warn('Proveedor no disponible: ' + p.label, e); }
  }));
  const sv = ls('model'); if (sv && MODELS.some(m => m.k === sv)) modelKey = sv;
+ applyHealth(); setTimeout(probeModels, 5000);
  if (user) renderModelBtn();
 }
 loadProviders();
@@ -1286,7 +1322,7 @@ function renderModelBtn() {
  b.querySelector('span').textContent = m.name + (effort !== 2 ? ' ? ' + EFFORT[effort][0] : '');
 }
 function fillRow(b, m) {
- const on = navigator.onLine, i = { t: on ? m.by : 'Sin conexión', c: on ? '' : 'na' }, t = b.querySelector('.tag');
+ const on = navigator.onLine, i = { t: on ? m.by + (hOf(m.ids[0]) === 'ok' ? ' ✓' : '') : 'Sin conexión', c: on ? '' : 'na' }, t = b.querySelector('.tag');
  t.textContent = i.t; t.className = 'tag ' + (i.c || ''); b.disabled = false; b.title = '';
 }function buildPop() {
  const p = $('#pop'); p.innerHTML = '';
@@ -1307,7 +1343,7 @@ function fillRow(b, m) {
   });
   if (note) { const n = document.createElement('div'); n.className = 'pn2'; n.textContent = note; p.append(n); }
  };
- const byP = {}; MODELS.forEach(m => (byP[m.prov || 'pollinations'] = byP[m.prov || 'pollinations'] || []).push(m));
+ const byP = {}; MODELS.filter(m => !m.gone || m.k === modelKey).forEach(m => (byP[m.prov || 'pollinations'] = byP[m.prov || 'pollinations'] || []).push(m));
  Object.keys(PROVIDERS).forEach(k => grp(k === 'pollinations' ? 'En línea ? catálogo público' : PROVIDERS[k].label + ' · gratis, sin clave', byP[k] || []));
  const f = document.createElement('div'); f.className = 'pf'; f.textContent = modelsUpdated ? 'Lista actualizada: ' + modelsUpdated.toLocaleDateString() : 'Lista base (sin conexión al catálogo)'; p.append(f);
  const ef = document.createElement('div'); ef.className = 'eff';
@@ -1364,7 +1400,7 @@ async function send(text, imgsArg, filesArg) {
   }
  } catch (e) {
   console.error('Atomium error', lastId, e);
-   a.error = (e.status === 429 ? 'Límite del servicio gratuito alcanzado. Espera unos segundos e inténtalo de nuevo.' : hasImg ? 'Ningún modelo gratuito con visión respondió ahora mismo. Inténtalo de nuevo en un rato.' : errMsg(e)) + ' (modelo: ' + lastId + ')';
+   a.error = (e.status === 429 || e.status === 402 ? 'Límite del servicio gratuito alcanzado. Espera unos segundos e inténtalo de nuevo.' : hasImg ? 'Ningún modelo gratuito con visión respondió ahora mismo. Inténtalo de nuevo en un rato.' : errMsg(e)) + ' (modelo: ' + lastId + ')';
  }
  if (a.content && !a.error && lastId) a.model = lastId;
  if (a.code && a.content && !a.error && !stopReq) a.autoPrev = true;
@@ -1406,13 +1442,13 @@ async function streamChat(url, model, messages, a, paint, signal) {
    y con lo que ya se había escrito, sin repetir nada. */
 const cool = {}; // proveedor -> instante hasta el que se evita (límite de peticiones o caída)
 const sleep = (ms, signal) => new Promise((ok, no) => { const t = setTimeout(ok, ms); signal?.addEventListener('abort', () => { clearTimeout(t); no(new DOMException('Aborted', 'AbortError')); }, { once: true }); });
-const isLimit = e => !!e && !!(e.limit || e.status === 429 || e.status === 413 || (e.status >= 400 && e.status < 500 && /context|too long|too many tokens|token limit|max(imum)? (context|token|length)|length limit|exceed/i.test(e.message || '')));
+const isLimit = e => !!e && !!(e.limit || e.status === 429 || e.status === 402 || e.status === 413 || (e.status >= 400 && e.status < 500 && /context|too long|too many tokens|token limit|max(imum)? (context|token|length)|length limit|exceed/i.test(e.message || '')));
 const CONT = 'Tu respuesta anterior se cortó por el límite del modelo. Continúa EXACTAMENTE desde la última palabra que escribiste: sin saludar, sin repetir nada y sin resumir lo anterior. Mantén el mismo formato (si estabas dentro de un bloque de código, sigue dentro de él sin volver a abrirlo).';
 const isCool = id => cool[provOf(id)] > Date.now();
 function fallbackPool(cands) {
  const own = new Set(cands), pv = provOf(cands[0]);
  return MODELS.filter(m => !m.gone && !m.ids.some(i => own.has(i)) && !isCool(m.ids[0]))
-  .sort((x, y) => ((x.prov || 'pollinations') === pv) - ((y.prov || 'pollinations') === pv) || (y.ctx || 0) - (x.ctx || 0)).slice(0, 5).map(m => m.ids[0]);
+  .sort((x, y) => (hOf(y.ids[0]) === 'ok') - (hOf(x.ids[0]) === 'ok') || ((y.prov || 'pollinations') === pv) - ((x.prov || 'pollinations') === pv) || (y.ctx || 0) - (x.ctx || 0)).slice(0, 6).map(m => m.ids[0]);
 }
 async function streamSmart(cands, msgs, a, paint, signal, onId, opt = {}) {
  const all = [...new Set([...cands, ...(opt.pool || [])])], order = [...all.filter(i => !isCool(i)), ...all.filter(isCool)], nm = id => MODELS.find(m => m.ids.includes(id))?.name || id;
@@ -1423,11 +1459,12 @@ async function streamSmart(cands, msgs, a, paint, signal, onId, opt = {}) {
   for (const url of urlsFor(id)) for (;;) {
    onId(id);
    const part = a.content, m = part ? [...msgs, { role: 'assistant', content: part }, { role: 'user', content: CONT }] : msgs;
-   try { await streamChat(url, id, m, a, paint, signal); return; }
+   try { await streamChat(url, id, m, a, paint, signal); setHealth(id, 'ok'); return; }
    catch (e) {
     last = e; if (stopReq || signal?.aborted) throw e;
-    if (e.status === 429 && retries > 0 && !a.content) { const ms = Math.min(20000, (e.retry || 0) * 1000 || (opt.retry - retries + 1) * 8000); retries--; opt.onWait?.(ms); await sleep(ms, signal); continue; }
-    if (e.status === 429 || e.status >= 500 || !e.status) cool[provOf(id)] = Date.now() + (e.status === 429 ? 45000 : 120000);
+    if ((e.status === 429 || e.status === 402) && retries > 0 && !a.content) { const ms = Math.min(20000, (e.retry || 0) * 1000 || (opt.retry - retries + 1) * 8000); retries--; opt.onWait?.(ms); await sleep(ms, signal); continue; }
+    if (e.status === 429 || e.status === 402 || e.status >= 500 || !e.status) cool[provOf(id)] = Date.now() + (e.status === 429 || e.status === 402 ? 45000 : 120000);
+    else if ([400, 401, 403, 404, 410, 422].includes(e.status) && !isLimit(e) && !a.content) setHealth(id, 'dead');
     break;
    }
   }
